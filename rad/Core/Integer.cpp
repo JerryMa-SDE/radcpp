@@ -1,5 +1,7 @@
 #include "Integer.h"
 
+RAD_BEGIN_NAMESPACE
+
 uint32_t CountBits(uint32_t x)
 {
     x = x - ((x >> 1) & 0x55555555);
@@ -7,3 +9,5 @@ uint32_t CountBits(uint32_t x)
     x = (((x + (x >> 4)) & 0x0F0F0F0F) * 0x01010101) >> ((sizeof(uint32_t) - 1) << 3);
     return x;
 }
+
+RAD_END_NAMESPACE

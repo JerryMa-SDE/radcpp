@@ -1,4 +1,5 @@
 set(RAD_SOURCE_FILES
+    Core/Global.h
     Core/Integer.h
     Core/Integer.cpp
 )
