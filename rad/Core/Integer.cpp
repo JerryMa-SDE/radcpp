@@ -61,4 +61,75 @@ uint32_t BitScanReverse64(uint64_t mask)
 #endif
 }
 
+uint32_t RoundUpToNextPow2(uint32_t x)
+{
+    assert(x < 0x80000000);
+    if (x > 0)
+    {
+#if defined(_WIN32) || defined(_WIN64) || defined(__GNUC__)
+        return uint32_t(0x2) << BitScanReverse32(x);
+#else // fallback
+        x |= x >> 1;
+        x |= x >> 2;
+        x |= x >> 4;
+        x |= x >> 8;
+        x |= x >> 16;
+        x |= x >> 32;
+        return x + 1;
+#endif
+    }
+    else
+    {
+        return 1;
+    }
+}
+
+uint64_t RoundUpToNextPow2(uint64_t x)
+{
+    assert(x < 0x8000000000000000);
+    if (x > 0)
+    {
+#if defined(_WIN32) || defined(_WIN64) || defined(__GNUC__)
+        return uint64_t(0x2) << BitScanReverse64(x);
+#else // fallback
+        x |= x >> 1;
+        x |= x >> 2;
+        x |= x >> 4;
+        x |= x >> 8;
+        x |= x >> 16;
+        x |= x >> 32;
+        x |= x >> 64;
+        return x + 1;
+#endif
+    }
+    else
+    {
+        return 1;
+    }
+}
+
+uint32_t RoundUpToPow2(uint32_t x)
+{
+    if (x > 1)
+    {
+        return RoundUpToNextPow2(x - 1);
+    }
+    else
+    {
+        return 1;
+    }
+}
+
+uint64_t RoundUpToPow2(uint64_t x)
+{
+    if (x > 1)
+    {
+        return RoundUpToNextPow2(x - 1);
+    }
+    else
+    {
+        return 1;
+    }
+}
+
 RAD_END_NAMESPACE
