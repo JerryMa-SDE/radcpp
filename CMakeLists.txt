@@ -19,3 +19,4 @@ include_directories(
 )
 
 add_subdirectory(rad)
+add_subdirectory(sp1)
