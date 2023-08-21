@@ -4,6 +4,7 @@ set(RAD_SOURCE_FILES
     Core/Integer.cpp
     Core/String.h
     Core/String.cpp
+    Core/Span.h
 )
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${RAD_SOURCE_FILES})

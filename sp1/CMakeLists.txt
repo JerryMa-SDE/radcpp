@@ -2,6 +2,7 @@ set(SP1_SOURCE_FILES
     main.cpp
     Test.Core.Integer.cpp
     Test.Core.String.cpp
+    Test.Core.Span.cpp
 )
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SP1_SOURCE_FILES})
