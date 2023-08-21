@@ -43,4 +43,16 @@ uint64_t RoundUpToNextPow2(uint64_t x);
 uint32_t RoundUpToPow2(uint32_t x);
 uint64_t RoundUpToPow2(uint64_t x);
 
+template<typename T>
+constexpr T RoundUpToMultiple(T value, T alignment)
+{
+    return (((value + (alignment - 1)) / alignment) * alignment);
+}
+
+template <typename T>
+constexpr T RoundDownToMultiple(T value, T alignment)
+{
+    return ((value / alignment) * alignment);
+}
+
 RAD_END_NAMESPACE

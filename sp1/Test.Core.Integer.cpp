@@ -57,4 +57,13 @@ TEST(Core, Integer)
     EXPECT_EQ(rad::RoundUpToPow2(0xFFFFFFFFui64), 0x100000000ui64);
     EXPECT_EQ(rad::RoundUpToPow2(1024ui64 * 1024ui64 * 1024ui64 * 1024ui64), 1024ui64 * 1024ui64 * 1024ui64 * 1024ui64);
     EXPECT_EQ(rad::RoundUpToPow2(0x7FFFFFFFFFFFFFFFui64), 0x8000000000000000ui64);
+
+    EXPECT_EQ(rad::RoundUpToMultiple(0, 12), 0);
+    EXPECT_EQ(rad::RoundUpToMultiple(12, 12), 12);
+    EXPECT_EQ(rad::RoundUpToMultiple(42, 12), 48);
+    EXPECT_EQ(rad::RoundUpToMultiple(42, 96), 96);
+    EXPECT_EQ(rad::RoundDownToMultiple(0, 12), 0);
+    EXPECT_EQ(rad::RoundDownToMultiple(12, 12), 12);
+    EXPECT_EQ(rad::RoundDownToMultiple(42, 12), 36);
+    EXPECT_EQ(rad::RoundDownToMultiple(42, 96), 0);
 }
