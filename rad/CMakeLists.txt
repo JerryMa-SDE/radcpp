@@ -5,6 +5,7 @@ set(RAD_SOURCE_FILES
     Core/String.h
     Core/String.cpp
     Core/Span.h
+    Core/TypeTraits.h
 )
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${RAD_SOURCE_FILES})
