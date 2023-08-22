@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Global.h"
+#include <cstdint>
 
 RAD_BEGIN_NAMESPACE
 
@@ -9,5 +10,20 @@ constexpr auto UnderlyingCast(T t) noexcept
 {
     return static_cast<std::underlying_type_t<T>>(t);
 }
+
+template <typename...>
+struct MaxSizeof;
+
+template <>
+struct MaxSizeof<>
+{
+    static constexpr uint32_t value = 0;
+};
+
+template <typename T, typename... Rest>
+struct MaxSizeof<T, Rest...>
+{
+    static constexpr uint32_t value = sizeof(T) > MaxSizeof<Rest...>::value ? sizeof(T) : MaxSizeof<Rest...>::value;
+};
 
 RAD_END_NAMESPACE
