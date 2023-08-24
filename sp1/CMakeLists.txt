@@ -6,6 +6,7 @@ set(SP1_SOURCE_FILES
     Test.Core.TypeTraits.cpp
     Test.Core.RefCounted.cpp
     Test.Core.Flags.cpp
+    Test.IO.File.cpp
 )
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SP1_SOURCE_FILES})

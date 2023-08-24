@@ -8,6 +8,8 @@ set(RAD_SOURCE_FILES
     Core/TypeTraits.h
     Core/RefCounted.h
     Core/Flags.h
+    IO/File.h
+    IO/File.cpp
 )
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${RAD_SOURCE_FILES})
