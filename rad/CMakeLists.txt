@@ -8,6 +8,8 @@ set(RAD_SOURCE_FILES
     Core/TypeTraits.h
     Core/RefCounted.h
     Core/Flags.h
+    Core/Math.h
+    Core/Math.cpp
     IO/File.h
     IO/File.cpp
     IO/Logging.h

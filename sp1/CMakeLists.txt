@@ -6,6 +6,7 @@ set(SP1_SOURCE_FILES
     Test.Core.TypeTraits.cpp
     Test.Core.RefCounted.cpp
     Test.Core.Flags.cpp
+    Test.Core.Math.cpp
     Test.IO.File.cpp
 )
 
