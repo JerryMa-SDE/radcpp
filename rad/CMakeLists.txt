@@ -32,6 +32,7 @@ target_include_directories(rad
 
 target_link_libraries(rad
     PUBLIC ${Boost_LIBRARIES}
+    PUBLIC stb
 )
 
 if (WIN32)

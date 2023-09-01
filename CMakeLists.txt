@@ -18,5 +18,8 @@ include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
+add_subdirectory(3rdparty/stb)
+set_target_properties(stb PROPERTIES FOLDER "3rdparty")
+
 add_subdirectory(rad)
 add_subdirectory(sp1)
