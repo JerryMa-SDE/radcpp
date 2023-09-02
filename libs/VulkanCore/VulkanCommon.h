@@ -1,6 +1,7 @@
 #pragma once
 
 #include "rad/Core/Integer.h"
+#include "rad/Core/Numeric.h"
 #include "rad/Core/RefCounted.h"
 #include "rad/Core/Span.h"
 #include "rad/IO/Logging.h"

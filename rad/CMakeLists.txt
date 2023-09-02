@@ -10,6 +10,7 @@ set(RAD_SOURCE_FILES
     Core/Flags.h
     Core/Math.h
     Core/Math.cpp
+    Core/Numeric.h
     IO/File.h
     IO/File.cpp
     IO/Logging.h
