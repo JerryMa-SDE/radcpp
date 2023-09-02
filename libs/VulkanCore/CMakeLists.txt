@@ -1,7 +1,11 @@
 set(VULKAN_CORE_SOURCE_FILES
     helpers/vk_enum_string_helper.h
+    helpers/vk_format_utils.h
+    helpers/vk_format_utils.cpp
     VulkanCommon.h
     VulkanCommon.cpp
+    VulkanFormat.h
+    VulkanFormat.cpp
 )
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${VULKAN_CORE_SOURCE_FILES})
