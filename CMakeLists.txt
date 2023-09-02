@@ -23,3 +23,5 @@ set_target_properties(stb PROPERTIES FOLDER "3rdparty")
 
 add_subdirectory(rad)
 add_subdirectory(sp1)
+
+add_subdirectory(libs/VulkanCore)
