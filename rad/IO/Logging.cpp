@@ -23,6 +23,9 @@ const char* GetLogLevelString(LogLevel level)
     return g_logLevelStrings[int(level)];
 }
 
+std::mutex LogCategory::s_outputMutex;
+rad::File LogCategory::s_logFile;
+
 void LogCategory::Print(LogLevel level, const char* format, ...)
 {
     std::chrono::system_clock::time_point timestamp = std::chrono::system_clock::now();

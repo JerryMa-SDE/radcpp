@@ -71,8 +71,8 @@ public: \
 extern LogCategory##Name RAD_LOG_CATEGORY(Name);
 #define RAD_LOG_CATEGORY_DEFINE(Name) LogCategory##Name RAD_LOG_CATEGORY(Name);
 #define RAD_LOG(Name, Level, Format, ...) RAD_LOG_CATEGORY(Name).Print(rad::LogLevel::Level, Format, ##__VA_ARGS__)
-#define RAD_LOG_SET_OUTPUT_LEVEL(Name, Level) RAD_LOG_CATEGORY(Name).SetOutputLevel(LogLevel::Level)
-#define RAD_LOG_SET_FLUSH_LEVEL(Name, Level) RAD_LOG_CATEGORY(Name).SetFlushLevel(LogLevel::Level)
+#define RAD_LOG_SET_OUTPUT_LEVEL(Name, Level) RAD_LOG_CATEGORY(Name).SetOutputLevel(rad::LogLevel::Level)
+#define RAD_LOG_SET_FLUSH_LEVEL(Name, Level) RAD_LOG_CATEGORY(Name).SetFlushLevel(rad::LogLevel::Level)
 
 #else
 
