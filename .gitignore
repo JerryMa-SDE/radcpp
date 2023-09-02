@@ -1,5 +1,7 @@
 # Customizations
 build/
+3rdparty/spvgen/external/
+3rdparty/spvgen/build/
 
 # Prerequisites
 *.d
