@@ -12,7 +12,13 @@ $vcpkgPackages = @(
     "boost"
     "gtest"
     "opencl"
+    "glm"
 )
+
+if ($IsWindows -eq $null -and $Env:OS.StartsWith("Windows")) {
+    # $IsWindows was added in PowerShell Core 6 and PowerShell 7.
+    $IsWindows = $true
+}
 
 $vcpkgTriplet = $null
 if ($IsWindows) {
