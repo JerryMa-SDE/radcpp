@@ -1,4 +1,5 @@
 set(VULKAN_CORE_SOURCE_FILES
+    helpers/vk_enum_string_helper.h
     VulkanCommon.h
     VulkanCommon.cpp
 )
