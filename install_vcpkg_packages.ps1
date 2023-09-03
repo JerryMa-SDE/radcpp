@@ -13,6 +13,7 @@ $vcpkgPackages = @(
     "gtest"
     "opencl"
     "glm"
+    "sdl2"
 )
 
 if ($IsWindows -eq $null -and $Env:OS.StartsWith("Windows")) {

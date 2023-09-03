@@ -25,3 +25,4 @@ add_subdirectory(rad)
 add_subdirectory(sp1)
 
 add_subdirectory(libs/VulkanCore)
+add_subdirectory(libs/DirectMedia)

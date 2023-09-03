@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Global.h"
+#include <cassert>
 #include <memory>
 #include <atomic>
 
