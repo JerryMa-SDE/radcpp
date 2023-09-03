@@ -23,7 +23,12 @@ public:
 
     constexpr Flags(Flags<Mask, Bit> const& rhs) noexcept = default;
 
-    Mask GetMask() const
+    const Mask& GetMask() const
+    {
+        return m_mask;
+    }
+
+    Mask& GetMask()
     {
         return m_mask;
     }
@@ -132,7 +137,6 @@ public:
         return !!m_mask;
     }
 
-private:
     Mask m_mask;
 
 }; // class Flags
