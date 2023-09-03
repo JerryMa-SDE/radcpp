@@ -1,4 +1,5 @@
-#pragma once
+#ifndef VULKAN_FORMAT_H
+#define VULKAN_FORMAT_H
 
 #include "VulkanCommon.h"
 
@@ -15,8 +16,8 @@ public:
 
     operator VkFormat() const { return m_format; }
 
-    // Numeric
-    // Formats with more then one numeric type (VK_FORMAT_D16_UNORM_S8_UINT) will return false
+    // Numeric type checks.
+    // Formats with more then one numeric type (VK_FORMAT_D16_UNORM_S8_UINT) will return false.
     bool IsUNORM() const;
     bool IsSNORM() const;
     bool IsUSCALED() const;
@@ -27,7 +28,7 @@ public:
     bool IsSFLOAT() const;
     bool IsUFLOAT() const;
 
-    // Types from "Interpretation of Numeric Format" table (OpTypeFloat vs OpTypeInt)
+    // Types from "Interpretation of Numeric Format" table (OpTypeFloat vs OpTypeInt).
     bool IsSampledInt() const;
     bool IsSampledFloat() const;
 
@@ -68,13 +69,13 @@ public:
     // Size
     uint32_t GetComponentCount() const;
     VkExtent3D GetTexelBlockExtent() const;
-    // Return true if format is 'normal', with one texel per format element
+    // Return true if format is 'normal', with one texel per format element.
     bool ElementIsTexel() const;
-    // Return size, in bytes, of one element of the specified format
-    // For uncompressed this is one texel, for compressed it is one block
+    // Return size, in bytes, of one element of the specified format.
+    // For uncompressed this is one texel, for compressed it is one block.
     uint32_t GetElementSize(VkImageAspectFlags aspectMask = VK_IMAGE_ASPECT_COLOR_BIT) const;
-    // Return the size in bytes of one texel of given foramt
-    // For compressed or multi-plane, this may be a fractional number
+    // Return the size in bytes of one texel of given foramt.
+    // For compressed or multi-plane, this may be a fractional number.
     double GetTexelSize(VkImageAspectFlags aspectMask = VK_IMAGE_ASPECT_COLOR_BIT) const;
 
     // Components
@@ -88,11 +89,13 @@ public:
     bool IsUndefined() const;
     bool IsBlockedImage() const;
 
-    // No official spec definition of "color format"
-    // So anything that could NOT be a "color format" is a color format
+    // No official spec definition of "color format",
+    // So anything that could NOT be a "color format" is a color format.
     bool IsColor() const;
 
 private:
     VkFormat m_format;
 
 }; // class VulkanFormat
+
+#endif // VULKAN_FORMAT_H
