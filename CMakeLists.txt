@@ -20,6 +20,8 @@ include_directories(
 
 add_subdirectory(3rdparty/stb)
 set_target_properties(stb PROPERTIES FOLDER "3rdparty")
+add_subdirectory(3rdparty/imgui)
+set_target_properties(imgui PROPERTIES FOLDER "3rdparty")
 
 add_subdirectory(rad)
 add_subdirectory(sp1)
