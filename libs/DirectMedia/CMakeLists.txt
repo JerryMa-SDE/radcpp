@@ -13,6 +13,8 @@ set(DirectMedia_SOURCE_FILES
     rad/DirectMedia/Timer.h
     rad/DirectMedia/Window.cpp
     rad/DirectMedia/Window.h
+    rad/DirectMedia/GuiContext.cpp
+    rad/DirectMedia/GuiContext.h
 )
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${DirectMedia_SOURCE_FILES})
@@ -27,6 +29,7 @@ target_include_directories(DirectMedia
 
 target_link_libraries(DirectMedia
     PUBLIC rad
+    PUBLIC imgui
 )
 
 find_package(SDL2 CONFIG REQUIRED)
