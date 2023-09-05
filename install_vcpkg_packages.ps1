@@ -14,6 +14,7 @@ $vcpkgPackages = @(
     "opencl"
     "glm"
     "sdl2"
+    "cpu-features"
 )
 
 if ($IsWindows -eq $null -and $Env:OS.StartsWith("Windows")) {
