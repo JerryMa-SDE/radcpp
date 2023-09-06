@@ -12,6 +12,7 @@ $vcpkgPackages = @(
     "boost"
     "gtest"
     "opencl"
+    "imath"
     "glm"
     "sdl2"
     "cpu-features"
