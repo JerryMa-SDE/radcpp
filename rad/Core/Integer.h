@@ -5,7 +5,7 @@
 #include <cstddef>
 #include <cstdint>
 
-RAD_BEGIN_NAMESPACE
+namespace rad {
 
 /// Count the number of bits set in an unsigned integer.
 uint32_t CountBits(uint32_t x);
@@ -55,4 +55,4 @@ constexpr T RoundDownToMultiple(T value, T alignment)
     return ((value / alignment) * alignment);
 }
 
-RAD_END_NAMESPACE
+} // namespace rad

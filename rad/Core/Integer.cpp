@@ -4,7 +4,7 @@
 #include <intrin.h>
 #endif
 
-RAD_BEGIN_NAMESPACE
+namespace rad {
 
 uint32_t CountBits(uint32_t x)
 {
@@ -132,4 +132,4 @@ uint64_t RoundUpToPow2(uint64_t x)
     }
 }
 
-RAD_END_NAMESPACE
+} // namespace rad

@@ -3,7 +3,7 @@
 
 #include <cstdarg>
 
-RAD_BEGIN_NAMESPACE
+namespace rad {
 
 #ifndef RAD_NO_LOGGING
 
@@ -91,6 +91,6 @@ void LogCategory::Flush()
 
 #endif // #ifndef RAD_NO_LOGGING
 
-RAD_END_NAMESPACE
+} // namespace rad
 
 RAD_LOG_CATEGORY_DEFINE(Global);

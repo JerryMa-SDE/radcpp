@@ -4,7 +4,7 @@
 #include "rad/Core/String.h"
 #include <filesystem>
 
-RAD_BEGIN_NAMESPACE
+namespace rad {
 
 using FileSystemError = std::filesystem::filesystem_error;
 
@@ -139,4 +139,4 @@ private:
 
 }; // class File
 
-RAD_END_NAMESPACE
+} // namespace rad

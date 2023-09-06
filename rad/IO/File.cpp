@@ -24,7 +24,7 @@
 
 #endif
 
-RAD_BEGIN_NAMESPACE
+namespace rad {
 
 FilePath GetCurrentPath()
 {
@@ -504,4 +504,4 @@ std::vector<std::string> File::ReadLines(const FilePath& path)
     return lines;
 }
 
-RAD_END_NAMESPACE
+} // namespace rad

@@ -3,7 +3,7 @@
 #include "Global.h"
 #include <cstdint>
 
-RAD_BEGIN_NAMESPACE
+namespace rad {
 
 template<class T>
 constexpr auto UnderlyingCast(T t) noexcept
@@ -26,4 +26,4 @@ struct MaxSizeof<T, Rest...>
     static constexpr uint32_t value = sizeof(T) > MaxSizeof<Rest...>::value ? sizeof(T) : MaxSizeof<Rest...>::value;
 };
 
-RAD_END_NAMESPACE
+} // namespace rad

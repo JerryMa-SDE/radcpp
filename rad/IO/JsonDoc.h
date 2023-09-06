@@ -8,7 +8,7 @@
 #include "rapidjson/rapidjson.h"
 #include "rapidjson/document.h"
 
-RAD_BEGIN_NAMESPACE
+namespace rad {
 
 using JsonValue = rapidjson::Value;
 
@@ -43,4 +43,4 @@ private:
 
 }; // class JsonDoc
 
-RAD_END_NAMESPACE
+} // namespace rad

@@ -7,7 +7,7 @@
 #define RAD_FLAGS_HAS_SPACESHIP_OPERATOR 1
 #endif
 
-RAD_BEGIN_NAMESPACE
+namespace rad {
 
 // Inspired by vk::Flags: https://github.com/KhronosGroup/Vulkan-Hpp
 // Specify mask type explicitly.
@@ -207,4 +207,4 @@ constexpr Flags<Mask, Bit> operator^(Bit bit, Flags<Mask, Bit> const& flags) noe
     return flags.operator^(bit);
 }
 
-RAD_END_NAMESPACE
+} // namespace rad

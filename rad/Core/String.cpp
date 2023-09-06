@@ -8,7 +8,7 @@
 
 #include "boost/locale/encoding_utf.hpp"
 
-RAD_BEGIN_NAMESPACE
+namespace rad {
 
 std::vector<std::string> StrSplit(std::string_view str, std::string_view delimiters, bool skipEmptySubStr)
 {
@@ -309,4 +309,4 @@ void StrReplaceInPlace(std::string& str, std::string_view subOld, std::string_vi
     }
 }
 
-RAD_END_NAMESPACE
+} // namespace rad

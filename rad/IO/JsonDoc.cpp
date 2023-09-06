@@ -7,7 +7,7 @@
 #include "rapidjson/error/error.h"
 #include "rapidjson/error/en.h"
 
-RAD_BEGIN_NAMESPACE
+namespace rad {
 
 JsonDoc::JsonDoc()
 {
@@ -78,4 +78,4 @@ std::string JsonDoc::StringifyPretty()
     return buffer.GetString();
 }
 
-RAD_END_NAMESPACE
+} // namespace rad

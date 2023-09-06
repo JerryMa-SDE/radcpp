@@ -5,7 +5,7 @@
 #include <chrono>
 #include <mutex>
 
-RAD_BEGIN_NAMESPACE
+namespace rad {
 
 #ifndef RAD_NO_LOGGING
 
@@ -85,7 +85,7 @@ extern LogCategory##Name RAD_LOG_CATEGORY(Name);
 
 #endif
 
-RAD_END_NAMESPACE
+} // namespace rad
 
 RAD_LOG_CATEGORY_DECLARE(Global, Verbose);
 #ifndef LogGlobal

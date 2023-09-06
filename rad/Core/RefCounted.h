@@ -5,7 +5,7 @@
 #include <memory>
 #include <atomic>
 
-RAD_BEGIN_NAMESPACE
+namespace rad {
 
 template<typename T>
 class RefCounted;
@@ -314,7 +314,7 @@ template<class T, class U> Ref<T> dynamic_pointer_cast(Ref<U>&& p) noexcept
     return r;
 }
 
-RAD_END_NAMESPACE
+} // namespace rad
 
 namespace std
 {

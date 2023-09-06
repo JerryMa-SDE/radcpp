@@ -7,7 +7,7 @@
 #include <string_view>
 #include <vector>
 
-RAD_BEGIN_NAMESPACE
+namespace rad {
 
 std::vector<std::string> StrSplit(std::string_view str, std::string_view delimiters, bool skipEmptySubStr = true);
 
@@ -40,4 +40,4 @@ void StrTrimInPlace(std::string& str, std::string_view charlist = " \t\n\v\f\r")
 std::string StrReplace(std::string_view str, std::string_view subOld, std::string_view subNew);
 void StrReplaceInPlace(std::string& str, std::string_view subOld, std::string_view subNew);
 
-RAD_END_NAMESPACE
+} // namespace rad

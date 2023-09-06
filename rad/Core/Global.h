@@ -1,8 +1,5 @@
 #pragma once
 
-#define RAD_BEGIN_NAMESPACE namespace rad {
-#define RAD_END_NAMESPACE }
-
 #ifndef RAD_GNUC_PREREQ
 #if defined(__GNUC__) && defined(__GNUC_MINOR__) && defined(__GNUC_PATCHLEVEL__)
 #define RAD_GNUC_PREREQ(major, minor, patch) \

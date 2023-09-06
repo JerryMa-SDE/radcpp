@@ -1,6 +1,6 @@
 #include "rad/Core/Math.h"
 
-RAD_BEGIN_NAMESPACE
+namespace rad {
 
 // https://pbr-book.org/3ed-2018/Utilities/Mathematical_Routines
 bool SolveQuadraticEquation(float a, float b, float c, float& t0, float& t1)
@@ -30,4 +30,4 @@ bool SolveQuadraticEquation(float a, float b, float c, float& t0, float& t1)
     return true;
 }
 
-RAD_END_NAMESPACE
+} // namespace rad
