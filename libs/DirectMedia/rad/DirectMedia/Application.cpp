@@ -8,7 +8,7 @@
 #include <Windows.h>
 #endif
 
-namespace sdl
+namespace DirectMedia
 {
 
 Application* Application::s_instance = nullptr;
@@ -236,4 +236,4 @@ float Application::GetDisplayDPI(int displayIndex)
     return (hdpi + vdpi) / 2.0f;
 }
 
-} // namespace sdl
+} // namespace DirectMedia

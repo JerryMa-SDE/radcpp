@@ -5,7 +5,7 @@
 #include "rad/Core/Span.h"
 #include "SDL2/SDL_render.h"
 
-namespace sdl
+namespace DirectMedia
 {
 
 class Window;
@@ -60,4 +60,4 @@ private:
 
 }; // class Renderer
 
-} // namespace sdl
+} // namespace DirectMedia

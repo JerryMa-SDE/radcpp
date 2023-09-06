@@ -1,7 +1,7 @@
 #include "Surface.h"
 #include "rad/IO/Logging.h"
 
-namespace sdl
+namespace DirectMedia
 {
 
 Surface::Surface()
@@ -245,4 +245,4 @@ int Surface::BlitScaled(SDL_Rect* srcRect, Surface* dst, SDL_Rect* dstRect)
     return res;
 }
 
-} // namespace sdl
+} // namespace DirectMedia

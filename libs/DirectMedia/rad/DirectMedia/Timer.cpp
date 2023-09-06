@@ -1,7 +1,7 @@
 #include "Timer.h"
 #include "rad/IO/Logging.h"
 
-namespace sdl
+namespace DirectMedia
 {
 
 Timer::Timer()
@@ -32,4 +32,4 @@ void Timer::Stop()
     m_id = 0;
 }
 
-} // namespace sdl
+} // namespace DirectMedia

@@ -4,7 +4,7 @@
 #include "rad/Core/Flags.h"
 #include "rad/IO/Logging.h"
 
-namespace sdl
+namespace DirectMedia
 {
 
 Renderer::Renderer(Window* window) :
@@ -174,4 +174,4 @@ int Renderer::SetScale(float scaleX, float scaleY)
     return res;
 }
 
-} // namespace sdl
+} // namespace DirectMedia

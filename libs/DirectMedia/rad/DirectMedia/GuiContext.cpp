@@ -1,7 +1,7 @@
 #include "GuiContext.h"
 #include "rad/IO/Logging.h"
 
-namespace sdl
+namespace DirectMedia
 {
 
 GuiContext::GuiContext(rad::Ref<Window> window, rad::Ref<Renderer> renderer) :
@@ -53,4 +53,4 @@ void GuiContext::RenderDrawData()
     ImGui_ImplSDLRenderer2_RenderDrawData(ImGui::GetDrawData());
 }
 
-} // namespace sdl
+} // namespace DirectMedia

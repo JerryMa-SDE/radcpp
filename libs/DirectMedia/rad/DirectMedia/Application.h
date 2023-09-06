@@ -8,7 +8,7 @@
 #include <atomic>
 #include <set>
 
-namespace sdl
+namespace DirectMedia
 {
 
 struct DisplayInfo
@@ -72,4 +72,4 @@ protected:
 
 }; // class Application
 
-} // namespace sdl
+} // namespace DirectMedia

@@ -3,7 +3,7 @@
 #include "rad/Core/RefCounted.h"
 #include "SDL2/SDL.h"
 
-namespace sdl
+namespace DirectMedia
 {
 
 class PerfCounter : rad::RefCounted<PerfCounter>
@@ -74,4 +74,4 @@ private:
 
 }; // class PerfCounter
 
-} // namespace sdl
+} // namespace DirectMedia

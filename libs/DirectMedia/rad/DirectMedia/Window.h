@@ -4,7 +4,7 @@
 #include "rad/Core/String.h"
 #include "EventHandler.h"
 
-namespace sdl
+namespace DirectMedia
 {
 
 class Window : public EventHandler
@@ -99,4 +99,4 @@ protected:
 
 }; // class Window
 
-} // namespace sdl
+} // namespace DirectMedia

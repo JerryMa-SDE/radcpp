@@ -3,7 +3,7 @@
 #include "rad/Core/RefCounted.h"
 #include "SDL2/SDL.h"
 
-namespace sdl
+namespace DirectMedia
 {
 
 class Timer : public rad::RefCounted<Timer>
@@ -26,4 +26,4 @@ private:
 
 }; // class Timer
 
-} // namespace sdl
+} // namespace DirectMedia

@@ -2,7 +2,7 @@
 #include "Renderer.h"
 #include "rad/IO/Logging.h"
 
-namespace sdl
+namespace DirectMedia
 {
 
 Texture::Texture(Renderer* renderer) :
@@ -147,4 +147,4 @@ int Texture::Update(const SDL_Rect* rect, const void* pixels, int pitch)
     return res;
 }
 
-} // namespace sdl
+} // namespace DirectMedia

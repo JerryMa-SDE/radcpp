@@ -2,9 +2,7 @@
 #include "Application.h"
 #include "rad/IO/Logging.h"
 
-using namespace rad;
-
-namespace sdl
+namespace DirectMedia
 {
 
 Window::Window()
@@ -352,4 +350,4 @@ void Window::OnClose()
     Destroy();
 }
 
-} // namespace sdl
+} // namespace DirectMedia

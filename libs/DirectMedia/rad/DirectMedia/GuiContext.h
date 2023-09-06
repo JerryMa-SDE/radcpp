@@ -8,7 +8,7 @@
 #include "imgui/backends/imgui_impl_sdl2.h"
 #include "imgui/backends/imgui_impl_sdlrenderer2.h"
 
-namespace sdl
+namespace DirectMedia
 {
 
 class GuiContext : public rad::RefCounted<GuiContext>
@@ -32,4 +32,4 @@ private:
 
 }; // class GuiContext
 
-} // namespace sdl
+} // namespace DirectMedia
