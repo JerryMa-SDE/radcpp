@@ -11,6 +11,7 @@ set(RAD_SOURCE_FILES
     Core/Math.h
     Core/Math.cpp
     Core/Numeric.h
+    Core/Float16Compressor.h
     IO/File.h
     IO/File.cpp
     IO/Logging.h
