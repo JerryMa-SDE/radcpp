@@ -26,7 +26,11 @@ bool Window::Create(const char* title, int x, int y, int width, int height, Uint
         Application::GetInstance()->RegisterEventHandler(this);
         return true;
     }
-    return false;
+    else
+    {
+        LogGlobal(Error, "SDL_CreateWindow: %s", SDL_GetError());
+        return false;
+    }
 }
 
 void Window::Destroy()
