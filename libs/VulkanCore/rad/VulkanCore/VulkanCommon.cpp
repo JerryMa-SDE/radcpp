@@ -6,6 +6,8 @@
 #include "VulkanPipeline.h"
 #include "VulkanRenderPass.h"
 
+RAD_LOG_CATEGORY_DEFINE(Vulkan);
+
 void LogVulkanError(VkResult result, const char* function, const char* file, uint32_t line)
 {
     LogVulkan(Error, "%s failed with VkResult=%s(%d).",
