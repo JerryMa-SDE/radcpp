@@ -9,6 +9,10 @@ add_library(VulkanEngine
     ${VULKAN_ENGINE_SOURCE_FILES}
 )
 
+target_include_directories(VulkanEngine
+    PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
+)
+
 target_link_libraries(VulkanEngine
     PUBLIC VulkanCore
     PUBLIC DirectMedia
