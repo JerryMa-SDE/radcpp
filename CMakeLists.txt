@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.10)
 project(radcpp
     VERSION 0.0.0.0
     DESCRIPTION "Great C++ collections."
-    HOMEPAGE_URL "https://github.com/majunlichn/radcpp"
+    HOMEPAGE_URL "https://github.com/JerryMa-SDE/radcpp"
     LANGUAGES C CXX
 )
 
