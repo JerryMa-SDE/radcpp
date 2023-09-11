@@ -1,5 +1,21 @@
 #pragma once
 
+#ifdef _WIN32
+
+#ifdef _DEBUG
+// https://learn.microsoft.com/en-us/cpp/c-runtime-library/find-memory-leaks-using-the-crt-library
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>
+#define New new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )
+#define Delete delete
+#else
+#define New new
+#define Delete delete
+#endif
+
+#endif // _WIN32
+
 #ifndef RAD_GNUC_PREREQ
 #if defined(__GNUC__) && defined(__GNUC_MINOR__) && defined(__GNUC_PATCHLEVEL__)
 #define RAD_GNUC_PREREQ(major, minor, patch) \
