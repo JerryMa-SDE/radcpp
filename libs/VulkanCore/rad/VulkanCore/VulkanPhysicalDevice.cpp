@@ -170,7 +170,7 @@ std::vector<VkSurfaceFormatKHR> VulkanPhysicalDevice::GetSurfaceFormats(VkSurfac
 
 rad::Ref<VulkanDevice> VulkanPhysicalDevice::CreateDevice(const std::set<std::string>& extensionNames)
 {
-    return new VulkanDevice(m_instance, this, extensionNames);
+    return RAD_NEW VulkanDevice(m_instance, this, extensionNames);
 }
 
 rad::Ref<VulkanDevice> VulkanPhysicalDevice::CreateDevice()

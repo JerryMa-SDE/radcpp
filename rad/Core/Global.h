@@ -7,11 +7,12 @@
 #define _CRTDBG_MAP_ALLOC
 #include <stdlib.h>
 #include <crtdbg.h>
-#define New new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )
-#define Delete delete
+#define RAD_NEW new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )
+#define RAD_PLACEMENT_NEW new
+#define RAD_DELETE delete
 #else
-#define New new
-#define Delete delete
+#define RAD_NEW new
+#define RAD_DELETE delete
 #endif
 
 #endif // _WIN32

@@ -18,7 +18,7 @@ rad::Ref<VulkanShader> VulkanShader::CreateFromFile(
     rad::Span<VulkanShaderMacro> macros,
     uint32_t options)
 {
-    rad::Ref<VulkanShader> shader = new VulkanShader();
+    rad::Ref<VulkanShader> shader = RAD_NEW VulkanShader();
     if (shader->Compile(stage, fileName, rad::File::ReadAll(fileName), entryPoint, macros, options))
     {
         return shader;

@@ -47,7 +47,7 @@ VulkanSwapchain::VulkanSwapchain(
         imageCreateInfo.queueFamilyIndexCount = createInfo.queueFamilyIndexCount;
         imageCreateInfo.pQueueFamilyIndices = createInfo.pQueueFamilyIndices;
         imageCreateInfo.initialLayout;
-        m_images[i] = new VulkanImage(m_device, m_imageHandles[i], imageCreateInfo);
+        m_images[i] = m_device->CreateImageFromHandle(m_imageHandles[i], imageCreateInfo);
     }
 }
 

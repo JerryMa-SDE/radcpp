@@ -171,7 +171,7 @@ rad::Ref<VulkanBufferView> VulkanBuffer::CreateBufferView(VkFormat format, VkDev
     createInfo.offset = offset;
     createInfo.range = range;
 
-    return new VulkanBufferView(m_device, this, createInfo);
+    return RAD_NEW VulkanBufferView(m_device, this, createInfo);
 }
 
 VulkanBufferView::VulkanBufferView(

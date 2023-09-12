@@ -18,7 +18,7 @@ VulkanCommandPool::~VulkanCommandPool()
 
 rad::Ref<VulkanCommandBuffer> VulkanCommandPool::Allocate(VkCommandBufferLevel level)
 {
-    return new VulkanCommandBuffer(m_device, this, level);
+    return RAD_NEW VulkanCommandBuffer(m_device, this, level);
 }
 
 void VulkanCommandPool::Trim()

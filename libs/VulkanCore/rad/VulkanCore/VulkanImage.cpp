@@ -92,7 +92,7 @@ rad::Ref<VulkanImageView> VulkanImage::CreateImageView(
     }
     createInfo.subresourceRange = subresourceRange;
 
-    return new VulkanImageView(m_device, this, createInfo);
+    return RAD_NEW VulkanImageView(m_device, this, createInfo);
 }
 
 rad::Ref<VulkanImageView> VulkanImage::CreateImageView2D(

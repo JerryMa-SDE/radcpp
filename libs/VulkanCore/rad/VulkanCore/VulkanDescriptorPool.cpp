@@ -20,7 +20,7 @@ VulkanDescriptorPool::~VulkanDescriptorPool()
 
 rad::Ref<VulkanDescriptorSet> VulkanDescriptorPool::Allocate(VulkanDescriptorSetLayout* layout)
 {
-    return new VulkanDescriptorSet(m_device, this, layout);
+    return RAD_NEW VulkanDescriptorSet(m_device, this, layout);
 }
 
 void VulkanDescriptorPool::Reset()

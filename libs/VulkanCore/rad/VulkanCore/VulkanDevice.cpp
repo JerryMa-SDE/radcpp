@@ -135,7 +135,7 @@ VulkanDevice::VulkanDevice(
     for (uint32_t i = 0; i < VulkanQueueFamilyCount; ++i)
     {
         VulkanQueueFamily queueFamily = static_cast<VulkanQueueFamily>(i);
-        m_queues[i] = new VulkanQueue(this, queueFamily);
+        m_queues[i] = RAD_NEW VulkanQueue(this, queueFamily);
         m_commandPoolsTransientAlloc[queueFamily] =
             CreateCommandPool(queueFamily, VK_COMMAND_POOL_CREATE_TRANSIENT_BIT);
     }
@@ -190,7 +190,7 @@ VulkanDevice::CreateCommandPool(VulkanQueueFamily queueFamily, VkCommandPoolCrea
     createInfo.pNext = nullptr;
     createInfo.flags = flags;
     createInfo.queueFamilyIndex = GetQueueFamilyIndex(queueFamily);
-    return new VulkanCommandPool(this, createInfo);
+    return RAD_NEW VulkanCommandPool(this, createInfo);
 }
 
 rad::Ref<VulkanCommandBuffer> VulkanDevice::AllocateCommandBufferOneTimeUse(VulkanQueueFamily queueFamily)
@@ -204,7 +204,7 @@ rad::Ref<VulkanFence> VulkanDevice::CreateFence(VkFenceCreateFlags flags)
     createInfo.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
     createInfo.pNext = nullptr;
     createInfo.flags = flags;
-    return new VulkanFence(this, createInfo);
+    return RAD_NEW VulkanFence(this, createInfo);
 }
 
 rad::Ref<VulkanSemaphore> VulkanDevice::CreateSemaphore(VkSemaphoreCreateFlags flags)
@@ -213,7 +213,7 @@ rad::Ref<VulkanSemaphore> VulkanDevice::CreateSemaphore(VkSemaphoreCreateFlags f
     createInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
     createInfo.pNext = nullptr;
     createInfo.flags = 0; // reserved for future use
-    return new VulkanSemaphore(this, createInfo);
+    return RAD_NEW VulkanSemaphore(this, createInfo);
 }
 
 rad::Ref<VulkanSemaphore> VulkanDevice::CreateSemaphoreSignaled()
@@ -223,7 +223,7 @@ rad::Ref<VulkanSemaphore> VulkanDevice::CreateSemaphoreSignaled()
 
 rad::Ref<VulkanSemaphore> VulkanDevice::CreateSemaphoreFromHandle(VkSemaphore semaphoreHandle)
 {
-    return new VulkanSemaphore(this, semaphoreHandle);
+    return RAD_NEW VulkanSemaphore(this, semaphoreHandle);
 }
 
 rad::Ref<VulkanEvent> VulkanDevice::CreateEvent()
@@ -232,7 +232,7 @@ rad::Ref<VulkanEvent> VulkanDevice::CreateEvent()
     createInfo.sType = VK_STRUCTURE_TYPE_EVENT_CREATE_INFO;
     createInfo.pNext = nullptr;
     createInfo.flags = 0; // reserved for future use
-    return new VulkanEvent(this, createInfo);
+    return RAD_NEW VulkanEvent(this, createInfo);
 }
 
 void VulkanDevice::WaitIdle()
@@ -244,7 +244,7 @@ void VulkanDevice::WaitIdle()
 rad::Ref<VulkanRenderPass>
 VulkanDevice::CreateRenderPass(const VkRenderPassCreateInfo& createInfo)
 {
-    return new VulkanRenderPass(this, createInfo);
+    return RAD_NEW VulkanRenderPass(this, createInfo);
 }
 
 rad::Ref<VulkanFramebuffer> VulkanDevice::CreateFramebuffer(
@@ -269,7 +269,7 @@ rad::Ref<VulkanFramebuffer> VulkanDevice::CreateFramebuffer(
     createInfo.height = height;
     createInfo.layers = layers;
 
-    return new VulkanFramebuffer(this, createInfo);
+    return RAD_NEW VulkanFramebuffer(this, createInfo);
 }
 
 rad::Ref<VulkanShaderModule> VulkanDevice::CreateShaderModule(rad::Span<uint32_t> code)
@@ -281,25 +281,25 @@ rad::Ref<VulkanShaderModule> VulkanDevice::CreateShaderModule(rad::Span<uint32_t
     createInfo.codeSize = code.size() * sizeof(uint32_t);
     createInfo.pCode = code.data();
 
-    return new VulkanShaderModule(this, createInfo);
+    return RAD_NEW VulkanShaderModule(this, createInfo);
 }
 
 rad::Ref<VulkanGraphicsPipeline>
 VulkanDevice::CreateGraphicsPipeline(rad::Ref<VulkanGraphicsPipelineCreateInfo> createInfo)
 {
-    return new VulkanGraphicsPipeline(this, createInfo);
+    return RAD_NEW VulkanGraphicsPipeline(this, createInfo);
 }
 
 rad::Ref<VulkanComputePipeline>
 VulkanDevice::CreateComputePipeline(rad::Ref<VulkanComputePipelineCreateInfo> createInfo)
 {
-    return new VulkanComputePipeline(this, createInfo);
+    return RAD_NEW VulkanComputePipeline(this, createInfo);
 }
 
 rad::Ref<VulkanBuffer>
 VulkanDevice::CreateBuffer(const VkBufferCreateInfo& createInfo, const VmaAllocationCreateInfo& allocInfo)
 {
-    return new VulkanBuffer(this, createInfo, allocInfo);
+    return RAD_NEW VulkanBuffer(this, createInfo, allocInfo);
 }
 
 rad::Ref<VulkanBuffer> VulkanDevice::CreateBuffer(const VkBufferCreateInfo& createInfo, VmaMemoryUsage memoryUsage)
@@ -355,7 +355,7 @@ rad::Ref<VulkanBuffer> VulkanDevice::CreateStorageBuffer(VkDeviceSize size, VkBu
         addUsage;
     VmaAllocationCreateInfo allocInfo = {};
     allocInfo.usage = VMA_MEMORY_USAGE_GPU_ONLY;
-    return new VulkanBuffer(this, createInfo, allocInfo);
+    return RAD_NEW VulkanBuffer(this, createInfo, allocInfo);
 }
 
 rad::Ref<VulkanBuffer> VulkanDevice::CreateVertexBuffer(VkDeviceSize size, VkBufferUsageFlags addUsage)
@@ -382,7 +382,7 @@ rad::Ref<VulkanImage> VulkanDevice::CreateImage(
     const VkImageCreateInfo& createInfo,
     const VmaAllocationCreateInfo& allocInfo)
 {
-    return new VulkanImage(this, createInfo, allocInfo);
+    return RAD_NEW VulkanImage(this, createInfo, allocInfo);
 }
 
 rad::Ref<VulkanImage> VulkanDevice::CreateImage(const VkImageCreateInfo& createInfo, VmaMemoryUsage memoryUsage)
@@ -395,7 +395,7 @@ rad::Ref<VulkanImage> VulkanDevice::CreateImage(const VkImageCreateInfo& createI
 rad::Ref<VulkanImage>
 VulkanDevice::CreateImageFromHandle(VkImage imageHandle, const VkImageCreateInfo& createInfo)
 {
-    return new VulkanImage(this, imageHandle, createInfo);
+    return RAD_NEW VulkanImage(this, imageHandle, createInfo);
 }
 
 rad::Ref<VulkanImage> VulkanDevice::CreateImage2DRenderTarget(
@@ -457,7 +457,7 @@ rad::Ref<VulkanImage> VulkanDevice::CreateImage2DTexture(
 
 rad::Ref<VulkanSampler> VulkanDevice::CreatSampler(const VkSamplerCreateInfo& createInfo)
 {
-    return new VulkanSampler(this, createInfo);
+    return RAD_NEW VulkanSampler(this, createInfo);
 }
 
 rad::Ref<VulkanSampler> VulkanDevice::CreatSamplerNearest(VkSamplerAddressMode addressMode)
@@ -522,7 +522,7 @@ VulkanDevice::CreateDescriptorSetLayout(rad::Span<VkDescriptorSetLayoutBinding> 
     createInfo.bindingCount = static_cast<uint32_t>(layoutBindings.size());
     createInfo.pBindings = layoutBindings.data();
 
-    return new VulkanDescriptorSetLayout(this, createInfo);
+    return RAD_NEW VulkanDescriptorSetLayout(this, createInfo);
 }
 
 rad::Ref<VulkanPipelineLayout> VulkanDevice::CreatePipelineLayout(
@@ -543,12 +543,12 @@ rad::Ref<VulkanPipelineLayout> VulkanDevice::CreatePipelineLayout(
     createInfo.pushConstantRangeCount = static_cast<uint32_t>(pushConstantRanges.size());
     createInfo.pPushConstantRanges = pushConstantRanges.data();
 
-    return new VulkanPipelineLayout(this, createInfo);
+    return RAD_NEW VulkanPipelineLayout(this, createInfo);
 }
 
 rad::Ref<VulkanDescriptorPool> VulkanDevice::CreateDescriptorPool(const VkDescriptorPoolCreateInfo& createInfo)
 {
-    return new VulkanDescriptorPool(this, createInfo);
+    return RAD_NEW VulkanDescriptorPool(this, createInfo);
 }
 
 rad::Ref<VulkanDescriptorPool>
@@ -567,5 +567,5 @@ VulkanDevice::CreateDescriptorPool(uint32_t maxSets, rad::Span<VkDescriptorPoolS
 
 rad::Ref<VulkanSwapchain> VulkanDevice::CreateSwapchain(const VkSwapchainCreateInfoKHR& createInfo)
 {
-    return new VulkanSwapchain(this, createInfo);
+    return RAD_NEW VulkanSwapchain(this, createInfo);
 }

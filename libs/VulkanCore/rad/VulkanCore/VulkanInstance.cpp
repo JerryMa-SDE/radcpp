@@ -194,7 +194,7 @@ std::vector<rad::Ref<VulkanPhysicalDevice>> VulkanInstance::EnumeratePhysicalDev
         physicalDevices.resize(physicalDevicesHandles.size());
         for (int i = 0; i < physicalDevicesHandles.size(); i++)
         {
-            physicalDevices[i] = new VulkanPhysicalDevice(this, physicalDevicesHandles[i]);
+            physicalDevices[i] = RAD_NEW VulkanPhysicalDevice(this, physicalDevicesHandles[i]);
         }
     }
     return physicalDevices;
