@@ -14,6 +14,7 @@ $vcpkgPackages = @(
     "opencl"
     "imath"
     "glm"
+    "poco"
     "rapidjson"
     "sdl2[vulkan]"
     "cpu-features"
