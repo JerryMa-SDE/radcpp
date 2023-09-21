@@ -104,6 +104,16 @@ bool StrCaseEqual(std::string_view str1, std::string_view str2)
 #endif
 }
 
+int StrCompare(std::string_view left, std::string_view right)
+{
+    return strcmp(left.data(), right.data());
+}
+
+int StrCaseCompare(std::string_view left, std::string_view right)
+{
+    return strcasecmp(left.data(), right.data());
+}
+
 std::string StrWideToU8(std::wstring_view wstr)
 {
 #ifdef _WIN32

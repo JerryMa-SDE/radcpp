@@ -7,6 +7,11 @@
 #include <string_view>
 #include <vector>
 
+#if defined(_MSC_BUILD) || defined(_MSC_VER)
+#define strcasecmp _stricmp
+#define strncasecmp _strnicmp
+#endif
+
 namespace rad {
 
 std::vector<std::string> StrSplit(std::string_view str, std::string_view delimiters, bool skipEmptySubStr = true);
@@ -17,6 +22,16 @@ int StrPrintInPlaceArgList(std::string& buffer, const char* format, va_list args
 
 bool StrEqual(std::string_view str1, std::string_view str2);
 bool StrCaseEqual(std::string_view str1, std::string_view str2);
+int StrCompare(std::string_view left, std::string_view right);
+int StrCaseCompare(std::string_view left, std::string_view right);
+
+struct StringLessCaseInsensitive
+{
+    bool operator()(std::string_view left, std::string_view right) const
+    {
+        return (strcasecmp(left.data(), right.data()) < 0);
+    }
+};
 
 std::string StrWideToU8(std::wstring_view wstr);
 std::wstring StrU8ToWide(std::string_view str);
