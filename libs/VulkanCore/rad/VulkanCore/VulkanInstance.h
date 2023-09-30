@@ -12,7 +12,7 @@ public:
 
     void EnableValidationLayer(bool enable = true) { m_enableValidationLayer = enable; }
     bool Init(std::string_view appName, uint32_t appVersion,
-        const std::set<std::string>& extensionRequested);
+        const std::set<std::string>& extensionsRequired);
 
     VkInstance GetHandle() const { return m_handle; }
     uint32_t GetApiVersion() const { return m_apiVersion; }

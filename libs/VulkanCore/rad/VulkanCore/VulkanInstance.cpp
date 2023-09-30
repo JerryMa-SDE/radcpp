@@ -50,7 +50,7 @@ bool HasExtension(rad::Span<VkExtensionProperties> extensions, std::string_view 
 }
 
 bool VulkanInstance::Init(std::string_view appName, uint32_t appVersion,
-    const std::set<std::string>& extensionRequested)
+    const std::set<std::string>& extensionsRequired)
 {
     VK_CHECK(volkInitialize());
 
@@ -84,7 +84,7 @@ bool VulkanInstance::Init(std::string_view appName, uint32_t appVersion,
     }
 
     std::vector<VkExtensionProperties> extensionProps = EnumerateInstanceExtensions(nullptr);
-    for (const std::string& extension : m_enabledExtensions)
+    for (const std::string& extension : extensionsRequired)
     {
         if (HasExtension(extensionProps, extension))
         {
