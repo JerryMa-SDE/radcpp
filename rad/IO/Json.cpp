@@ -7,6 +7,33 @@
 #include "rapidjson/error/error.h"
 #include "rapidjson/error/en.h"
 
+namespace rad
+{
+
+boost::json::value LoadJsonFromFile(const FilePath& path)
+{
+    if (path.has_filename() && Exists(path))
+    {
+        boost::json::error_code ec;
+        boost::json::monotonic_resource mr;
+        boost::json::parse_options opt = {};
+        opt.allow_comments = true;
+        opt.allow_trailing_commas = true;
+        opt.allow_invalid_utf8 = true;
+        opt.allow_infinity_and_nan = true;
+        boost::json::value jRoot = boost::json::parse(rad::File::ReadAll(path), ec, &mr, opt);
+        if (ec)
+        {
+            LogGlobal(Error, "LoadJsonFromFile: %s: %s",
+                (const char*)path.u8string().c_str(), ec.message().c_str());
+        }
+        return jRoot;
+    }
+    return {};
+}
+
+} // namespace rad
+
 namespace rapid {
 
 JsonDoc::JsonDoc()
@@ -79,3 +106,4 @@ std::string JsonDoc::StringifyPretty()
 }
 
 } // namespace rapid
+
