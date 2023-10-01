@@ -130,7 +130,7 @@ public:
     int64_t GetSize();
     int64_t Tell();
 
-    static std::string ReadAll(const FilePath& path, FileAccessFlags flags = FileAccessRead);
+    static std::string ReadAll(const FilePath& path);
     static std::vector<std::string> ReadLines(const FilePath& path);
 
 private:

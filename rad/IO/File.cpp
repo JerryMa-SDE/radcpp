@@ -462,11 +462,11 @@ int64_t File::Tell()
     return ftell(m_handle);
 }
 
-std::string File::ReadAll(const FilePath& path, FileAccessFlags flags)
+std::string File::ReadAll(const FilePath& path)
 {
     File file;
     std::string buffer;
-    if (file.Open(path, flags))
+    if (file.Open(path, rad::FileAccessRead | rad::FileAccessBinary))
     {
         int64_t fileSize = file.GetSize();
         buffer.resize(fileSize);

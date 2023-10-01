@@ -75,6 +75,15 @@ private:
 
 }; // class JsonDoc
 
+class JsonValueRef;
+
+template<typename T>
+T FromJson(const JsonValueRef& json)
+{
+    assert(false && "not implemented!");
+    return T();
+}
+
 // [Experimental] A wrapper for rapidjson::Value to simplify its usage.
 class JsonValueRef
 {
@@ -112,7 +121,7 @@ public:
     bool IsLosslessFloat() const { return m_value->IsLosslessFloat(); }
 
     JsonValueRef SetNull() const { m_value->SetNull(); }
-    bool GetBool() const { m_value->GetBool(); }
+    bool GetBool() const { return m_value->GetBool(); }
     JsonValueRef SetBool(bool b) const { m_value->SetBool(b); }
 
     JsonValueRef SetObject() { return m_value->SetObject(); }
@@ -321,16 +330,36 @@ public:
     JsonValueRef SetDouble(double d) { return m_value->SetDouble(d); }
     JsonValueRef SetFloat(float f) { return m_value->SetFloat(f); }
 
-    const char* GetString() const { m_value->GetString(); }
+    const char* GetString(const char* str = nullptr) const
+    {
+        if (IsValid() && m_value->IsString())
+        {
+            return m_value->GetString();
+        }
+        else
+        {
+            return str;
+        }
+    }
+
     SizeType GetStringLength() const { m_value->GetStringLength(); }
     JsonValueRef SetString(std::string_view s, JsonDoc* doc) { return m_value->SetString(s.data(), static_cast<SizeType>(s.length()), doc->GetAllocator()); }
 
     template <typename T>
     bool Is() const { return m_value->Is<T>(); }
+
     template <typename T>
-    T Get() const { return m_value->Get<T>(); }
-    template <typename T>
-    T Get() { return m_value->Get<T>(); }
+    T Get(const T& t = T()) const
+    {
+        if (IsValid())
+        {
+            return FromJson<T>(*this);
+        }
+        else
+        {
+            return t;
+        }
+    }
 
     template<typename T>
     JsonValueRef Set(const T& data, JsonDoc* doc) { return m_value->Set<T>(data, doc->GetAllocator()); }
@@ -339,5 +368,24 @@ private:
     rapidjson::Value* m_value = nullptr;
 
 }; // class JsonValueRef
+
+template<>
+bool FromJson(const JsonValueRef& json);
+template<>
+int32_t FromJson(const JsonValueRef& json);
+template<>
+uint32_t FromJson(const JsonValueRef& json);
+template<>
+int64_t FromJson(const JsonValueRef& json);
+template<>
+uint64_t FromJson(const JsonValueRef& json);
+template<>
+float FromJson(const JsonValueRef& json);
+template<>
+double FromJson(const JsonValueRef& json);
+template<>
+const char* FromJson(const JsonValueRef& json);
+template<>
+std::string FromJson(const JsonValueRef& json);
 
 } // namespace rapid
