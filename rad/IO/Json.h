@@ -9,17 +9,17 @@
 #include "rapidjson/document.h"
 #include "rapidjson/pointer.h"
 
-namespace rad {
+namespace rapid {
 
 using JsonValue = rapidjson::Value;
 
-class JsonDoc : public RefCounted<JsonDoc>
+class JsonDoc : public rad::RefCounted<JsonDoc>
 {
 public:
     JsonDoc();
     ~JsonDoc();
 
-    bool ParseFile(const FilePath& filePath);
+    bool ParseFile(const rad::FilePath& filePath);
     bool Parse(std::string_view str);
     bool HasParseError() { return m_doc.HasParseError(); }
     const char* GetParseError();
@@ -332,4 +332,4 @@ private:
 
 }; // class JsonValueRef
 
-} // namespace rad
+} // namespace rapid

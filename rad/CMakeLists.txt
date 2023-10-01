@@ -19,8 +19,8 @@ set(RAD_SOURCE_FILES
     IO/File.cpp
     IO/Logging.h
     IO/Logging.cpp
-    IO/JsonDoc.h
-    IO/JsonDoc.cpp
+    IO/Json.h
+    IO/Json.cpp
 )
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${RAD_SOURCE_FILES})

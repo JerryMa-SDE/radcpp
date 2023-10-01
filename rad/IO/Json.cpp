@@ -1,5 +1,5 @@
-#include "rad/IO/JsonDoc.h"
-#include "rad/IO/Logging.h"
+#include "Json.h"
+#include "Logging.h"
 
 #include "rapidjson/stringbuffer.h"
 #include "rapidjson/writer.h"
@@ -7,7 +7,7 @@
 #include "rapidjson/error/error.h"
 #include "rapidjson/error/en.h"
 
-namespace rad {
+namespace rapid {
 
 JsonDoc::JsonDoc()
 {
@@ -17,9 +17,9 @@ JsonDoc::~JsonDoc()
 {
 }
 
-bool JsonDoc::ParseFile(const FilePath& filePath)
+bool JsonDoc::ParseFile(const rad::FilePath& filePath)
 {
-    std::string jsonString = File::ReadAll(filePath, FileAccessRead);
+    std::string jsonString = rad::File::ReadAll(filePath, rad::FileAccessRead);
     if (Parse(jsonString))
     {
         LogGlobal(Debug, "%s: %s parsed successfully.",
@@ -78,4 +78,4 @@ std::string JsonDoc::StringifyPretty()
     return buffer.GetString();
 }
 
-} // namespace rad
+} // namespace rapid
