@@ -30,6 +30,7 @@ add_library(rad
 )
 
 find_package(Boost)
+find_package(Boost REQUIRED COMPONENTS json)
 
 target_include_directories(rad
     PUBLIC ${Boost_INCLUDE_DIRS}
@@ -37,6 +38,7 @@ target_include_directories(rad
 
 target_link_libraries(rad
     PUBLIC ${Boost_LIBRARIES}
+    PUBLIC Boost::json
     PUBLIC stb
 )
 

@@ -5,9 +5,17 @@
 #include "rad/Core/RefCounted.h"
 #include "rad/IO/File.h"
 
+#include "boost/json.hpp"
+
 #include "rapidjson/rapidjson.h"
 #include "rapidjson/document.h"
 #include "rapidjson/pointer.h"
+
+namespace rad {
+
+boost::json::value LoadJsonFromFile(const FilePath& path);
+
+} // namespace rad
 
 namespace rapid {
 
