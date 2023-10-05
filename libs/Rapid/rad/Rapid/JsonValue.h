@@ -5,75 +5,14 @@
 #include "rad/Core/RefCounted.h"
 #include "rad/IO/File.h"
 
-#include "boost/json.hpp"
-
 #include "rapidjson/rapidjson.h"
 #include "rapidjson/document.h"
 #include "rapidjson/pointer.h"
 
-namespace rad {
-
-boost::json::value LoadJsonFromFile(const FilePath& path);
-
-} // namespace rad
-
-namespace rapid {
+namespace rapid
+{
 
 using JsonValue = rapidjson::Value;
-
-class JsonDoc : public rad::RefCounted<JsonDoc>
-{
-public:
-    JsonDoc();
-    ~JsonDoc();
-
-    bool ParseFile(const rad::FilePath& filePath);
-    bool Parse(std::string_view str);
-    bool HasParseError() { return m_doc.HasParseError(); }
-    const char* GetParseError();
-    size_t GetParseErrorOffset();
-
-    rapidjson::Document& GetDoc() { return m_doc; }
-    rapidjson::Document::AllocatorType& GetAllocator() { return m_doc.GetAllocator(); }
-    JsonValue& GetRoot() { return m_doc.GetObject(); }
-    JsonValue& operator[](std::string_view name) { return m_doc[name.data()]; }
-
-    bool IsObject() { return m_doc.IsObject(); }
-    bool HasMember(std::string_view name) { return m_doc.HasMember(name.data()); }
-    auto MemberBegin() { return m_doc.MemberBegin(); }
-    auto MemberEnd() { return m_doc.MemberEnd(); }
-
-    void SetNull() { m_doc.SetNull(); }
-
-    JsonValue& CreateValueByPointer(std::string_view p)
-    {
-        return rapidjson::CreateValueByPointer(m_doc, rapidjson::Pointer(p.data()));
-    }
-
-    template<typename T>
-    JsonValue& SetValueByPointer(std::string_view p, T value)
-    {
-        return rapidjson::SetValueByPointer(m_doc, rapidjson::Pointer(p.data()), value);
-    }
-
-    JsonValue* GetValueByPointer(std::string_view p)
-    {
-        return rapidjson::GetValueByPointer(m_doc, rapidjson::Pointer(p.data()));
-    }
-
-    template<typename T>
-    JsonValue& GetValueByPointerWithDefault(std::string_view p, T value)
-    {
-        return rapidjson::GetValueByPointerWithDefault(m_doc, rapidjson::Pointer(p.data()), value);
-    }
-
-    std::string Stringify();
-    std::string StringifyPretty();
-
-private:
-    rapidjson::Document m_doc;
-
-}; // class JsonDoc
 
 class JsonValueRef;
 
@@ -97,11 +36,14 @@ public:
     using ConstArray = rapidjson::Value::ConstArray;
 
     JsonValueRef(std::nullptr_t) {}
+    JsonValueRef(rapidjson::Value* value) : m_value(value) {}
     JsonValueRef(rapidjson::Value& value) : m_value(&value) {}
     ~JsonValueRef() {}
 
     bool IsValid() const { return (m_value != nullptr); }
     rapidjson::Value* GetValue() { return m_value; }
+
+    operator bool() const { return IsValid(); }
 
     bool IsNull()   const { return m_value->IsNull(); }
     bool IsFalse()  const { return m_value->IsFalse(); }
@@ -140,21 +82,46 @@ public:
         }
         return nullptr;
     }
-    const JsonValueRef operator[](std::string_view name) const { return const_cast<JsonValueRef&>(*this)[name]; }
+    const JsonValueRef operator[](std::string_view name) const
+    {
+        return const_cast<JsonValueRef&>(*this)[name];
+    }
 
-    ConstMemberIterator MemberBegin() const { return const_cast<const rapidjson::Value*>(m_value)->MemberBegin(); }
-    ConstMemberIterator MemberEnd() const { return const_cast<const rapidjson::Value*>(m_value)->MemberEnd(); }
+    ConstMemberIterator MemberBegin() const
+    {
+        return const_cast<const rapidjson::Value*>(m_value)->MemberBegin();
+    }
+    ConstMemberIterator MemberEnd() const
+    {
+        return const_cast<const rapidjson::Value*>(m_value)->MemberEnd();
+    }
     MemberIterator MemberBegin() { return m_value->MemberBegin(); }
     MemberIterator MemberEnd() { return m_value->MemberEnd(); }
-    JsonValueRef MemberReserve(SizeType newCapacity, JsonDoc* doc) { m_value->MemberReserve(newCapacity, doc->GetAllocator()); }
 
-    bool HasMember(std::string_view name) const { return m_value->HasMember(name.data()); }
+    template <typename Allocator>
+    JsonValueRef MemberReserve(SizeType newCapacity, Allocator& allocator)
+    {
+        m_value->MemberReserve(newCapacity, allocator);
+    }
+
+    bool HasMember(std::string_view name) const
+    {
+        return m_value->HasMember(name.data());
+    }
     bool HasMemberCaseInsensitive(std::string_view name) const
     {
         return (FindMemberCaseInsensitive(name) != MemberEnd());
     }
-    MemberIterator FindMember(std::string_view name) { return m_value->FindMember(name.data()); }
-    ConstMemberIterator FindMember(std::string_view name) const { return const_cast<const rapidjson::Value*>(m_value)->FindMember(name.data()); }
+
+    MemberIterator FindMember(std::string_view name)
+    {
+        return m_value->FindMember(name.data());
+    }
+    ConstMemberIterator FindMember(std::string_view name) const
+    {
+        return const_cast<const rapidjson::Value*>(m_value)->FindMember(name.data());
+    }
+
     MemberIterator FindMemberCaseInsensitive(std::string_view name)
     {
         if (m_value->IsObject())
@@ -175,16 +142,20 @@ public:
         return const_cast<JsonValueRef&>(*this).FindMemberCaseInsensitive(name);
     }
 
-    template <typename T>
-    JsonValueRef AddMember(std::string_view name, T value, JsonDoc* doc)
+    template <typename T, typename Allocator>
+    JsonValueRef AddMember(std::string_view name, T value, Allocator& allocator)
     {
-        return m_value->AddMember(name.data(), value, doc->GetAllocator());
+        return m_value->AddMember(name.data(), value, allocator);
     }
     void RemoveAllMembers() { m_value->RemoveAllMembers(); }
     bool RemoveMember(std::string_view name) { return m_value->RemoveMember(name.data()); }
     MemberIterator RemoveMember(MemberIterator m) { return m_value->RemoveMember(m); }
     MemberIterator EraseMember(ConstMemberIterator pos) { return m_value->EraseMember(pos); }
-    MemberIterator EraseMember(ConstMemberIterator first, ConstMemberIterator last) { return m_value->EraseMember(first, last); }
+    MemberIterator EraseMember(ConstMemberIterator first, ConstMemberIterator last)
+    {
+        return m_value->EraseMember(first, last);
+    }
+
     bool EraseMember(const std::string_view name) { return m_value->EraseMember(name.data()); }
 
     JsonValueRef SetArray() { return m_value->SetArray(); }
@@ -208,19 +179,25 @@ public:
     ValueIterator ArrayEnd() { return m_value->End(); }
     ConstValueIterator ArrayBegin() const { return const_cast<const rapidjson::Value*>(m_value)->Begin(); }
     ConstValueIterator ArrayEnd() const { return const_cast<const rapidjson::Value*>(m_value)->End(); }
-    JsonValueRef ArrayReserve(SizeType newCapacity, JsonDoc* doc) { m_value->Reserve(newCapacity, doc->GetAllocator()); }
-    template <typename T>
-    JsonValueRef ArrayPushBack(T value, JsonDoc* doc)
+
+    template <typename Allocator>
+    JsonValueRef ArrayReserve(SizeType newCapacity, Allocator& allocator)
     {
-        return m_value->PushBack(value, doc->GetAllocator());
+        m_value->Reserve(newCapacity, allocator);
     }
 
-    template <>
-    JsonValueRef ArrayPushBack(std::string_view s, JsonDoc* doc)
+    template <typename T, typename Allocator>
+    JsonValueRef ArrayPushBack(T value, Allocator& allocator)
+    {
+        return m_value->PushBack(value, allocator);
+    }
+
+    template <typename Allocator>
+    JsonValueRef ArrayPushBack(std::string_view s, Allocator& allocator)
     {
         rapidjson::Value val;
-        val.SetString(s.data(), static_cast<SizeType>(s.length()), doc->GetAllocator());
-        return m_value->PushBack(val.Move(), doc->GetAllocator());
+        val.SetString(s.data(), static_cast<SizeType>(s.length()), allocator);
+        return m_value->PushBack(val.Move(), allocator);
     }
 
     JsonValueRef ArrayPopBack()
@@ -228,7 +205,8 @@ public:
         return m_value->PopBack();
     }
 
-    ValueIterator ArrayErase(ConstValueIterator pos) {
+    ValueIterator ArrayErase(ConstValueIterator pos)
+    {
         return m_value->Erase(pos);
     }
 
@@ -343,7 +321,12 @@ public:
     }
 
     SizeType GetStringLength() const { m_value->GetStringLength(); }
-    JsonValueRef SetString(std::string_view s, JsonDoc* doc) { return m_value->SetString(s.data(), static_cast<SizeType>(s.length()), doc->GetAllocator()); }
+
+    template <typename Allocator>
+    JsonValueRef SetString(std::string_view s, Allocator& allocator)
+    {
+        return m_value->SetString(s.data(), static_cast<SizeType>(s.length()), allocator);
+    }
 
     template <typename T>
     bool Is() const { return m_value->Is<T>(); }
@@ -361,8 +344,11 @@ public:
         }
     }
 
-    template<typename T>
-    JsonValueRef Set(const T& data, JsonDoc* doc) { return m_value->Set<T>(data, doc->GetAllocator()); }
+    template<typename T, typename Allocator>
+    JsonValueRef Set(const T& data, Allocator& allocator)
+    {
+        return m_value->Set<T>(data, allocator);
+    }
 
 private:
     rapidjson::Value* m_value = nullptr;

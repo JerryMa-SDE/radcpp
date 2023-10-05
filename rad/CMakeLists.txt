@@ -19,8 +19,8 @@ set(RAD_SOURCE_FILES
     IO/File.cpp
     IO/Logging.h
     IO/Logging.cpp
-    IO/Json.h
-    IO/Json.cpp
+    IO/PropertyTree.h
+    IO/PropertyTree.cpp
 )
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${RAD_SOURCE_FILES})
@@ -38,7 +38,6 @@ target_include_directories(rad
 
 target_link_libraries(rad
     PUBLIC ${Boost_LIBRARIES}
-    PUBLIC Boost::json
     PUBLIC stb
 )
 
