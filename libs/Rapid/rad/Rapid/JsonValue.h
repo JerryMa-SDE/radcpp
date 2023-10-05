@@ -70,11 +70,11 @@ public:
     SizeType MemberCount() const { return m_value->MemberCount(); }
     SizeType MemberCapacity() const { return m_value->MemberCapacity(); }
     bool ObjectEmpty() const { return m_value->ObjectEmpty(); }
-    JsonValueRef operator[](std::string_view name)
+    JsonValueRef operator[](const char* name)
     {
         if (IsValid() && m_value->IsObject())
         {
-            auto iter = m_value->FindMember(name.data());
+            auto iter = m_value->FindMember(name);
             if (iter != m_value->MemberEnd())
             {
                 return iter->value;
@@ -82,9 +82,18 @@ public:
         }
         return nullptr;
     }
-    const JsonValueRef operator[](std::string_view name) const
+    const JsonValueRef operator[](const char* name) const
     {
         return const_cast<JsonValueRef&>(*this)[name];
+    }
+
+    JsonValueRef operator[](const std::string& name)
+    {
+        return (*this)[name.c_str()];
+    }
+    const JsonValueRef operator[](const std::string& name) const
+    {
+        return const_cast<JsonValueRef&>(*this)[name.c_str()];
     }
 
     ConstMemberIterator MemberBegin() const
