@@ -183,7 +183,24 @@ public:
             return nullptr;
         }
     }
-    const JsonValueRef operator[](SizeType index) const { return const_cast<JsonValueRef&>(*this)[index]; }
+    const JsonValueRef operator[](SizeType index) const
+    {
+        return const_cast<JsonValueRef&>(*this)[index];
+    }
+
+    template<typename IndexType,
+        typename = std::enable_if_t<std::is_integral_v<IndexType> && !std::is_same_v<IndexType, SizeType>>>
+    JsonValueRef operator[](IndexType index)
+    {
+        return (*this)[static_cast<SizeType>(index)];
+    }
+    template<typename IndexType,
+        typename = std::enable_if_t<std::is_integral_v<IndexType> && !std::is_same_v<IndexType, SizeType>>>
+    const JsonValueRef operator[](IndexType index) const
+    {
+        return const_cast<JsonValueRef&>(*this)[static_cast<SizeType>(index)];
+    }
+
     ValueIterator ArrayBegin() { return m_value->Begin(); }
     ValueIterator ArrayEnd() { return m_value->End(); }
     ConstValueIterator ArrayBegin() const { return const_cast<const rapidjson::Value*>(m_value)->Begin(); }
@@ -228,6 +245,17 @@ public:
     ConstArray GetArray() const { return const_cast<const rapidjson::Value*>(m_value)->GetArray(); }
 
     std::vector<JsonValueRef> GetArrayValues()
+    {
+        std::vector<JsonValueRef> arr;
+        arr.reserve(m_value->Size());
+        for (rapidjson::Value& value : m_value->GetArray())
+        {
+            arr.push_back(JsonValueRef(value));
+        }
+        return arr;
+    }
+
+    const std::vector<JsonValueRef> GetArrayValues() const
     {
         std::vector<JsonValueRef> arr;
         arr.reserve(m_value->Size());
@@ -351,6 +379,22 @@ public:
         {
             return t;
         }
+    }
+
+    template <typename T>
+    std::vector<T> GetVector(const T& t = T()) const
+    {
+        if (IsArray())
+        {
+            std::vector<T> values;
+            values.reserve((ArraySize()));
+            for (auto jValue : GetArrayValues())
+            {
+                values.push_back(jValue.Get<T>(t));
+            }
+            return values;
+        }
+        return {};
     }
 
     template<typename T, typename Allocator>
