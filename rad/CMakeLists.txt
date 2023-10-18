@@ -34,6 +34,7 @@ find_package(Boost REQUIRED COMPONENTS json)
 
 target_include_directories(rad
     PUBLIC ${Boost_INCLUDE_DIRS}
+    PUBLIC ${RADCPP_SOURCE_DIR}/3rdparty/tclap/include/
 )
 
 target_link_libraries(rad
