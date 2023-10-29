@@ -1,6 +1,6 @@
 #include "JsonValue.h"
 
-namespace rapid
+namespace rad
 {
 
 template <>
@@ -93,4 +93,4 @@ std::string FromJson(const JsonValueRef& json)
     return {};
 }
 
-} // namespace rapid
+} // namespace rad

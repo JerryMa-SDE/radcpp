@@ -19,6 +19,10 @@ set(RAD_SOURCE_FILES
     IO/File.cpp
     IO/Logging.h
     IO/Logging.cpp
+    IO/JsonDoc.h
+    IO/JsonDoc.cpp
+    IO/JsonValue.h
+    IO/JsonValue.cpp
     IO/PropertyTree.h
     IO/PropertyTree.cpp
 )
@@ -30,7 +34,6 @@ add_library(rad
 )
 
 find_package(Boost)
-find_package(Boost REQUIRED COMPONENTS json)
 
 target_include_directories(rad
     PUBLIC ${Boost_INCLUDE_DIRS}

@@ -9,7 +9,7 @@
 #include "rapidjson/document.h"
 #include "rapidjson/pointer.h"
 
-namespace rapid
+namespace rad
 {
 
 using JsonValue = rapidjson::Value;
@@ -41,9 +41,10 @@ public:
     ~JsonValueRef() {}
 
     bool IsValid() const { return (m_value != nullptr); }
-    rapidjson::Value* GetValue() { return m_value; }
+    rapidjson::Value& GetValue() { return *m_value; }
 
     operator bool() const { return IsValid(); }
+    operator JsonValue& () const { return *m_value; }
 
     bool IsNull()   const { return m_value->IsNull(); }
     bool IsFalse()  const { return m_value->IsFalse(); }
@@ -172,6 +173,7 @@ public:
     SizeType ArrayCapacity() const { return m_value->Capacity(); }
     bool ArrayEmpty() const { return m_value->Empty(); }
     void ArrayClear() { return m_value->Clear(); }
+
     JsonValueRef operator[](SizeType index)
     {
         if (IsValid() && IsArray() && index < ArraySize())
@@ -183,20 +185,18 @@ public:
             return nullptr;
         }
     }
+
     const JsonValueRef operator[](SizeType index) const
     {
         return const_cast<JsonValueRef&>(*this)[index];
     }
 
-    template<typename IndexType,
-        typename = std::enable_if_t<std::is_integral_v<IndexType> && !std::is_same_v<IndexType, SizeType>>>
-    JsonValueRef operator[](IndexType index)
+    JsonValueRef operator[](int index)
     {
         return (*this)[static_cast<SizeType>(index)];
     }
-    template<typename IndexType,
-        typename = std::enable_if_t<std::is_integral_v<IndexType> && !std::is_same_v<IndexType, SizeType>>>
-    const JsonValueRef operator[](IndexType index) const
+
+    const JsonValueRef operator[](int index) const
     {
         return const_cast<JsonValueRef&>(*this)[static_cast<SizeType>(index)];
     }
@@ -345,7 +345,7 @@ public:
     JsonValueRef SetDouble(double d) { return m_value->SetDouble(d); }
     JsonValueRef SetFloat(float f) { return m_value->SetFloat(f); }
 
-    const char* GetString(const char* str = nullptr) const
+    const char* GetString(const char* str = "") const
     {
         if (IsValid() && m_value->IsString())
         {
@@ -427,4 +427,4 @@ const char* FromJson(const JsonValueRef& json);
 template<>
 std::string FromJson(const JsonValueRef& json);
 
-} // namespace rapid
+} // namespace rad

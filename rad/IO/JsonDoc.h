@@ -3,7 +3,7 @@
 #include "rad/Core/Global.h"
 #include "JsonValue.h"
 
-namespace rapid
+namespace rad
 {
 
 using JsonValue = rapidjson::Value;
@@ -38,7 +38,7 @@ public:
     }
 
     template<typename T>
-    JsonValue& SetValueByPointer(std::string_view p, T value)
+    JsonValue& SetValueByPointer(std::string_view p, const T& value)
     {
         return rapidjson::SetValueByPointer(m_doc, rapidjson::Pointer(p.data()), value);
     }
@@ -49,7 +49,7 @@ public:
     }
 
     template<typename T>
-    JsonValue& GetValueByPointerWithDefault(std::string_view p, T value)
+    JsonValue& GetValueByPointerWithDefault(std::string_view p, const T& value)
     {
         return rapidjson::GetValueByPointerWithDefault(m_doc, rapidjson::Pointer(p.data()), value);
     }
@@ -62,4 +62,4 @@ private:
 
 }; // class JsonDoc
 
-} // namespace rapid
+} // namespace rad

@@ -7,7 +7,7 @@
 #include "rapidjson/error/error.h"
 #include "rapidjson/error/en.h"
 
-namespace rapid
+namespace rad
 {
 
 JsonDoc::JsonDoc()
@@ -20,21 +20,16 @@ JsonDoc::~JsonDoc()
 
 bool JsonDoc::ParseFile(const rad::FilePath& filePath)
 {
-    std::string jsonString = rad::File::ReadAll(filePath);
-    if (Parse(jsonString))
-    {
-        LogGlobal(Debug, "%s: %s parsed successfully.",
-            __FUNCTION__, (const char*)filePath.u8string().c_str());
-        return true;
-    }
-    else
+    std::string json = rad::File::ReadAll(filePath);
+    if (!Parse(json))
     {
         size_t errorOffset = GetParseErrorOffset();
-        size_t errorLineNo = std::count(jsonString.begin(), jsonString.begin() + errorOffset, '\n') + 1;
-        LogGlobal(Error, "%s: parse error in file %s, around line %u: %s",
-            __FUNCTION__, (const char*)filePath.u8string().c_str(), errorLineNo, GetParseError());
+        size_t errorLineNo = std::count(json.begin(), json.begin() + errorOffset, '\n') + 1;
+        LogGlobal(Error, "JsonDoc: %s: parse error around line %u: %s",
+            (const char*)filePath.u8string().c_str(), errorLineNo, GetParseError());
         return false;
     }
+    return true;
 }
 
 bool JsonDoc::Parse(std::string_view str)
@@ -79,4 +74,4 @@ std::string JsonDoc::StringifyPretty()
     return buffer.GetString();
 }
 
-} // namespace rapid
+} // namespace rad
