@@ -37,6 +37,7 @@ find_package(Boost)
 
 target_include_directories(rad
     PUBLIC ${Boost_INCLUDE_DIRS}
+    PUBLIC ${RADCPP_SOURCE_DIR}/3rdparty/stb/
     PUBLIC ${RADCPP_SOURCE_DIR}/3rdparty/tclap/include/
 )
 
