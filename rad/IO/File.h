@@ -29,11 +29,11 @@ FilePath GetWorkingDirectory();
 void SetCurrentPath(const FilePath& p);
 FilePath GetTempDirectory();
 
-FilePath MakePathAbsolute(const FilePath& p);
-FilePath MakePathRelative(const FilePath& p, const FilePath& base);
-FilePath MakePathProximate(const FilePath& p, const FilePath& base);
-FilePath MakePathCanonical(const FilePath& p);
-FilePath MakePathWeaklyCanonical(const FilePath& p);
+FilePath MakeAbsolute(const FilePath& p);
+FilePath MakeRelative(const FilePath& p, const FilePath& base);
+FilePath MakeProximate(const FilePath& p, const FilePath& base);
+FilePath MakeCanonical(const FilePath& p);
+FilePath MakeWeaklyCanonical(const FilePath& p);
 
 bool Exists(const FilePath& p);
 bool IsPathEquivalent(const FilePath& p1, const FilePath& p2);

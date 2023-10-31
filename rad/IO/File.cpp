@@ -46,27 +46,27 @@ FilePath GetTempDirectory()
     return std::filesystem::temp_directory_path();
 }
 
-FilePath MakePathAbsolute(const FilePath& p)
+FilePath MakeAbsolute(const FilePath& p)
 {
     return std::filesystem::absolute(p);
 }
 
-FilePath MakePathRelative(const FilePath& p, const FilePath& base)
+FilePath MakeRelative(const FilePath& p, const FilePath& base)
 {
     return std::filesystem::relative(p, base);
 }
 
-FilePath MakePathProximate(const FilePath& p, const FilePath& base)
+FilePath MakeProximate(const FilePath& p, const FilePath& base)
 {
     return std::filesystem::proximate(p, base);
 }
 
-FilePath MakePathCanonical(const FilePath& p)
+FilePath MakeCanonical(const FilePath& p)
 {
     return std::filesystem::canonical(p);
 }
 
-FilePath MakePathWeaklyCanonical(const FilePath& p)
+FilePath MakeWeaklyCanonical(const FilePath& p)
 {
     return std::filesystem::weakly_canonical(p);
 }
