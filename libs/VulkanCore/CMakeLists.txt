@@ -57,10 +57,10 @@ add_library(VulkanCore
 
 target_include_directories(VulkanCore
     PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
-    PUBLIC ${RADCPP_SOURCE_DIR}/3rdparty/Vulkan-Headers/include/
-    PUBLIC ${RADCPP_SOURCE_DIR}/3rdparty/volk/
-    PUBLIC ${RADCPP_SOURCE_DIR}/3rdparty/VulkanMemoryAllocator/include/
-    PUBLIC ${RADCPP_SOURCE_DIR}/3rdparty/spvgen/include/
+    PUBLIC ${RADCPP_SOURCE_DIR}/imported/Vulkan-Headers/include/
+    PUBLIC ${RADCPP_SOURCE_DIR}/imported/volk/
+    PUBLIC ${RADCPP_SOURCE_DIR}/imported/VulkanMemoryAllocator/include/
+    PUBLIC ${RADCPP_SOURCE_DIR}/imported/spvgen/include/
 )
 
 target_link_libraries(VulkanCore

@@ -1,8 +1,8 @@
 # Customizations
 build/
-3rdparty/spvgen/external/
-3rdparty/spvgen/build/
-3rdparty/Compressonator/
+imported/spvgen/external/
+imported/spvgen/build/
+imported/Compressonator/
 
 # Prerequisites
 *.d

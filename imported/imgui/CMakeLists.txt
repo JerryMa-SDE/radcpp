@@ -31,7 +31,7 @@ add_library(imgui
 
 target_include_directories(imgui
     PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
-    PUBLIC ${RADCPP_SOURCE_DIR}/3rdparty/Vulkan-Headers/include/
+    PUBLIC ${RADCPP_SOURCE_DIR}/imported/Vulkan-Headers/include/
 )
 
 find_package(SDL2 CONFIG REQUIRED)

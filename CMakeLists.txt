@@ -16,15 +16,15 @@ set(RADCPP_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/
+    ${CMAKE_CURRENT_SOURCE_DIR}/imported/
 )
 
-add_subdirectory(3rdparty/stb)
-set_target_properties(stb PROPERTIES FOLDER "3rdparty")
-add_subdirectory(3rdparty/sqlite)
-set_target_properties(sqlite PROPERTIES FOLDER "3rdparty")
-add_subdirectory(3rdparty/imgui)
-set_target_properties(imgui PROPERTIES FOLDER "3rdparty")
+add_subdirectory(imported/stb)
+set_target_properties(stb PROPERTIES FOLDER "imported")
+add_subdirectory(imported/sqlite)
+set_target_properties(sqlite PROPERTIES FOLDER "imported")
+add_subdirectory(imported/imgui)
+set_target_properties(imgui PROPERTIES FOLDER "imported")
 
 add_subdirectory(rad)
 add_subdirectory(sp1)
