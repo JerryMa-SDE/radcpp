@@ -2,6 +2,7 @@
 build/
 3rdparty/spvgen/external/
 3rdparty/spvgen/build/
+3rdparty/Compressonator/
 
 # Prerequisites
 *.d
