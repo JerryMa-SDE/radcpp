@@ -3,6 +3,10 @@ Write-Host "Current working directory: $(Get-Location)"
 
 $repos = @(
     [PSCustomObject]@{
+        Name = "spvgen"
+        URL = "https://github.com/JerryMa-SDE/spvgen.git"
+    },
+    [PSCustomObject]@{
         Name = "Compressonator"
         URL = "https://github.com/JerryMa-SDE/Compressonator.git"
     }

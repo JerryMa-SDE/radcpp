@@ -1,7 +1,6 @@
 # Customizations
 build/
-imported/spvgen/external/
-imported/spvgen/build/
+imported/spvgen/
 imported/Compressonator/
 
 # Prerequisites
