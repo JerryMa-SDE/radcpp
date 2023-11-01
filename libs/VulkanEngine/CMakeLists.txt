@@ -1,4 +1,6 @@
 set(VULKAN_ENGINE_SOURCE_FILES
+    rad/VulkanEngine/3DMath.h
+    rad/VulkanEngine/3DMath.cpp
     rad/VulkanEngine/VulkanWindow.h
     rad/VulkanEngine/VulkanWindow.cpp
 )
