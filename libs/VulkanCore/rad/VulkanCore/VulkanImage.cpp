@@ -131,25 +131,26 @@ void VulkanImage::CopyFromBuffer2D(VulkanBuffer* buffer, VkDeviceSize bufferOffs
     std::vector<VkBufferImageCopy> copyInfos(levelCount);
     VkExtent3D blockExtent = VulkanFormat(m_format).GetTexelBlockExtent();
     uint32_t blockSize = VulkanFormat(m_format).GetElementSize();
-    for (uint32_t mipLevel = baseMipLevel; mipLevel < levelCount; mipLevel++)
+    for (uint32_t i = 0; i < levelCount; i++)
     {
+        uint32_t mipLevel = baseMipLevel + i;
         uint32_t mipWidth = std::max<uint32_t>(m_extent.width >> mipLevel, 1);
         uint32_t mipHeight = std::max<uint32_t>(m_extent.height >> mipLevel, 1);
 
-        copyInfos[mipLevel].bufferOffset = bufferOffset;
-        copyInfos[mipLevel].bufferRowLength = rad::RoundUpToMultiple(mipWidth, blockExtent.width);
-        copyInfos[mipLevel].bufferImageHeight = rad::RoundUpToMultiple(mipHeight, blockExtent.height);
-        copyInfos[mipLevel].imageSubresource.aspectMask = VulkanFormat(m_format).GetAspectFlags();
-        copyInfos[mipLevel].imageSubresource.mipLevel = mipLevel;
-        copyInfos[mipLevel].imageSubresource.baseArrayLayer = baseArrayLayer;
-        copyInfos[mipLevel].imageSubresource.layerCount = layerCount;
-        copyInfos[mipLevel].imageOffset = {};
-        copyInfos[mipLevel].imageExtent.width = mipWidth;
-        copyInfos[mipLevel].imageExtent.height = mipHeight;
-        copyInfos[mipLevel].imageExtent.depth = 1;
+        copyInfos[i].bufferOffset = bufferOffset;
+        copyInfos[i].bufferRowLength = rad::RoundUpToMultiple(mipWidth, blockExtent.width);
+        copyInfos[i].bufferImageHeight = rad::RoundUpToMultiple(mipHeight, blockExtent.height);
+        copyInfos[i].imageSubresource.aspectMask = VulkanFormat(m_format).GetAspectFlags();
+        copyInfos[i].imageSubresource.mipLevel = mipLevel;
+        copyInfos[i].imageSubresource.baseArrayLayer = baseArrayLayer;
+        copyInfos[i].imageSubresource.layerCount = layerCount;
+        copyInfos[i].imageOffset = {};
+        copyInfos[i].imageExtent.width = mipWidth;
+        copyInfos[i].imageExtent.height = mipHeight;
+        copyInfos[i].imageExtent.depth = 1;
 
-        bufferOffset += (copyInfos[mipLevel].bufferRowLength / blockExtent.width) *
-            (copyInfos[mipLevel].bufferImageHeight / blockExtent.height) * blockSize * layerCount;
+        bufferOffset += (copyInfos[i].bufferRowLength / blockExtent.width) *
+            (copyInfos[i].bufferImageHeight / blockExtent.height) * blockSize * layerCount;
     }
     CopyFromBuffer(buffer, copyInfos);
 }
