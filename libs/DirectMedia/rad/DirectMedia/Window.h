@@ -36,6 +36,8 @@ public:
     int GetDisplayMode(SDL_DisplayMode* displayMode);
     float GetDisplayDPI();
     int GetFlags();
+    bool IsMinimized();
+    bool IsMaximized();
     int GetGammaRamp(Uint16* r, Uint16* g, Uint16* b);
     bool IsGrabbed();
     float GetOpacity();

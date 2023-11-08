@@ -104,6 +104,16 @@ int Window::GetFlags()
     return SDL_GetWindowFlags(m_handle);
 }
 
+bool Window::IsMinimized()
+{
+    return (GetFlags() & SDL_WINDOW_MINIMIZED);
+}
+
+bool Window::IsMaximized()
+{
+    return (GetFlags() & SDL_WINDOW_MAXIMIZED);
+}
+
 int Window::GetGammaRamp(Uint16* r, Uint16* g, Uint16* b)
 {
     return SDL_GetWindowGammaRamp(m_handle, r, g, b);
