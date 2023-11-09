@@ -38,6 +38,10 @@ public:
     JsonValueRef(std::nullptr_t) {}
     JsonValueRef(rapidjson::Value* value) : m_value(value) {}
     JsonValueRef(rapidjson::Value& value) : m_value(&value) {}
+    JsonValueRef(const rapidjson::Value* value) :
+        m_value(const_cast<rapidjson::Value*>(value)) {}
+    JsonValueRef(const rapidjson::Value& value) :
+        m_value(const_cast<rapidjson::Value*>(&value)) {}
     ~JsonValueRef() {}
 
     bool IsValid() const { return (m_value != nullptr); }
@@ -266,53 +270,11 @@ public:
         return arr;
     }
 
-    int GetInt(int i = 0) const
-    {
-        if (IsValid() && IsInt())
-        {
-            return m_value->GetInt();
-        }
-        else
-        {
-            return i;
-        }
-    }
-
-    unsigned GetUint(unsigned u = 0) const
-    {
-        if (IsValid() && IsUint())
-        {
-            return m_value->GetUint();
-        }
-        else
-        {
-            return u;
-        }
-    }
-
-    int64_t GetInt64(int64_t i64 = 0) const
-    {
-        if (IsValid() && IsInt64())
-        {
-            return m_value->GetInt64();
-        }
-        else
-        {
-            return i64;
-        }
-    }
-
-    uint64_t GetUint64(int64_t u64 = 0) const
-    {
-        if (IsValid() && IsUint64())
-        {
-            return m_value->GetUint64();
-        }
-        else
-        {
-            return u64;
-        }
-    }
+    // Support convertions from string (strto*) with base 2(0b), 8(0), 10, 16(0x/0X).
+    int GetInt(int i = 0) const;
+    uint32_t GetUint(uint32_t u = 0) const;
+    int64_t GetInt64(int64_t i64 = 0) const;
+    uint64_t GetUint64(int64_t u64 = 0) const;
 
     double GetDouble(double d = 0.0) const
     {
@@ -357,7 +319,7 @@ public:
         }
     }
 
-    SizeType GetStringLength() const { m_value->GetStringLength(); }
+    SizeType GetStringLength() const { return m_value->GetStringLength(); }
 
     template <typename Allocator>
     JsonValueRef SetString(std::string_view s, Allocator& allocator)

@@ -58,20 +58,33 @@ size_t JsonDoc::GetParseErrorOffset()
     return m_doc.GetErrorOffset();
 }
 
-std::string JsonDoc::Stringify()
+JsonValueRef JsonDoc::GetRoot()
+{
+    if (m_doc.IsObject())
+    {
+        JsonValue& jRoot = m_doc.GetObject();
+        return jRoot;
+    }
+    else
+    {
+        return nullptr;
+    }
+}
+
+rapidjson::StringBuffer JsonDoc::Stringify()
 {
     rapidjson::StringBuffer buffer;
     rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
     m_doc.Accept(writer);
-    return buffer.GetString();
+    return buffer;
 }
 
-std::string JsonDoc::StringifyPretty()
+rapidjson::StringBuffer JsonDoc::StringifyPretty()
 {
     rapidjson::StringBuffer buffer;
     rapidjson::PrettyWriter<rapidjson::StringBuffer> writer(buffer);
     m_doc.Accept(writer);
-    return buffer.GetString();
+    return buffer;
 }
 
 } // namespace rad

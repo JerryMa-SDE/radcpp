@@ -2,12 +2,14 @@
 
 #include "rad/Core/Global.h"
 #include "JsonValue.h"
+#include "rapidjson/stringbuffer.h"
 
 namespace rad
 {
 
 using JsonValue = rapidjson::Value;
 
+// wrapper of rapidjson::Document (UTF8, with default allocator).
 class JsonDoc : public rad::RefCounted<JsonDoc>
 {
 public:
@@ -20,10 +22,12 @@ public:
     const char* GetParseError();
     size_t GetParseErrorOffset();
 
-    rapidjson::Document& GetDoc() { return m_doc; }
+    operator rapidjson::Document& () { return m_doc; }
     rapidjson::Document::AllocatorType& GetAllocator() { return m_doc.GetAllocator(); }
-    JsonValue& GetRoot() { return m_doc.GetObject(); }
-    JsonValue& operator[](std::string_view name) { return m_doc[name.data()]; }
+    JsonValueRef GetRoot();
+    const JsonValueRef GetRoot() const { return const_cast<JsonDoc&>(*this).GetRoot(); }
+    JsonValueRef operator[](std::string_view name) { return GetRoot()[name.data()]; }
+    const JsonValueRef operator[](std::string_view name) const { return GetRoot()[name.data()]; }
 
     bool IsObject() { return m_doc.IsObject(); }
     bool HasMember(std::string_view name) { return m_doc.HasMember(name.data()); }
@@ -32,30 +36,30 @@ public:
 
     void SetNull() { m_doc.SetNull(); }
 
-    JsonValue& CreateValueByPointer(std::string_view p)
+    JsonValueRef CreateValueByPointer(std::string_view p)
     {
         return rapidjson::CreateValueByPointer(m_doc, rapidjson::Pointer(p.data()));
     }
 
     template<typename T>
-    JsonValue& SetValueByPointer(std::string_view p, const T& value)
+    JsonValueRef SetValueByPointer(std::string_view p, const T& value)
     {
         return rapidjson::SetValueByPointer(m_doc, rapidjson::Pointer(p.data()), value);
     }
 
-    JsonValue* GetValueByPointer(std::string_view p)
+    JsonValueRef GetValueByPointer(std::string_view p)
     {
         return rapidjson::GetValueByPointer(m_doc, rapidjson::Pointer(p.data()));
     }
 
     template<typename T>
-    JsonValue& GetValueByPointerWithDefault(std::string_view p, const T& value)
+    JsonValueRef GetValueByPointerWithDefault(std::string_view p, const T& value)
     {
         return rapidjson::GetValueByPointerWithDefault(m_doc, rapidjson::Pointer(p.data()), value);
     }
 
-    std::string Stringify();
-    std::string StringifyPretty();
+    rapidjson::StringBuffer Stringify();
+    rapidjson::StringBuffer StringifyPretty();
 
 private:
     rapidjson::Document m_doc;
