@@ -27,24 +27,25 @@ TEST(IO, Json)
     }
     EXPECT_TRUE(doc->ParseFile("data/menu.json"));
     EXPECT_TRUE(doc->GetRoot().IsObject());
-    JsonValueRef jmenuitem = doc->GetRoot()["menu"]["popup"]["menuitem"];
-    EXPECT_TRUE(jmenuitem);
-    if (jmenuitem)
+    JsonValueRef jMenuItem = doc->GetRoot()["menu"]["popup"]["menuitem"];
+    EXPECT_TRUE(jMenuItem);
+    if (jMenuItem)
     {
-        EXPECT_TRUE(jmenuitem.IsArray());
-        EXPECT_EQ(jmenuitem.ArraySize(), 3);
+        EXPECT_TRUE(jMenuItem.IsArray());
+        EXPECT_EQ(jMenuItem.ArraySize(), 3);
     }
     EXPECT_TRUE(doc->ParseFile("data/widget.json"));
     EXPECT_TRUE(doc->ParseFile("data/web-app.json"));
-    JsonValueRef jServlet = doc->GetRoot()["web-app"]["servlet"];
-    JsonValueRef jTrack = doc->SetValueByPointer("/web-app/servlet/0/cachePackageTagsTrack", "0b100000000");
-    JsonValueRef jStore = doc->SetValueByPointer("/web-app/servlet/0/cachePackageTagsStore", "0x100");
-    JsonValueRef jRefresh = doc->SetValueByPointer("/web-app/servlet/0/cachePackageTagsRefresh", 90);
-    if (jServlet && jServlet.IsArray())
+    JsonValueRef jServlet0 = doc->GetRoot()["web-app"]["servlet"][0];
+    JsonValueRef jTrack = doc->SetValueByPointer("/web-app/servlet/0/init-param/cachePackageTagsTrack", "0b100000000");
+    JsonValueRef jStore = doc->SetValueByPointer("/web-app/servlet/0/init-param/cachePackageTagsStore", "0x100");
+    JsonValueRef jRefresh = doc->SetValueByPointer("/web-app/servlet/0/init-param/cachePackageTagsRefresh", 90);
+    if (jServlet0 && jServlet0.IsObject())
     {
-        EXPECT_EQ(jTrack.GetUint(200), 0x100);
-        EXPECT_EQ(jStore.GetUint(200), 0x100);
-        EXPECT_EQ(jRefresh.GetUint(60), 90);
+        JsonValueRef jInitParam = jServlet0["init-param"];
+        EXPECT_EQ(jInitParam["cachePackageTagsTrack"].GetUint(), 0b100000000);
+        EXPECT_EQ(jInitParam["cachePackageTagsStore"].GetUint(), 0x100);
+        EXPECT_EQ(jInitParam["cachePackageTagsRefresh"].GetUint(), 90);
     }
     EXPECT_TRUE(doc->ParseFile("data/menu-items-null.json"));
 }

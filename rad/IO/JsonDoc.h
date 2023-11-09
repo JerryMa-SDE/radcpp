@@ -2,7 +2,6 @@
 
 #include "rad/Core/Global.h"
 #include "JsonValue.h"
-#include "rapidjson/stringbuffer.h"
 
 namespace rad
 {
@@ -22,7 +21,10 @@ public:
     const char* GetParseError();
     size_t GetParseErrorOffset();
 
+    rapidjson::Document& GetDoc() { return m_doc; }
+    const rapidjson::Document& GetDoc() const { return m_doc; }
     operator rapidjson::Document& () { return m_doc; }
+    operator const rapidjson::Document& () const { return m_doc; }
     rapidjson::Document::AllocatorType& GetAllocator() { return m_doc.GetAllocator(); }
     JsonValueRef GetRoot();
     const JsonValueRef GetRoot() const { return const_cast<JsonDoc&>(*this).GetRoot(); }
@@ -56,6 +58,11 @@ public:
     JsonValueRef GetValueByPointerWithDefault(std::string_view p, const T& value)
     {
         return rapidjson::GetValueByPointerWithDefault(m_doc, rapidjson::Pointer(p.data()), value);
+    }
+
+    bool EraseValueByPointer(std::string_view p)
+    {
+        return rapidjson::EraseValueByPointer(m_doc, rapidjson::Pointer(p.data()));
     }
 
     rapidjson::StringBuffer Stringify();

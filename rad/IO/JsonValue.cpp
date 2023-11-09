@@ -1,97 +1,9 @@
 #include "JsonValue.h"
+#include "rapidjson/writer.h"
+#include "rapidjson/prettywriter.h"
 
 namespace rad
 {
-
-template <>
-bool FromJson(const JsonValueRef& json)
-{
-    if (json.IsBool())
-    {
-        return json.GetBool();
-    }
-    return false;
-}
-
-template <>
-int32_t FromJson(const JsonValueRef& json)
-{
-    if (json.IsInt())
-    {
-        return json.GetInt();
-    }
-    return 0;
-}
-
-template <>
-uint32_t FromJson(const JsonValueRef& json)
-{
-    if (json.IsUint())
-    {
-        return json.GetUint();
-    }
-    return 0;
-}
-
-template <>
-int64_t FromJson(const JsonValueRef& json)
-{
-    if (json.IsInt64())
-    {
-        return json.GetInt64();
-    }
-    return 0;
-}
-
-template <>
-uint64_t FromJson(const JsonValueRef& json)
-{
-    if (json.IsUint64())
-    {
-        return json.GetUint64();
-    }
-    return 0;
-}
-
-template <>
-float FromJson(const JsonValueRef& json)
-{
-    if (json.IsFloat())
-    {
-        return json.GetFloat();
-    }
-    return 0.0f;
-}
-
-template <>
-double FromJson(const JsonValueRef& json)
-{
-    if (json.IsDouble())
-    {
-        return json.GetDouble();
-    }
-    return 0.0;
-}
-
-template<>
-const char* FromJson(const JsonValueRef& json)
-{
-    if (json.IsString())
-    {
-        return json.GetString();
-    }
-    return nullptr;
-}
-
-template<>
-std::string FromJson(const JsonValueRef& json)
-{
-    if (json.IsString())
-    {
-        return json.GetString();
-    }
-    return {};
-}
 
 int JsonValueRef::GetInt(int i) const
 {
@@ -211,6 +123,112 @@ uint64_t JsonValueRef::GetUint64(int64_t u64) const
     {
         return u64;
     }
+}
+
+rapidjson::StringBuffer JsonValueRef::Stringify()
+{
+    rapidjson::StringBuffer buffer;
+    rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
+    m_value->Accept(writer);
+    return buffer;
+}
+
+rapidjson::StringBuffer JsonValueRef::StringifyPretty()
+{
+    rapidjson::StringBuffer buffer;
+    rapidjson::PrettyWriter<rapidjson::StringBuffer> writer(buffer);
+    m_value->Accept(writer);
+    return buffer;
+}
+
+template <>
+bool FromJson(const JsonValueRef& json)
+{
+    if (json.IsBool())
+    {
+        return json.GetBool();
+    }
+    return false;
+}
+
+template <>
+int32_t FromJson(const JsonValueRef& json)
+{
+    if (json.IsInt())
+    {
+        return json.GetInt();
+    }
+    return 0;
+}
+
+template <>
+uint32_t FromJson(const JsonValueRef& json)
+{
+    if (json.IsUint())
+    {
+        return json.GetUint();
+    }
+    return 0;
+}
+
+template <>
+int64_t FromJson(const JsonValueRef& json)
+{
+    if (json.IsInt64())
+    {
+        return json.GetInt64();
+    }
+    return 0;
+}
+
+template <>
+uint64_t FromJson(const JsonValueRef& json)
+{
+    if (json.IsUint64())
+    {
+        return json.GetUint64();
+    }
+    return 0;
+}
+
+template <>
+float FromJson(const JsonValueRef& json)
+{
+    if (json.IsFloat())
+    {
+        return json.GetFloat();
+    }
+    return 0.0f;
+}
+
+template <>
+double FromJson(const JsonValueRef& json)
+{
+    if (json.IsDouble())
+    {
+        return json.GetDouble();
+    }
+    return 0.0;
+}
+
+template<>
+const char* FromJson(const JsonValueRef& json)
+{
+    if (json.IsString())
+    {
+        return json.GetString();
+    }
+    return nullptr;
+}
+
+template<>
+std::string FromJson(const JsonValueRef& json)
+{
+    if (json.IsString())
+    {
+        return json.GetString();
+    }
+    return {};
 }
 
 } // namespace rad

@@ -1,13 +1,14 @@
 #pragma once
 
 #include "rad/Core/Global.h"
-#include "rad/Core/String.h"
 #include "rad/Core/RefCounted.h"
+#include "rad/Core/String.h"
 #include "rad/IO/File.h"
 
 #include "rapidjson/rapidjson.h"
 #include "rapidjson/document.h"
 #include "rapidjson/pointer.h"
+#include "rapidjson/stringbuffer.h"
 
 namespace rad
 {
@@ -16,12 +17,8 @@ using JsonValue = rapidjson::Value;
 
 class JsonValueRef;
 
-template<typename T>
-T FromJson(const JsonValueRef& json)
-{
-    assert(false && "not implemented!");
-    return T();
-}
+template<typename Json, typename T>
+T FromJson(const Json& json);
 
 // [Experimental] A wrapper for rapidjson::Value to simplify its usage.
 class JsonValueRef
@@ -46,9 +43,11 @@ public:
 
     bool IsValid() const { return (m_value != nullptr); }
     rapidjson::Value& GetValue() { return *m_value; }
+    const rapidjson::Value& GetValue() const { return *m_value; }
 
     operator bool() const { return IsValid(); }
-    operator JsonValue& () const { return *m_value; }
+    operator JsonValue& () { return *m_value; }
+    operator const JsonValue& () const { return *m_value; }
 
     bool IsNull()   const { return m_value->IsNull(); }
     bool IsFalse()  const { return m_value->IsFalse(); }
@@ -335,7 +334,7 @@ public:
     {
         if (IsValid())
         {
-            return FromJson<T>(*this);
+            return FromJson<JsonValueRef, T>(*this);
         }
         else
         {
@@ -364,6 +363,37 @@ public:
     {
         return m_value->Set<T>(data, allocator);
     }
+
+    template<typename Allocator>
+    JsonValueRef CreateValueByPointer(std::string_view p, Allocator& allocator)
+    {
+        return rapidjson::CreateValueByPointer(*m_value, rapidjson::Pointer(p.data()), allocator);
+    }
+
+    template<typename T, typename Allocator>
+    JsonValueRef SetValueByPointer(std::string_view p, const T& value, Allocator& allocator)
+    {
+        return rapidjson::SetValueByPointer(*m_value, rapidjson::Pointer(p.data()), value, allocator);
+    }
+
+    JsonValueRef GetValueByPointer(std::string_view p)
+    {
+        return rapidjson::GetValueByPointer(*m_value, rapidjson::Pointer(p.data()));
+    }
+
+    template<typename T>
+    JsonValueRef GetValueByPointerWithDefault(std::string_view p, const T& value)
+    {
+        return rapidjson::GetValueByPointerWithDefault(*m_value, rapidjson::Pointer(p.data()), value);
+    }
+
+    bool EraseValueByPointer(std::string_view p)
+    {
+        return rapidjson::EraseValueByPointer(*m_value, rapidjson::Pointer(p.data()));
+    }
+
+    rapidjson::StringBuffer Stringify();
+    rapidjson::StringBuffer StringifyPretty();
 
 private:
     rapidjson::Value* m_value = nullptr;
