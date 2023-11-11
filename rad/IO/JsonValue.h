@@ -10,15 +10,14 @@
 #include "rapidjson/pointer.h"
 #include "rapidjson/stringbuffer.h"
 
+#include <map>
+
 namespace rad
 {
 
 using JsonValue = rapidjson::Value;
 
 class JsonValueRef;
-
-template<typename Json, typename T>
-T FromJson(const Json& json);
 
 // [Experimental] A wrapper for rapidjson::Value to simplify its usage.
 class JsonValueRef
@@ -31,6 +30,7 @@ public:
     using ConstValueIterator = rapidjson::Value::ConstValueIterator;
     using Array = rapidjson::Value::Array;
     using ConstArray = rapidjson::Value::ConstArray;
+    using StringRefType = rapidjson::Value::StringRefType;
 
     JsonValueRef(std::nullptr_t) {}
     JsonValueRef(rapidjson::Value* value) : m_value(value) {}
@@ -42,8 +42,8 @@ public:
     ~JsonValueRef() {}
 
     bool IsValid() const { return (m_value != nullptr); }
-    rapidjson::Value& GetValue() { return *m_value; }
-    const rapidjson::Value& GetValue() const { return *m_value; }
+    rapidjson::Value& GetRef() { return *m_value; }
+    const rapidjson::Value& GetRef() const { return *m_value; }
 
     operator bool() const { return IsValid(); }
     operator JsonValue& () { return *m_value; }
@@ -68,7 +68,7 @@ public:
 
     JsonValueRef SetNull() const { m_value->SetNull(); }
     bool GetBool() const { return m_value->GetBool(); }
-    JsonValueRef SetBool(bool b) const { m_value->SetBool(b); }
+    JsonValueRef SetBool(bool b) const { return m_value->SetBool(b); }
 
     JsonValueRef SetObject() { return m_value->SetObject(); }
     SizeType MemberCount() const { return m_value->MemberCount(); }
@@ -114,7 +114,7 @@ public:
     template <typename Allocator>
     JsonValueRef MemberReserve(SizeType newCapacity, Allocator& allocator)
     {
-        m_value->MemberReserve(newCapacity, allocator);
+        return m_value->MemberReserve(newCapacity, allocator);
     }
 
     bool HasMember(std::string_view name) const
@@ -155,11 +155,55 @@ public:
         return const_cast<JsonValueRef&>(*this).FindMemberCaseInsensitive(name);
     }
 
-    template <typename T, typename Allocator>
-    JsonValueRef AddMember(std::string_view name, T value, Allocator& allocator)
+    template <typename Allocator>
+    JsonValueRef AddMember(std::string_view name, JsonValue& value, Allocator& allocator)
     {
-        return m_value->AddMember(name.data(), value, allocator);
+        JsonValue jName;
+        jName.SetString(name.data(), static_cast<SizeType>(name.length()));
+        return m_value->AddMember(std::move(jName), value, allocator);
     }
+
+    template <typename Allocator>
+    JsonValueRef AddMember(std::string_view name, JsonValue&& value, Allocator& allocator)
+    {
+        JsonValue jName;
+        jName.SetString(name.data(), static_cast<SizeType>(name.length()));
+        return m_value->AddMember(std::move(jName), std::forward<JsonValue>(value), allocator);
+    }
+
+    template <typename T, typename Allocator>
+    JsonValueRef AddMember(std::string_view name, const T& value, Allocator& allocator)
+    {
+        JsonValue jName;
+        jName.SetString(name.data(), static_cast<SizeType>(name.length()));
+        JsonValue jValue;
+        JsonValueRef(jValue).Set(value, allocator);
+        return m_value->AddMember(std::move(jName), std::move(jValue), allocator);
+    }
+
+    template <typename Allocator>
+    JsonValueRef AddMemberNameRef(std::string_view name, JsonValue& value, Allocator& allocator)
+    {
+        return m_value->AddMember(StringRefType(name.data(), static_cast<SizeType>(name.length())),
+            value, allocator);
+    }
+
+    template <typename Allocator>
+    JsonValueRef AddMemberNameRef(std::string_view name, JsonValue&& value, Allocator& allocator)
+    {
+        return m_value->AddMember(StringRefType(name.data(), static_cast<SizeType>(name.length())),
+            std::forward<JsonValue>(value), allocator);
+    }
+
+    template <typename T, typename Allocator>
+    JsonValueRef AddMemberNameRef(std::string_view name, const T& value, Allocator& allocator)
+    {
+        JsonValue jValue;
+        JsonValueRef(jValue).Set(value, allocator);
+        return m_value->AddMember(StringRefType(name.data(), static_cast<SizeType>(name.length())),
+            std::move(jValue), allocator);
+    }
+
     void RemoveAllMembers() { m_value->RemoveAllMembers(); }
     bool RemoveMember(std::string_view name) { return m_value->RemoveMember(name.data()); }
     MemberIterator RemoveMember(MemberIterator m) { return m_value->RemoveMember(m); }
@@ -212,21 +256,50 @@ public:
     template <typename Allocator>
     JsonValueRef ArrayReserve(SizeType newCapacity, Allocator& allocator)
     {
-        m_value->Reserve(newCapacity, allocator);
+        return m_value->Reserve(newCapacity, allocator);
     }
 
-    template <typename T, typename Allocator>
-    JsonValueRef ArrayPushBack(T value, Allocator& allocator)
+    template <typename Allocator>
+    JsonValueRef ArrayPushBack(JsonValue& value, Allocator& allocator)
     {
         return m_value->PushBack(value, allocator);
     }
 
     template <typename Allocator>
-    JsonValueRef ArrayPushBack(std::string_view s, Allocator& allocator)
+    JsonValueRef ArrayPushBack(JsonValue&& value, Allocator& allocator)
+    {
+        return m_value->PushBack(std::forward<JsonValue>(value), allocator);
+    }
+
+    template <typename Allocator>
+    JsonValueRef ArrayPushBack(StringRefType str, Allocator& allocator)
+    {
+        return m_value->PushBack(str, allocator);
+    }
+
+    template <typename T, typename Allocator>
+    JsonValueRef ArrayPushBack(const T& value, Allocator& allocator)
+    {
+        JsonValue jValue;
+        JsonValueRef(jValue).Set(value, allocator);
+        return m_value->PushBack(std::move(jValue), allocator);
+    }
+
+    template <typename Allocator>
+    JsonValueRef ArrayPushBackString(std::string_view str, Allocator& allocator)
     {
         rapidjson::Value val;
-        val.SetString(s.data(), static_cast<SizeType>(s.length()), allocator);
-        return m_value->PushBack(val.Move(), allocator);
+        val.SetString(str.data(), static_cast<SizeType>(str.length()), allocator);
+        return m_value->PushBack(std::move(val), allocator);
+    }
+
+    template <typename Allocator>
+    JsonValueRef ArrayPushBackStringRef(std::string_view str, Allocator& allocator)
+    {
+        return m_value->PushBack(
+            StringRefType(str.data(), static_cast<SizeType>(str.length())),
+            allocator
+        );
     }
 
     JsonValueRef ArrayPopBack()
@@ -326,6 +399,13 @@ public:
         return m_value->SetString(s.data(), static_cast<SizeType>(s.length()), allocator);
     }
 
+    JsonValueRef SetStringRef(std::string_view s)
+    {
+        return m_value->SetString(
+            StringRefType(s.data(), static_cast<SizeType>(s.length()))
+        );
+    }
+
     template <typename T>
     bool Is() const { return m_value->Is<T>(); }
 
@@ -334,13 +414,32 @@ public:
     {
         if (IsValid())
         {
-            return FromJson<JsonValueRef, T>(*this);
+            T t = {};
+            FromJson(*this, t);
+            return t;
         }
         else
         {
             return t;
         }
     }
+
+    template <>
+    bool Get(const bool& t) const { return GetBool(); }
+    template <>
+    int32_t Get(const int32_t& t) const { return GetInt(); }
+    template <>
+    uint32_t Get(const uint32_t& t) const { return GetUint(); }
+    template <>
+    int64_t Get(const int64_t& t) const { return GetInt64(); }
+    template <>
+    uint64_t Get(const uint64_t& t) const { return GetUint64(); }
+    template <>
+    float Get(const float& t) const { return GetFloat(); }
+    template <>
+    double Get(const double& t) const { return GetDouble(); }
+    template <>
+    const char* Get(const char* const& t) const { return GetString(); }
 
     template <typename T>
     std::vector<T> GetVector(const T& t = T()) const
@@ -361,7 +460,12 @@ public:
     template<typename T, typename Allocator>
     JsonValueRef Set(const T& data, Allocator& allocator)
     {
-        return m_value->Set<T>(data, allocator);
+        return ToJson(*this, data, allocator);
+    }
+
+    JsonValueRef Set(StringRefType data)
+    {
+        return m_value->SetString(data);
     }
 
     template<typename Allocator>
@@ -400,23 +504,85 @@ private:
 
 }; // class JsonValueRef
 
-template<>
-bool FromJson(const JsonValueRef& json);
-template<>
-int32_t FromJson(const JsonValueRef& json);
-template<>
-uint32_t FromJson(const JsonValueRef& json);
-template<>
-int64_t FromJson(const JsonValueRef& json);
-template<>
-uint64_t FromJson(const JsonValueRef& json);
-template<>
-float FromJson(const JsonValueRef& json);
-template<>
-double FromJson(const JsonValueRef& json);
-template<>
-const char* FromJson(const JsonValueRef& json);
-template<>
-std::string FromJson(const JsonValueRef& json);
+
+void FromJson(const JsonValueRef& json, std::string& str);
+
+template<typename Allocator>
+inline JsonValueRef ToJson(JsonValueRef& json, bool val, Allocator& allocator)
+{
+    return json.SetBool(val);
+}
+
+template<typename Allocator>
+inline JsonValueRef ToJson(JsonValueRef& json, int32_t val, Allocator& allocator)
+{
+    return json.SetInt(val);
+}
+
+template<typename Allocator>
+inline JsonValueRef ToJson(JsonValueRef& json, uint32_t val, Allocator& allocator)
+{
+    return json.SetUint(val);
+}
+
+template<typename Allocator>
+inline JsonValueRef ToJson(JsonValueRef& json, int64_t val, Allocator& allocator)
+{
+    return json.SetInt64(val);
+}
+
+template<typename Allocator>
+inline JsonValueRef ToJson(JsonValueRef& json, uint64_t val, Allocator& allocator)
+{
+    return json.SetUint64(val);
+}
+
+template<typename Allocator>
+inline JsonValueRef ToJson(JsonValueRef& json, float val, Allocator& allocator)
+{
+    return json.SetFloat(val);
+}
+
+template<typename Allocator>
+inline JsonValueRef ToJson(JsonValueRef& json, double val, Allocator& allocator)
+{
+    return json.SetDouble(val);
+}
+
+template<typename Allocator>
+inline JsonValueRef ToJson(JsonValueRef& json, const char* val, Allocator& allocator)
+{
+    return json.SetString(val, allocator);
+}
+
+template<typename Allocator>
+inline JsonValueRef ToJson(JsonValueRef& json, const std::string& val, Allocator& allocator)
+{
+    return json.SetString(val, allocator);
+}
+
+template<typename T, typename Allocator>
+inline JsonValueRef ToJson(JsonValueRef& json, const std::vector<T>& vec, Allocator& allocator)
+{
+    json.SetArray();
+    json.ArrayReserve(static_cast<JsonValueRef::SizeType>(vec.size()), allocator);
+    for (const auto& t : vec)
+    {
+        json.ArrayPushBack(t, allocator);
+    }
+    return json;
+}
+
+template<typename T, typename Allocator>
+inline JsonValueRef ToJson(JsonValueRef& json, const std::map<std::string, T>& map, Allocator& allocator)
+{
+    json.SetObject();
+    json.MemberReserve(static_cast<JsonValueRef::SizeType>(map.size()), allocator);
+    for (const auto& pair : map)
+    {
+        json.AddMember(pair.first, pair.second, allocator);
+    }
+    return json;
+}
 
 } // namespace rad
