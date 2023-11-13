@@ -159,7 +159,7 @@ public:
     JsonValueRef AddMember(std::string_view name, JsonValue& value, Allocator& allocator)
     {
         JsonValue jName;
-        jName.SetString(name.data(), static_cast<SizeType>(name.length()));
+        jName.SetString(name.data(), static_cast<SizeType>(name.length()), allocator);
         return m_value->AddMember(std::move(jName), value, allocator);
     }
 
@@ -167,7 +167,7 @@ public:
     JsonValueRef AddMember(std::string_view name, JsonValue&& value, Allocator& allocator)
     {
         JsonValue jName;
-        jName.SetString(name.data(), static_cast<SizeType>(name.length()));
+        jName.SetString(name.data(), static_cast<SizeType>(name.length()), allocator);
         return m_value->AddMember(std::move(jName), std::forward<JsonValue>(value), allocator);
     }
 
@@ -175,33 +175,66 @@ public:
     JsonValueRef AddMember(std::string_view name, const T& value, Allocator& allocator)
     {
         JsonValue jName;
-        jName.SetString(name.data(), static_cast<SizeType>(name.length()));
+        jName.SetString(name.data(), static_cast<SizeType>(name.length()), allocator);
         JsonValue jValue;
         JsonValueRef(jValue).Set(value, allocator);
         return m_value->AddMember(std::move(jName), std::move(jValue), allocator);
     }
 
+    // No copy for value string.
+    template <typename Allocator>
+    JsonValueRef AddMemberStringRef(std::string_view name, std::string_view value, Allocator& allocator)
+    {
+        JsonValue jName;
+        jName.SetString(name.data(), static_cast<SizeType>(name.length()), allocator);
+        JsonValue jValue;
+        jValue.SetString(StringRefType(value.data(), static_cast<SizeType>(value.length())));
+        return m_value->AddMember(std::move(jName), std::move(jValue), allocator);
+    }
+
+    // No copy for name string
     template <typename Allocator>
     JsonValueRef AddMemberNameRef(std::string_view name, JsonValue& value, Allocator& allocator)
     {
-        return m_value->AddMember(StringRefType(name.data(), static_cast<SizeType>(name.length())),
-            value, allocator);
+        return m_value->AddMember(
+            StringRefType(name.data(), static_cast<SizeType>(name.length())),
+            value,
+            allocator
+        );
     }
 
+    // No copy for name string
     template <typename Allocator>
     JsonValueRef AddMemberNameRef(std::string_view name, JsonValue&& value, Allocator& allocator)
     {
-        return m_value->AddMember(StringRefType(name.data(), static_cast<SizeType>(name.length())),
-            std::forward<JsonValue>(value), allocator);
+        return m_value->AddMember(
+            StringRefType(name.data(), static_cast<SizeType>(name.length())),
+            std::forward<JsonValue>(value),
+            allocator
+        );
     }
 
+    // No copy for name string.
     template <typename T, typename Allocator>
     JsonValueRef AddMemberNameRef(std::string_view name, const T& value, Allocator& allocator)
     {
         JsonValue jValue;
         JsonValueRef(jValue).Set(value, allocator);
-        return m_value->AddMember(StringRefType(name.data(), static_cast<SizeType>(name.length())),
-            std::move(jValue), allocator);
+        return m_value->AddMember(
+            StringRefType(name.data(), static_cast<SizeType>(name.length())),
+            std::move(jValue),
+            allocator
+        );
+    }
+
+    // No copy for both name and value strings.
+    template <typename Allocator>
+    JsonValueRef AddMemberNameRefStringRef(std::string_view name, std::string_view value, Allocator& allocator)
+    {
+        return m_value->AddMember(
+            StringRefType(name.data(), static_cast<SizeType>(name.length())),
+            StringRefType(value.data(), static_cast<SizeType>(value.length())),
+            allocator);
     }
 
     void RemoveAllMembers() { m_value->RemoveAllMembers(); }
