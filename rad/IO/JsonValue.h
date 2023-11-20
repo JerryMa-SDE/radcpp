@@ -67,7 +67,7 @@ public:
     bool IsLosslessFloat() const { return m_value->IsLosslessFloat(); }
 
     JsonValueRef SetNull() const { m_value->SetNull(); }
-    bool GetBool() const { return m_value->GetBool(); }
+    bool GetBool(bool b = false) const;
     JsonValueRef SetBool(bool b) const { return m_value->SetBool(b); }
 
     JsonValueRef SetObject() { return m_value->SetObject(); }
@@ -471,8 +471,8 @@ public:
     float Get(const float& t) const { return GetFloat(); }
     template <>
     double Get(const double& t) const { return GetDouble(); }
-    template <>
-    const char* Get(const char* const& t) const { return GetString(); }
+    template <size_t N>
+    const char* Get(const char(&t)[N]) const { return GetString(); }
 
     template <typename T>
     std::vector<T> GetVector(const T& t = T()) const

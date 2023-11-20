@@ -5,6 +5,22 @@
 namespace rad
 {
 
+bool JsonValueRef::GetBool(bool b) const
+{
+    if (IsValid())
+    {
+        if (IsBool())
+        {
+            return m_value->GetBool();
+        }
+        else if (IsInt())
+        {
+            return m_value->GetInt();
+        }
+    }
+    return b;
+}
+
 int JsonValueRef::GetInt(int i) const
 {
     if (IsValid())
@@ -22,15 +38,8 @@ int JsonValueRef::GetInt(int i) const
             }
             return static_cast<int64_t>(std::strtol(str.data(), 0, 0));
         }
-        else
-        {
-            return i;
-        }
     }
-    else
-    {
-        return i;
-    }
+    return i;
 }
 
 uint32_t JsonValueRef::GetUint(uint32_t u) const
@@ -54,15 +63,8 @@ uint32_t JsonValueRef::GetUint(uint32_t u) const
             }
             return static_cast<uint32_t>(std::strtoul(str.data(), 0, 0));
         }
-        else
-        {
-            return u;
-        }
     }
-    else
-    {
-        return u;
-    }
+    return u;
 }
 
 int64_t JsonValueRef::GetInt64(int64_t i64) const
@@ -82,15 +84,8 @@ int64_t JsonValueRef::GetInt64(int64_t i64) const
             }
             return static_cast<int64_t>(std::strtoll(str.data(), 0, 0));
         }
-        else
-        {
-            return i64;
-        }
     }
-    else
-    {
-        return i64;
-    }
+    return i64;
 }
 
 uint64_t JsonValueRef::GetUint64(int64_t u64) const
@@ -114,15 +109,8 @@ uint64_t JsonValueRef::GetUint64(int64_t u64) const
             }
             return static_cast<uint64_t>(std::strtoull(str.data(), 0, 0));
         }
-        else
-        {
-            return u64;
-        }
     }
-    else
-    {
-        return u64;
-    }
+    return u64;
 }
 
 rapidjson::StringBuffer JsonValueRef::Stringify()
