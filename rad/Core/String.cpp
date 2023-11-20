@@ -92,7 +92,7 @@ int StrPrintInPlaceArgList(std::string& buffer, const char* format, va_list args
 
 bool StrEqual(std::string_view str1, std::string_view str2)
 {
-    return (strcmp(str1.data(), str2.data()) == 0);
+    return (str1 == str2);
 }
 
 bool StrCaseEqual(std::string_view str1, std::string_view str2)
