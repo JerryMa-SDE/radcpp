@@ -1,5 +1,6 @@
 #define VOLK_IMPLEMENTATION
 #define VMA_IMPLEMENTATION
+
 #include "VulkanCommon.h"
 #include "VulkanFormat.h"
 #include "VulkanShader.h"
@@ -8,19 +9,33 @@
 
 rad::LogCategory g_logVulkan("Vulkan", rad::LogLevel::Info);
 
-void LogVulkanError(VkResult result, const char* function, const char* file, uint32_t line)
+void VulkanErrorHandler(VkResult result, const char* function, const char* file, uint32_t line)
 {
     LogVulkan(Error, "%s failed with VkResult=%s(%d).",
         function, string_VkResult(result), result, file, line);
     throw VulkanError(result);
 }
 
-std::string GetVulkanVersionString(uint32_t versionNumber)
+VulkanVersion::VulkanVersion(uint32_t version) :
+    m_version(version)
+{
+}
+
+VulkanVersion::VulkanVersion(uint32_t major, uint32_t minor, uint32_t patch)
+{
+    m_version = VK_MAKE_VERSION(major, minor, patch);
+}
+
+VulkanVersion::~VulkanVersion()
+{
+}
+
+std::string VulkanVersion::GetString() const
 {
     return rad::StrPrint("%u.%u.%u",
-        VK_VERSION_MAJOR(versionNumber),
-        VK_VERSION_MINOR(versionNumber),
-        VK_VERSION_PATCH(versionNumber)
+        VK_VERSION_MAJOR(m_version),
+        VK_VERSION_MINOR(m_version),
+        VK_VERSION_PATCH(m_version)
     );
 }
 
@@ -64,15 +79,15 @@ void VulkanGraphicsPipelineCreateInfo::AddVertexAttribute(
     m_vertexInput.attributes.push_back(vertexAttribDesc);
 }
 
-void VulkanGraphicsPipelineCreateInfo::AddVertexBindingWithAttributes(
-    uint32_t binding, rad::Span<VkFormat> attribFormats)
+void VulkanGraphicsPipelineCreateInfo::AddVertexBindingWithFormats(
+    uint32_t binding, rad::Span<VkFormat> formats, VkVertexInputRate inputRate)
 {
     VkVertexInputBindingDescription vertexBindingDesc = {};
     vertexBindingDesc.binding = binding;
     vertexBindingDesc.stride = 0;
-    vertexBindingDesc.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
+    vertexBindingDesc.inputRate = inputRate;
     uint32_t location = 0;
-    for (VkFormat format : attribFormats)
+    for (VkFormat format : formats)
     {
         VkVertexInputAttributeDescription vertexAttribDesc = {};
         vertexAttribDesc.location = location;
@@ -88,14 +103,16 @@ void VulkanGraphicsPipelineCreateInfo::AddVertexBindingWithAttributes(
     m_vertexInput.bindings.push_back(vertexBindingDesc);
 }
 
-void VulkanGraphicsPipelineCreateInfo::AddColorBendAttachmentState_Disabled()
+void VulkanGraphicsPipelineCreateInfo::SetColorBlendDisabled(uint32_t attachCount)
 {
-    VkPipelineColorBlendAttachmentState attachState = {};
-    attachState.blendEnable = VK_FALSE;
-    attachState.colorWriteMask =
-        VK_COLOR_COMPONENT_R_BIT |
-        VK_COLOR_COMPONENT_G_BIT |
-        VK_COLOR_COMPONENT_B_BIT |
-        VK_COLOR_COMPONENT_A_BIT;
-    m_colorBlend.attachments.push_back(attachState);
+    m_colorBlend.attachments.resize(attachCount);
+    for (VkPipelineColorBlendAttachmentState& state : m_colorBlend.attachments)
+    {
+        state.blendEnable = VK_FALSE;
+        state.colorWriteMask =
+            VK_COLOR_COMPONENT_R_BIT |
+            VK_COLOR_COMPONENT_G_BIT |
+            VK_COLOR_COMPONENT_B_BIT |
+            VK_COLOR_COMPONENT_A_BIT;
+    }
 }

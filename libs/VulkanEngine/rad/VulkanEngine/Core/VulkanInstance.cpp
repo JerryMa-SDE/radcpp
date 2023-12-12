@@ -57,7 +57,7 @@ bool VulkanInstance::Init(std::string_view appName, uint32_t appVersion,
     if (vkEnumerateInstanceVersion)
     {
         vkEnumerateInstanceVersion(&m_apiVersion);
-        LogVulkan(Info, "Vulkan instance version: %s", GetVulkanVersionString(m_apiVersion).c_str());
+        LogVulkan(Info, "Vulkan instance version: %s", VulkanVersion(m_apiVersion).GetString().c_str());
     }
 
     std::vector<const char*> enabledLayerNames;
@@ -160,7 +160,7 @@ bool VulkanInstance::Init(std::string_view appName, uint32_t appVersion,
         debugMessengerCreateInfo.pfnUserCallback = DebugUtilsMessengerCallback;
         debugMessengerCreateInfo.pUserData = nullptr;
 
-        AppendVulkanStructureChain(instanceCreateInfo, debugMessengerCreateInfo);
+        VkStructureChainAppend(instanceCreateInfo, debugMessengerCreateInfo);
     }
 
     VK_CHECK(vkCreateInstance(&instanceCreateInfo, nullptr, &m_handle));

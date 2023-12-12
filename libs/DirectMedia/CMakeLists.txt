@@ -17,7 +17,7 @@ set(DirectMedia_SOURCE_FILES
     rad/DirectMedia/GuiContext.h
 )
 
-source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${DirectMedia_SOURCE_FILES})
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR}/rad/DirectMedia/ FILES ${DirectMedia_SOURCE_FILES})
 
 add_library(DirectMedia
     ${DirectMedia_SOURCE_FILES}

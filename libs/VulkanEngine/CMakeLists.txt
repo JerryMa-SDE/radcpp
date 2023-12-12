@@ -1,11 +1,59 @@
 set(VULKAN_ENGINE_SOURCE_FILES
-    rad/VulkanEngine/3DMath.h
-    rad/VulkanEngine/3DMath.cpp
-    rad/VulkanEngine/VulkanWindow.h
-    rad/VulkanEngine/VulkanWindow.cpp
+    rad/VulkanEngine/Core.h
+    rad/VulkanEngine/Core/Internal/vk_enum_string_helper.h
+    rad/VulkanEngine/Core/Internal/vk_format_utils.h
+    rad/VulkanEngine/Core/Internal/vk_format_utils.cpp
+    rad/VulkanEngine/Core/VulkanBuffer.cpp
+    rad/VulkanEngine/Core/VulkanBuffer.h
+    rad/VulkanEngine/Core/VulkanCommandBuffer.cpp
+    rad/VulkanEngine/Core/VulkanCommandBuffer.h
+    rad/VulkanEngine/Core/VulkanCommandPool.cpp
+    rad/VulkanEngine/Core/VulkanCommandPool.h
+    rad/VulkanEngine/Core/VulkanCommon.cpp
+    rad/VulkanEngine/Core/VulkanCommon.h
+    rad/VulkanEngine/Core/VulkanDescriptorPool.cpp
+    rad/VulkanEngine/Core/VulkanDescriptorPool.h
+    rad/VulkanEngine/Core/VulkanDescriptorSet.cpp
+    rad/VulkanEngine/Core/VulkanDescriptorSet.h
+    rad/VulkanEngine/Core/VulkanDevice.cpp
+    rad/VulkanEngine/Core/VulkanDevice.h
+    rad/VulkanEngine/Core/VulkanEvent.cpp
+    rad/VulkanEngine/Core/VulkanEvent.h
+    rad/VulkanEngine/Core/VulkanFence.cpp
+    rad/VulkanEngine/Core/VulkanFence.h
+    rad/VulkanEngine/Core/VulkanFormat.cpp
+    rad/VulkanEngine/Core/VulkanFormat.h
+    rad/VulkanEngine/Core/VulkanFramebuffer.cpp
+    rad/VulkanEngine/Core/VulkanFramebuffer.h
+    rad/VulkanEngine/Core/VulkanImage.cpp
+    rad/VulkanEngine/Core/VulkanImage.h
+    rad/VulkanEngine/Core/VulkanInstance.cpp
+    rad/VulkanEngine/Core/VulkanInstance.h
+    rad/VulkanEngine/Core/VulkanObject.cpp
+    rad/VulkanEngine/Core/VulkanObject.h
+    rad/VulkanEngine/Core/VulkanPhysicalDevice.cpp
+    rad/VulkanEngine/Core/VulkanPhysicalDevice.h
+    rad/VulkanEngine/Core/VulkanPipeline.cpp
+    rad/VulkanEngine/Core/VulkanPipeline.h
+    rad/VulkanEngine/Core/VulkanQueue.cpp
+    rad/VulkanEngine/Core/VulkanQueue.h
+    rad/VulkanEngine/Core/VulkanRenderPass.cpp
+    rad/VulkanEngine/Core/VulkanRenderPass.h
+    rad/VulkanEngine/Core/VulkanSampler.cpp
+    rad/VulkanEngine/Core/VulkanSampler.h
+    rad/VulkanEngine/Core/VulkanSemaphore.cpp
+    rad/VulkanEngine/Core/VulkanSemaphore.h
+    rad/VulkanEngine/Core/VulkanShader.cpp
+    rad/VulkanEngine/Core/VulkanShader.h
+    rad/VulkanEngine/Core/VulkanSwapchain.cpp
+    rad/VulkanEngine/Core/VulkanSwapchain.h
+    rad/VulkanEngine/Core/VulkanMath.h
+    rad/VulkanEngine/Core/VulkanMath.cpp
+    rad/VulkanEngine/Gui/VulkanWindow.h
+    rad/VulkanEngine/Gui/VulkanWindow.cpp
 )
 
-source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${VULKAN_ENGINE_SOURCE_FILES})
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR}/rad/VulkanEngine/ FILES ${VULKAN_ENGINE_SOURCE_FILES})
 
 add_library(VulkanEngine
     ${VULKAN_ENGINE_SOURCE_FILES}
@@ -13,9 +61,13 @@ add_library(VulkanEngine
 
 target_include_directories(VulkanEngine
     PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
+    PUBLIC ${RADCPP_SOURCE_DIR}/imported/Vulkan-Headers/include/
+    PUBLIC ${RADCPP_SOURCE_DIR}/imported/volk/
+    PUBLIC ${RADCPP_SOURCE_DIR}/imported/VulkanMemoryAllocator/include/
+    PUBLIC ${RADCPP_SOURCE_DIR}/imported/spvgen/include/
 )
 
 target_link_libraries(VulkanEngine
-    PUBLIC VulkanCore
+    PUBLIC rad
     PUBLIC DirectMedia
 )

@@ -29,8 +29,6 @@ set_target_properties(imgui PROPERTIES FOLDER "imported")
 add_subdirectory(rad)
 add_subdirectory(sp1)
 
-add_subdirectory(libs/VulkanCore)
-set_target_properties(VulkanCore PROPERTIES FOLDER "libs")
 add_subdirectory(libs/DirectMedia)
 set_target_properties(DirectMedia PROPERTIES FOLDER "libs")
 add_subdirectory(libs/VulkanEngine)

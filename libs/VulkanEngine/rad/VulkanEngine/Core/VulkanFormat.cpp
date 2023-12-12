@@ -1,5 +1,5 @@
 #include "VulkanFormat.h"
-#include "helpers/vk_format_utils.h"
+#include "Internal/vk_format_utils.h"
 
 bool VulkanFormat::IsUNORM() const
 {

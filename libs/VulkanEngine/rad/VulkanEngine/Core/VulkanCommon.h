@@ -3,7 +3,6 @@
 
 #include "rad/Core/Integer.h"
 #include "rad/Core/Flags.h"
-#include "rad/Core/Numeric.h"
 #include "rad/Core/RefCounted.h"
 #include "rad/Core/Span.h"
 #include "rad/IO/Logging.h"
@@ -16,7 +15,7 @@
 #define VMA_DYNAMIC_VULKAN_FUNCTIONS 1
 #include "vk_mem_alloc.h"
 
-#include "helpers/vk_enum_string_helper.h"
+#include "Internal/vk_enum_string_helper.h"
 #include <exception>
 
 extern rad::LogCategory g_logVulkan;
@@ -32,9 +31,9 @@ private:
 }; // class VulkanError
 
 // Check Vulkan return code and throw VulkanError if result < 0
-void LogVulkanError(VkResult result, const char* function, const char* file, uint32_t line);
+void VulkanErrorHandler(VkResult result, const char* function, const char* file, uint32_t line);
 #define VK_CHECK(VulkanCall) \
-{ const VkResult r = VulkanCall; if (r < 0) { LogVulkanError(r, #VulkanCall, __FILE__, __LINE__); } }
+{ const VkResult r = VulkanCall; if (r < 0) { VulkanErrorHandler(r, #VulkanCall, __FILE__, __LINE__); } }
 
 enum VulkanQueueFamily : uint32_t
 {
@@ -44,17 +43,33 @@ enum VulkanQueueFamily : uint32_t
     VulkanQueueFamilyCount
 };
 
-std::string GetVulkanVersionString(uint32_t versionNumber);
+class VulkanVersion
+{
+public:
+    VulkanVersion(uint32_t version);
+    VulkanVersion(uint32_t major, uint32_t minor, uint32_t patch);
+    ~VulkanVersion();
+
+    uint32_t GetMajor() const { return VK_VERSION_MAJOR(m_version); }
+    uint32_t GetMinor() const { return VK_VERSION_MINOR(m_version); }
+    uint32_t GetPatch() const { return VK_VERSION_PATCH(m_version); }
+    std::string GetString() const;
+
+    operator uint32_t() const { return m_version; }
+
+private:
+    uint32_t m_version = 0;
+}; // class VulkanVersion
 
 template<typename Head, typename Last>
-void AppendVulkanStructureChain(Head& head, Last& last)
+void VkStructureChainAppend(Head& head, Last& last)
 {
-    VkBaseOutStructure* p = reinterpret_cast<VkBaseOutStructure*>(&head);
-    while (p->pNext != nullptr)
+    VkBaseOutStructure* iter = reinterpret_cast<VkBaseOutStructure*>(&head);
+    while (iter->pNext != nullptr)
     {
-        p = reinterpret_cast<VkBaseOutStructure*>(p->pNext);
+        iter = reinterpret_cast<VkBaseOutStructure*>(iter->pNext);
     }
-    p->pNext = reinterpret_cast<VkBaseOutStructure*>(&last);
+    iter->pNext = reinterpret_cast<VkBaseOutStructure*>(&last);
     last.pNext = nullptr;
 }
 
@@ -94,7 +109,9 @@ struct VulkanGraphicsPipelineCreateInfo : public rad::RefCounted<VulkanGraphicsP
     void AddVertexBinding(uint32_t binding, uint32_t stride,
         VkVertexInputRate inputRate = VK_VERTEX_INPUT_RATE_VERTEX);
     void AddVertexAttribute(uint32_t location, uint32_t binding, VkFormat format, uint32_t offset);
-    void AddVertexBindingWithAttributes(uint32_t binding, rad::Span<VkFormat> attribFormats);
+    // assume the vertex attributes are compacted in order.
+    void AddVertexBindingWithFormats(uint32_t binding, rad::Span<VkFormat> formats,
+        VkVertexInputRate inputRate = VK_VERTEX_INPUT_RATE_VERTEX);
 
     std::vector<rad::Ref<VulkanShader>> m_shaders;
 
@@ -163,7 +180,8 @@ struct VulkanGraphicsPipelineCreateInfo : public rad::RefCounted<VulkanGraphicsP
         std::vector<VkPipelineColorBlendAttachmentState> attachments;
         float                   blendConstants[4];
     } m_colorBlend;
-    void AddColorBendAttachmentState_Disabled();
+
+    void SetColorBlendDisabled(uint32_t attachCount);
 
     rad::Ref<VulkanPipelineLayout>  m_layout;
     rad::Ref<VulkanRenderPass>      m_renderPass;
