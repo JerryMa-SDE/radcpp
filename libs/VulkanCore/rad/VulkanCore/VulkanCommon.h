@@ -19,6 +19,9 @@
 #include "helpers/vk_enum_string_helper.h"
 #include <exception>
 
+extern rad::LogCategory g_logVulkan;
+#define LogVulkan(Level, Format, ...) g_logVulkan.Print(rad::LogLevel::Level, Format, ##__VA_ARGS__)
+
 class VulkanError : public std::exception
 {
 public:
@@ -27,9 +30,6 @@ public:
 private:
     VkResult m_result;
 }; // class VulkanError
-
-RAD_LOG_CATEGORY_DECLARE(Vulkan, Verbose);
-#define LogVulkan(Level, Format, ...) RAD_LOG(Vulkan, Level, Format, ##__VA_ARGS__)
 
 // Check Vulkan return code and throw VulkanError if result < 0
 void LogVulkanError(VkResult result, const char* function, const char* file, uint32_t line);

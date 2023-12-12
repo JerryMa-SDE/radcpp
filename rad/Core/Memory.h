@@ -5,6 +5,7 @@
 
 namespace rad
 {
+
 class MemoryDebug : public RefCounted<MemoryDebug>
 {
 public:

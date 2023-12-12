@@ -1,6 +1,7 @@
 set(RAD_SOURCE_FILES
     Core/Global.h
     Core/Global.cpp
+    Core/Compare.h
     Core/Memory.h
     Core/Memory.cpp
     Core/Integer.h

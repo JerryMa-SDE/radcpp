@@ -12,7 +12,8 @@
 #define strncasecmp _strnicmp
 #endif
 
-namespace rad {
+namespace rad
+{
 
 std::vector<std::string> StrSplit(std::string_view str, std::string_view delimiters, bool skipEmptySubStr = true);
 

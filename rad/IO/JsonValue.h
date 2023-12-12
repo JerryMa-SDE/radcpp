@@ -477,7 +477,7 @@ public:
     template <typename T>
     std::vector<T> GetVector(const T& t = T()) const
     {
-        if (IsArray())
+        if (IsValid() && IsArray())
         {
             std::vector<T> values;
             values.reserve((ArraySize()));

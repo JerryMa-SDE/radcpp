@@ -5,7 +5,8 @@
 #include <cstddef>
 #include <cstdint>
 
-namespace rad {
+namespace rad
+{
 
 /// Count the number of bits set in an unsigned integer.
 uint32_t CountBits(uint32_t x);

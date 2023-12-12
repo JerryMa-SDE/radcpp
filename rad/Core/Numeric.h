@@ -3,7 +3,8 @@
 #include "Global.h"
 #include "boost/numeric/conversion/cast.hpp"
 
-namespace rad {
+namespace rad
+{
 
 using boost::numeric_cast;
 using boost::numeric::bad_numeric_cast;

@@ -3,9 +3,10 @@
 
 #include <cstdarg>
 
-namespace rad {
+namespace rad
+{
 
-#ifndef RAD_NO_LOGGING
+LogCategory g_logGlobal("Global", LogLevel::Info);
 
 const char* g_logLevelStrings[int(LogLevel::Count)] =
 {
@@ -28,6 +29,7 @@ rad::File LogCategory::s_logFile;
 
 void LogCategory::Print(LogLevel level, const char* format, ...)
 {
+#ifndef RAD_NO_LOGGING
     std::chrono::system_clock::time_point timestamp = std::chrono::system_clock::now();
 
     thread_local std::string message;
@@ -60,10 +62,12 @@ void LogCategory::Print(LogLevel level, const char* format, ...)
     {
         Flush();
     }
+#endif
 }
 
 void LogCategory::Write(const char* data, size_t sizeInBytes)
 {
+#ifndef RAD_NO_LOGGING
     std::lock_guard lockGuard(s_outputMutex);
 
     if (!s_logFile.IsOpen())
@@ -82,6 +86,7 @@ void LogCategory::Write(const char* data, size_t sizeInBytes)
     {
         fprintf(stderr, "%s", data);
     }
+#endif
 }
 
 void LogCategory::Flush()
@@ -89,8 +94,4 @@ void LogCategory::Flush()
     s_logFile.Flush();
 }
 
-#endif // #ifndef RAD_NO_LOGGING
-
 } // namespace rad
-
-RAD_LOG_CATEGORY_DEFINE(Global);

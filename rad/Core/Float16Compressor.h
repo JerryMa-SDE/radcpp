@@ -8,7 +8,8 @@
 // Code from here: https://stackoverflow.com/a/3542975
 // Used under the Unlicense: http://choosealicense.com/licenses/unlicense/
 
-namespace rad {
+namespace rad
+{
 
 class Float16Compressor
 {
@@ -80,6 +81,7 @@ public:
         v.si |= sign;
         return v.f;
     }
+
 }; // class Float16Compressor
 
 } // namespace rad

@@ -1,13 +1,10 @@
 #pragma once
 
 #include "Global.h"
-#include <compare>
+#include "Compare.h"
 
-#if (__has_include(<compare>) && (__cpp_lib_three_way_comparison >= 201907L))
-#define RAD_FLAGS_HAS_SPACESHIP_OPERATOR 1
-#endif
-
-namespace rad {
+namespace rad
+{
 
 // Inspired by vk::Flags: https://github.com/KhronosGroup/Vulkan-Hpp
 // Specify mask type explicitly.
@@ -49,7 +46,7 @@ public:
     }
 
     // relational operators
-#if defined(RAD_FLAGS_HAS_SPACESHIP_OPERATOR)
+#if RAD_SUPPORT_SPACESHIP_OPERATOR
     auto operator<=>(Flags<Mask, Bit> const&) const = default;
 #else
     constexpr bool operator<(Flags<Mask, Bit> const& rhs) const noexcept
@@ -147,7 +144,7 @@ using Flags32 = Flags<uint32_t, Bit>;
 template<typename Bit>
 using Flags64 = Flags<uint64_t, Bit>;
 
-#if !defined(RAD_FLAGS_HAS_SPACESHIP_OPERATOR)
+#if RAD_SUPPORT_SPACESHIP_OPERATOR
 
 // relational operators only needed for pre C++20
 template <typename Mask, typename Bit>
@@ -186,7 +183,7 @@ constexpr bool operator!=(Bit bit, Flags<Mask, Bit> const& flags) noexcept
     return flags.operator!=(bit);
 }
 
-#endif // !defined(RAD_FLAGS_HAS_SPACESHIP_OPERATOR)
+#endif // RAD_SUPPORT_SPACESHIP_OPERATOR
 
 // bitwise operators
 template <typename Mask, typename Bit>

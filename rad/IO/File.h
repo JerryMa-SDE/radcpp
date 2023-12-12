@@ -4,7 +4,8 @@
 #include "rad/Core/String.h"
 #include <filesystem>
 
-namespace rad {
+namespace rad
+{
 
 using FileSystemError = std::filesystem::filesystem_error;
 
