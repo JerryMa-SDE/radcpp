@@ -1,4 +1,11 @@
+# script for radcpp build: install required packages and generate project files with CMake.
 Push-Location $PSScriptRoot
+
+if ($PSVersionTable.PSVersion.Major -lt 7)
+{
+    Write-Host "radcpp: the setup script requires PowerShell 7 and later!"
+    return
+}
 
 $psVersion = "$($PSVersionTable.PSVersion) $($PSVersionTable.PSEdition)"
 Write-Host "radcpp: Execute: $PSCommandPath `($psVersion`)"
@@ -143,4 +150,4 @@ $command = "cmake -S `"$sourceDir`" -B `"$buildDir`" -DCMAKE_TOOLCHAIN_FILE=`"$v
 Write-Host $command
 Invoke-Expression $command
 
-Pop-Location
+Pop-Location # $PSScriptRoot
