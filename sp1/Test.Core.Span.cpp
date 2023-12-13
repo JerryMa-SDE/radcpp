@@ -9,7 +9,7 @@ TEST(Core, Span)
     rad::Span<int> s1 = a1;
     rad::Span<int> s2 = a2;
 
-    s1 = s1.take_while([](int n)->bool { return (n <= 4); });
+    s1 = s1.take_while([](int n) { return (n <= 4); });
     EXPECT_EQ(s1.size(), 4);
     if (s1.size() == 4)
     {
@@ -18,7 +18,7 @@ TEST(Core, Span)
         EXPECT_EQ(s1[2], 3);
         EXPECT_EQ(s1[3], 4);
     }
-    s2 = s2.drop_while([](int n)->bool { return (n <= 4); });
+    s2 = s2.drop_while([](int n) { return (n <= 4); });
     EXPECT_EQ(s2.size(), 4);
     if (s2.size() == 4)
     {

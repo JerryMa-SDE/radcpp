@@ -16,30 +16,30 @@ public:
     }
 };
 
-class A : public Base
+class Entity : public Base
 {
 public:
-    A()
-    {
-    }
-    ~A()
-    {
-        EXPECT_EQ(GetRefCount(), 0);
-    }
+    Entity() {}
 };
 
 TEST(Core, RefCounted)
 {
-    // Lifetime Scope
+    EXPECT_EQ(g_instanceCount, 0);
     {
-        rad::Ref<Base> a1 = new A();
-        rad::Ref<Base> a2 = new A();
-        rad::Ref<Base> r1 = a1;
-        rad::Ref<Base> r2 = a2;
+        rad::Ref<Base> e1 = new Entity();
+        rad::Ref<Base> e2 = new Entity();
         EXPECT_EQ(g_instanceCount, 2);
-        a1 = a2;
+        EXPECT_EQ(e1->GetRefCount(), 1);
+        EXPECT_EQ(e2->GetRefCount(), 1);
+        rad::Ref<Base> r1 = e1;
+        rad::Ref<Base> r2 = e2;
+        EXPECT_EQ(g_instanceCount, 2);
+        EXPECT_EQ(e1->GetRefCount(), 2);
+        EXPECT_EQ(e2->GetRefCount(), 2);
         r1 = r2;
-        EXPECT_EQ(g_instanceCount, 1);
+        EXPECT_EQ(g_instanceCount, 2);
+        EXPECT_EQ(e1->GetRefCount(), 1); // e1
+        EXPECT_EQ(e2->GetRefCount(), 3); // e2, r1, r2
     }
     EXPECT_EQ(g_instanceCount, 0);
 }

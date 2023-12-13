@@ -19,7 +19,7 @@ void Release(const RefCounted<T>* p);
 template<class T>
 class RefCounted
 {
-protected:
+public:
     RefCounted() noexcept
     {
     }

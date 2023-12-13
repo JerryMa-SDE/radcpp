@@ -8,6 +8,15 @@
 namespace rad
 {
 
+using Int8 = int8_t;
+using Int16 = int16_t;
+using Int32 = int32_t;
+using Int64 = int64_t;
+using Uint8 = uint8_t;
+using Uint16 = uint16_t;
+using Uint32 = uint32_t;
+using Uint64 = uint64_t;
+
 /// Count the number of bits set in an unsigned integer.
 uint32_t CountBits(uint32_t x);
 
@@ -28,7 +37,9 @@ template <typename T>
 T Pow2AlignUp(T value, uint64_t alignment)
 {
     assert(IsPow2(alignment));
-    return ((value + static_cast<T>(alignment) - 1) & ~(static_cast<T>(alignment) - 1));
+    T res = ((value + static_cast<T>(alignment) - 1) & ~(static_cast<T>(alignment) - 1));
+    assert(res >= value); // overflow
+    return res;
 }
 
 template <typename T>
@@ -47,7 +58,9 @@ uint64_t RoundUpToPow2(uint64_t x);
 template<typename T>
 constexpr T RoundUpToMultiple(T value, T alignment)
 {
-    return (((value + (alignment - 1)) / alignment) * alignment);
+    T res = (((value + (alignment - 1)) / alignment) * alignment);
+    assert(res >= value); // overflow
+    return res;
 }
 
 template <typename T>

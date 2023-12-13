@@ -12,6 +12,7 @@
 #define RAD_DELETE delete
 #else
 #define RAD_NEW new
+#define RAD_PLACEMENT_NEW new
 #define RAD_DELETE delete
 #endif
 

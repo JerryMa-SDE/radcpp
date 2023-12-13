@@ -7,7 +7,7 @@ namespace rad
 {
 
 // Inspired by vk::Flags: https://github.com/KhronosGroup/Vulkan-Hpp
-// Specify mask type explicitly.
+// Specify Mask type explicitly.
 template <typename Mask, typename Bit>
 class Flags
 {
@@ -20,14 +20,14 @@ public:
 
     constexpr Flags(Flags<Mask, Bit> const& rhs) noexcept = default;
 
-    const Mask& GetMask() const
+    Mask GetMask() const
     {
         return m_mask;
     }
 
-    Mask& GetMask()
+    void SetMask(Mask mask)
     {
-        return m_mask;
+        m_mask = mask;
     }
 
     constexpr bool HasBits(Mask bits) noexcept

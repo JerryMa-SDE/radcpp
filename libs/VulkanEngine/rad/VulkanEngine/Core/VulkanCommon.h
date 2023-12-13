@@ -61,16 +61,35 @@ private:
     uint32_t m_version = 0;
 }; // class VulkanVersion
 
+// Construct structure chain: Head->S1->S2->S3
+// VK_STRUCTURE_CHAIN_BEGIN(Head); // will create a temporary var Head##ppNext
+// Append structures dynamically:
+// VK_STRUCTURE_CHAIN_ADD(Head, S1);
+// VK_STRUCTURE_CHAIN_ADD(Head, S2);
+// VK_STRUCTURE_CHAIN_ADD(Head, S3);
+// Set the last pNext to nullptr, terminate the chain:
+// VK_STRUCTURE_CHAIN_END(Head);
+#define VK_STRUCTURE_CHAIN_BEGIN(Head) \
+void** Head##ppNext = (void**)(&Head.pNext);
+#define VK_STRUCTURE_CHAIN_ADD(Head, Next) \
+*Head##ppNext = (void*)(&Next); \
+Head##ppNext = (void**)(&Next.pNext);
+#define VK_STRUCTURE_CHAIN_END(Head) \
+*Head##ppNext = nullptr;
+
+// Search from head, find the tail, append the new structure dynamically.
 template<typename Head, typename Last>
 void VkStructureChainAppend(Head& head, Last& last)
 {
     VkBaseOutStructure* iter = reinterpret_cast<VkBaseOutStructure*>(&head);
+    // Search the end:
     while (iter->pNext != nullptr)
     {
         iter = reinterpret_cast<VkBaseOutStructure*>(iter->pNext);
     }
+    // Append new structure:
     iter->pNext = reinterpret_cast<VkBaseOutStructure*>(&last);
-    last.pNext = nullptr;
+    last.pNext = nullptr; // terminate the chain.
 }
 
 class VulkanObject;

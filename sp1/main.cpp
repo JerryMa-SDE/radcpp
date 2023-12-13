@@ -5,7 +5,7 @@ int main(int argc, char** argv)
 {
     try
     {
-        TCLAP::CmdLine cmdLine("sp1 command line controls", ' ');
+        TCLAP::CmdLine cmdLine("Test Suite Priority 1");
         cmdLine.parse(argc, argv);
     }
     catch (TCLAP::ArgException& e)

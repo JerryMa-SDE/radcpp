@@ -353,28 +353,6 @@ public:
     Array GetArray() { return m_value->GetArray(); }
     ConstArray GetArray() const { return const_cast<const rapidjson::Value*>(m_value)->GetArray(); }
 
-    std::vector<JsonValueRef> GetArrayValues()
-    {
-        std::vector<JsonValueRef> arr;
-        arr.reserve(m_value->Size());
-        for (rapidjson::Value& value : m_value->GetArray())
-        {
-            arr.push_back(JsonValueRef(value));
-        }
-        return arr;
-    }
-
-    const std::vector<JsonValueRef> GetArrayValues() const
-    {
-        std::vector<JsonValueRef> arr;
-        arr.reserve(m_value->Size());
-        for (rapidjson::Value& value : m_value->GetArray())
-        {
-            arr.push_back(JsonValueRef(value));
-        }
-        return arr;
-    }
-
     // Support convertions from string (strto*) with base 2(0b), 8(0), 10, 16(0x/0X).
     int GetInt(int i = 0) const;
     uint32_t GetUint(uint32_t u = 0) const;
@@ -481,7 +459,7 @@ public:
         {
             std::vector<T> values;
             values.reserve((ArraySize()));
-            for (auto jValue : GetArrayValues())
+            for (JsonValueRef jValue : GetArray())
             {
                 values.push_back(jValue.Get<T>(t));
             }

@@ -1,4 +1,5 @@
 #include "Integer.h"
+#include <limits>
 
 #ifdef _WIN32
 #include <intrin.h>

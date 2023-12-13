@@ -65,24 +65,28 @@ void VulkanPhysicalDevice::QueryFeaturesAndProperties2()
     m_rayTracingPipelineFeatures = { VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_RAY_TRACING_PIPELINE_FEATURES_KHR };
     m_rayTracingPipelineProperties = { VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_RAY_TRACING_PIPELINE_PROPERTIES_KHR };
 
-    VkStructureChainAppend(m_features2, m_vulkan11Features);
-    VkStructureChainAppend(m_features2, m_vulkan12Features);
+    VK_STRUCTURE_CHAIN_BEGIN(m_features2);
+    VK_STRUCTURE_CHAIN_BEGIN(m_properties2);
+    VK_STRUCTURE_CHAIN_ADD(m_features2, m_vulkan11Features);
+    VK_STRUCTURE_CHAIN_ADD(m_features2, m_vulkan12Features);
 
     if (SupportsDeviceExtension("VK_KHR_synchronization2"))
     {
-        VkStructureChainAppend(m_features2, m_synchronization2Features);
+        VK_STRUCTURE_CHAIN_ADD(m_features2, m_synchronization2Features);
     }
     if (SupportsDeviceExtension("VK_KHR_acceleration_structure"))
     {
-        VkStructureChainAppend(m_features2, m_accelerationStructureFeatures);
-        VkStructureChainAppend(m_properties2, m_accelerationStructureProperties);
+        VK_STRUCTURE_CHAIN_ADD(m_features2, m_accelerationStructureFeatures);
+        VK_STRUCTURE_CHAIN_ADD(m_properties2, m_accelerationStructureProperties);
     }
     if (SupportsDeviceExtension("VK_KHR_ray_tracing_pipeline"))
     {
-        VkStructureChainAppend(m_features2, m_rayTracingPipelineFeatures);
-        VkStructureChainAppend(m_properties2, m_rayTracingPipelineProperties);
+        VK_STRUCTURE_CHAIN_ADD(m_features2, m_rayTracingPipelineFeatures);
+        VK_STRUCTURE_CHAIN_ADD(m_properties2, m_rayTracingPipelineProperties);
     }
 
+    VK_STRUCTURE_CHAIN_END(m_features2);
+    VK_STRUCTURE_CHAIN_END(m_properties2);
     vkGetPhysicalDeviceFeatures2(m_handle, &m_features2);
     vkGetPhysicalDeviceProperties2(m_handle, &m_properties2);
 }

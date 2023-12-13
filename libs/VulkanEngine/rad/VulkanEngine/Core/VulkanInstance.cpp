@@ -143,6 +143,7 @@ bool VulkanInstance::Init(std::string_view appName, uint32_t appVersion,
     instanceCreateInfo.ppEnabledLayerNames = enabledLayerNames.data();
     instanceCreateInfo.enabledExtensionCount = static_cast<uint32_t>(enabledExtensionNames.size());
     instanceCreateInfo.ppEnabledExtensionNames = enabledExtensionNames.data();
+    VK_STRUCTURE_CHAIN_BEGIN(instanceCreateInfo);
 
     VkDebugUtilsMessengerCreateInfoEXT debugMessengerCreateInfo = {};
     if (m_enableValidationLayer)
@@ -160,8 +161,10 @@ bool VulkanInstance::Init(std::string_view appName, uint32_t appVersion,
         debugMessengerCreateInfo.pfnUserCallback = DebugUtilsMessengerCallback;
         debugMessengerCreateInfo.pUserData = nullptr;
 
-        VkStructureChainAppend(instanceCreateInfo, debugMessengerCreateInfo);
+        VK_STRUCTURE_CHAIN_ADD(instanceCreateInfo, debugMessengerCreateInfo);
     }
+
+    VK_STRUCTURE_CHAIN_END(instanceCreateInfo);
 
     VK_CHECK(vkCreateInstance(&instanceCreateInfo, nullptr, &m_handle));
     if (m_handle)
