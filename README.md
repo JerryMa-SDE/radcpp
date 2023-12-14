@@ -1,8 +1,8 @@
 # radcpp
 Great C++ collections.
 
-## 16-bit Floating Point Number
+## How to Build
 
-Imath/half: [half (imath.readthedocs.io)](https://imath.readthedocs.io/en/latest/classes/half.html)
-
-rad/Core/Float16Compressor: [DirectML/Samples/DirectMLSuperResolution/Float16Compressor.h at master · microsoft/DirectML (github.com)](https://github.com/microsoft/DirectML/blob/master/Samples/DirectMLSuperResolution/Float16Compressor.h)
+- Install vcpkg: [Get started with vcpkg](https://vcpkg.io/en/getting-started.html)
+- Install PowerShell 7 (`pwsh`).
+- Set environment variable `VCPKG_ROOT`  to the root of vcpkg and execute `setup.ps1`, the script will install required packages, clone imported repos, and generate project files with CMake (into folder `radcpp/build`).
