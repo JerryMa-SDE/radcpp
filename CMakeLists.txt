@@ -33,3 +33,5 @@ add_subdirectory(libs/DirectMedia)
 set_target_properties(DirectMedia PROPERTIES FOLDER "libs")
 add_subdirectory(libs/VulkanEngine)
 set_target_properties(VulkanEngine PROPERTIES FOLDER "libs")
+
+add_subdirectory(samples/Painter)
