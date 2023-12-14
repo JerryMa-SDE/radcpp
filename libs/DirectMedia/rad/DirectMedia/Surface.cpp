@@ -1,8 +1,7 @@
 #include "Surface.h"
 #include "rad/IO/Logging.h"
 
-namespace DirectMedia
-{
+namespace DirectMedia {
 
 Surface::Surface()
 {

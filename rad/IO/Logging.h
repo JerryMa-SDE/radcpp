@@ -5,10 +5,7 @@
 #include <chrono>
 #include <mutex>
 
-namespace rad
-{
-
-#ifndef RAD_NO_LOGGING
+namespace rad {
 
 enum class LogLevel
 {
@@ -63,7 +60,5 @@ protected:
 
 extern LogCategory g_logGlobal;
 #define LogGlobal(Level, Format, ...) rad::g_logGlobal.Print(rad::LogLevel::Level, Format, ##__VA_ARGS__)
-
-#endif
 
 } // namespace rad

@@ -5,8 +5,7 @@
 #include "rad/Core/Span.h"
 #include "SDL2/SDL_render.h"
 
-namespace DirectMedia
-{
+namespace DirectMedia {
 
 class Renderer;
 

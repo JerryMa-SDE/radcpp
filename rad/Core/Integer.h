@@ -5,8 +5,7 @@
 #include <cstddef>
 #include <cstdint>
 
-namespace rad
-{
+namespace rad {
 
 using Int8 = int8_t;
 using Int16 = int16_t;

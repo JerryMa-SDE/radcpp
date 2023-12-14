@@ -1,8 +1,7 @@
 #include "GuiContext.h"
 #include "rad/IO/Logging.h"
 
-namespace DirectMedia
-{
+namespace DirectMedia {
 
 GuiContext::GuiContext(rad::Ref<Window> window, rad::Ref<Renderer> renderer) :
     m_window(std::move(window)),

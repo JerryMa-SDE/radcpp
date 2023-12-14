@@ -12,8 +12,7 @@
 
 #include <map>
 
-namespace rad
-{
+namespace rad {
 
 using JsonValue = rapidjson::Value;
 

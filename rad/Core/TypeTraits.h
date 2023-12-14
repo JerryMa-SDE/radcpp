@@ -3,8 +3,7 @@
 #include "Global.h"
 #include <cstdint>
 
-namespace rad
-{
+namespace rad {
 
 template<class T>
 constexpr auto UnderlyingCast(T t) noexcept

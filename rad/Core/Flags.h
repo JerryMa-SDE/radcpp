@@ -3,8 +3,7 @@
 #include "Global.h"
 #include "Compare.h"
 
-namespace rad
-{
+namespace rad {
 
 // Inspired by vk::Flags: https://github.com/KhronosGroup/Vulkan-Hpp
 // Specify Mask type explicitly.

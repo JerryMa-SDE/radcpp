@@ -4,8 +4,7 @@
 #include "rad/Core/Flags.h"
 #include "rad/IO/Logging.h"
 
-namespace DirectMedia
-{
+namespace DirectMedia {
 
 Renderer::Renderer(Window* window) :
     m_window(window)

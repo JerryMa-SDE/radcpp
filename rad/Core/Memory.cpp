@@ -1,7 +1,7 @@
 #include "Memory.h"
 
-namespace rad
-{
+namespace rad {
+
 // Windows CRT debug heap details:
 // https://learn.microsoft.com/en-us/cpp/c-runtime-library/crt-debug-heap-details
 

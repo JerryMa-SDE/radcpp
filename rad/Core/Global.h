@@ -30,3 +30,7 @@
 #define RAD_GNUC_PREREQ(major, minor, patch) 0
 #endif
 #endif // RAD_GNUC_PREREQ
+
+namespace rad {
+
+} // namespace rad

@@ -2,8 +2,7 @@
 #include "Renderer.h"
 #include "rad/IO/Logging.h"
 
-namespace DirectMedia
-{
+namespace DirectMedia {
 
 Texture::Texture(Renderer* renderer) :
     m_renderer(renderer)

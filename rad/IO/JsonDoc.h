@@ -3,8 +3,7 @@
 #include "rad/Core/Global.h"
 #include "JsonValue.h"
 
-namespace rad
-{
+namespace rad {
 
 using JsonValue = rapidjson::Value;
 

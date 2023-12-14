@@ -5,8 +5,7 @@
 #include <memory>
 #include <atomic>
 
-namespace rad
-{
+namespace rad {
 
 template<typename T>
 class RefCounted;

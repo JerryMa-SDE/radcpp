@@ -5,3 +5,7 @@
 #include "rad/IO/File.h"
 
 #include "boost/property_tree/ptree.hpp"
+
+namespace rad {
+
+} // namespace rad

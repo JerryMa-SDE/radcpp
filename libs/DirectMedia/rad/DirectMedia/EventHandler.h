@@ -4,8 +4,7 @@
 #include "rad/Core/RefCounted.h"
 #include "SDL2/SDL.h"
 
-namespace DirectMedia
-{
+namespace DirectMedia {
 
 class EventHandler : public rad::RefCounted<EventHandler>
 {

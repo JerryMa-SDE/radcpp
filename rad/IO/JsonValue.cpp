@@ -2,8 +2,7 @@
 #include "rapidjson/writer.h"
 #include "rapidjson/prettywriter.h"
 
-namespace rad
-{
+namespace rad {
 
 bool JsonValueRef::GetBool(bool b) const
 {

@@ -4,8 +4,7 @@
 #include "rad/Core/String.h"
 #include "EventHandler.h"
 
-namespace DirectMedia
-{
+namespace DirectMedia {
 
 class Window : public EventHandler
 {

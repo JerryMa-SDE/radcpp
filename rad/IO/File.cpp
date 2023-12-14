@@ -24,8 +24,7 @@
 
 #endif
 
-namespace rad
-{
+namespace rad {
 
 FilePath GetCurrentPath()
 {

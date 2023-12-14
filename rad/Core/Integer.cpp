@@ -5,8 +5,7 @@
 #include <intrin.h>
 #endif
 
-namespace rad
-{
+namespace rad {
 
 uint32_t CountBits(uint32_t x)
 {

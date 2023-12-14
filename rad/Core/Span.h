@@ -12,8 +12,7 @@
 #include <type_traits>
 #include <vector>
 
-namespace rad
-{
+namespace rad {
 
 /// Span refers to a contiguous sequence of objects, inspired by:
 /// https://llvm.org/doxygen/ArrayRef_8h_source.html.

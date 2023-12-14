@@ -2,8 +2,7 @@
 #include "Application.h"
 #include "rad/IO/Logging.h"
 
-namespace DirectMedia
-{
+namespace DirectMedia {
 
 Window::Window()
 {

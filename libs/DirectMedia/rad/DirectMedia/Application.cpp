@@ -8,8 +8,7 @@
 #include <Windows.h>
 #endif
 
-namespace DirectMedia
-{
+namespace DirectMedia {
 
 Application* Application::s_instance = nullptr;
 

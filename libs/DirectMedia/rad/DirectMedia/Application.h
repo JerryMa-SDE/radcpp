@@ -8,8 +8,7 @@
 #include <atomic>
 #include <set>
 
-namespace DirectMedia
-{
+namespace DirectMedia {
 
 struct DisplayInfo
 {

@@ -3,8 +3,7 @@
 #include "Global.h"
 #include "RefCounted.h"
 
-namespace rad
-{
+namespace rad {
 
 class MemoryDebug : public RefCounted<MemoryDebug>
 {

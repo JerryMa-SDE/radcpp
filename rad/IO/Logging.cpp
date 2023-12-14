@@ -3,8 +3,7 @@
 
 #include <cstdarg>
 
-namespace rad
-{
+namespace rad {
 
 LogCategory g_logGlobal("Global", LogLevel::Info);
 
