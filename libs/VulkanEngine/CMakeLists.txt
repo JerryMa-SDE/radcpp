@@ -49,8 +49,8 @@ set(VULKAN_ENGINE_SOURCE_FILES
     rad/VulkanEngine/Core/VulkanSwapchain.h
     rad/VulkanEngine/Core/VulkanMath.h
     rad/VulkanEngine/Core/VulkanMath.cpp
-    rad/VulkanEngine/Gui/VulkanWindow.h
-    rad/VulkanEngine/Gui/VulkanWindow.cpp
+    rad/VulkanEngine/Framework/VulkanWindow.h
+    rad/VulkanEngine/Framework/VulkanWindow.cpp
 )
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR}/rad/VulkanEngine/ FILES ${VULKAN_ENGINE_SOURCE_FILES})

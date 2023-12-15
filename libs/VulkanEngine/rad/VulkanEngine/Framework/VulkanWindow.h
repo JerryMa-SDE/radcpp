@@ -2,7 +2,8 @@
 #define VULKAN_WINDOW_H
 
 #include "rad/DirectMedia/Window.h"
-#include "rad/VulkanEngine/Core.h"
+#include "rad/VulkanEngine/Core/VulkanInstance.h"
+#include "rad/VulkanEngine/Core/VulkanDevice.h"
 
 class VulkanWindow : public DirectMedia::Window
 {
