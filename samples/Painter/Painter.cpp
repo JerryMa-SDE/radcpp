@@ -127,7 +127,7 @@ void Painter::OnMouseWheel(const SDL_MouseWheelEvent& mouseWheel)
 
 void Painter::OnRender()
 {
-    m_guiContext->StartFrame();
+    m_guiContext->NewFrame();
 
     ImDrawList* bgDrawList = ImGui::GetBackgroundDrawList();
 
@@ -135,24 +135,19 @@ void Painter::OnRender()
     ImGui::ColorPicker4("ClearColor", &m_clearColor.x);
     ImGui::End();
 
-    m_guiContext->Render();
+    m_guiContext->PrepareDrawData();
 
-    m_renderer->SetScale(
-        m_guiContext->GetIO().DisplayFramebufferScale.x,
-        m_guiContext->GetIO().DisplayFramebufferScale.y
-    );
+    ImVec2 scale = m_guiContext->GetIO().DisplayFramebufferScale;
+    m_guiContext->SetScale(scale.x, scale.y);
 
-    m_renderer->SetDrawColor(
+    m_guiContext->Clear(
         Uint8(m_clearColor.x * 255),
         Uint8(m_clearColor.y * 255),
         Uint8(m_clearColor.z * 255),
         Uint8(m_clearColor.w * 255)
     );
-    m_renderer->Clear();
-
-    m_guiContext->RenderDrawData();
-
-    m_renderer->Present();
+    m_guiContext->Render();
+    m_guiContext->Present();
 }
 
 const char* Painter::GetMouseButtonName(Uint8 button)

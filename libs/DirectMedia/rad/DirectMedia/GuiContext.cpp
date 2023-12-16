@@ -3,9 +3,9 @@
 
 namespace DirectMedia {
 
-GuiContext::GuiContext(rad::Ref<Window> window, rad::Ref<Renderer> renderer) :
-    m_window(std::move(window)),
-    m_renderer(std::move(renderer))
+GuiContext::GuiContext(Window* window, Renderer* renderer) :
+    m_window(window),
+    m_renderer(renderer)
 {
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -33,7 +33,7 @@ bool GuiContext::ProcessEvent(const SDL_Event& event)
     return ImGui_ImplSDL2_ProcessEvent(&event);
 }
 
-void GuiContext::StartFrame()
+void GuiContext::NewFrame()
 {
     // Start the Dear ImGui frame
     ImGui_ImplSDLRenderer2_NewFrame();
@@ -41,15 +41,42 @@ void GuiContext::StartFrame()
     ImGui::NewFrame();
 }
 
-void GuiContext::Render()
+void GuiContext::PrepareDrawData()
 {
     ImGui::Render();
 }
 
-void GuiContext::RenderDrawData()
+void GuiContext::Render()
 {
     ImGuiIO& io = ImGui::GetIO();
     ImGui_ImplSDLRenderer2_RenderDrawData(ImGui::GetDrawData());
+}
+
+void GuiContext::Present()
+{
+    m_renderer->Present();
+}
+
+void GuiContext::SetScale(float scaleX, float scaleY)
+{
+    m_renderer->SetScale(scaleX, scaleY);
+}
+
+void GuiContext::Clear(float r, float g, float b, float a)
+{
+    m_renderer->SetDrawColor(
+        Uint8(r * 255),
+        Uint8(g * 255),
+        Uint8(b * 255),
+        Uint8(a * 255)
+    );
+    m_renderer->Clear();
+}
+
+void GuiContext::Clear(Uint8 r, Uint8 g, Uint8 b, Uint8 a)
+{
+    m_renderer->SetDrawColor(r, g, b, a);
+    m_renderer->Clear();
 }
 
 } // namespace DirectMedia

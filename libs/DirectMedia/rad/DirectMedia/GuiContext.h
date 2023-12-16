@@ -13,7 +13,7 @@ namespace DirectMedia {
 class GuiContext : public rad::RefCounted<GuiContext>
 {
 public:
-    GuiContext(rad::Ref<Window> window, rad::Ref<Renderer> renderer);
+    GuiContext(Window* window, Renderer* renderer);
     ~GuiContext();
 
     ImGuiIO& GetIO() { return ImGui::GetIO(); }
@@ -21,13 +21,18 @@ public:
     ImFontAtlas* GetFonts() { return ImGui::GetIO().Fonts; }
 
     bool ProcessEvent(const SDL_Event& event);
-    void StartFrame();
+    void NewFrame();
+    void PrepareDrawData();
     void Render();
-    void RenderDrawData();
+    void Present();
+
+    void SetScale(float scaleX, float scaleY);
+    void Clear(Uint8 r, Uint8 g, Uint8 b, Uint8 a);
+    void Clear(float r, float g, float b, float a);
 
 private:
-    rad::Ref<Window> m_window;
-    rad::Ref<Renderer> m_renderer;
+    Window* m_window;
+    Renderer* m_renderer;
 
 }; // class GuiContext
 
