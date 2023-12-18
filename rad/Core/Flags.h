@@ -24,6 +24,16 @@ public:
         return m_mask;
     }
 
+    Mask* operator&()
+    {
+        return &m_mask;
+    }
+
+    const Mask* operator&() const
+    {
+        return &m_mask;
+    }
+
     void SetMask(Mask mask)
     {
         m_mask = mask;

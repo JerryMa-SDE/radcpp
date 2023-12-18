@@ -29,5 +29,6 @@ TEST(Core, Flags)
     flags ^= FlagBits::Bit2;
     flags ^= FlagBits::Bit4;
     flags ^= FlagBits::Bit6;
-    EXPECT_EQ(flags.m_mask, 0b10101010);
+    uint32_t* pMask = &flags;
+    EXPECT_EQ(*pMask, 0b10101010);
 }
