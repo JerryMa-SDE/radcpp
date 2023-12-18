@@ -103,16 +103,18 @@ void VulkanGraphicsPipelineCreateInfo::AddVertexBindingWithFormats(
     m_vertexInput.bindings.push_back(vertexBindingDesc);
 }
 
-void VulkanGraphicsPipelineCreateInfo::SetColorBlendDisabled(uint32_t attachCount)
+void VulkanGraphicsPipelineCreateInfo::SetColorBlendDisabled(uint32_t attachIndex)
 {
-    m_colorBlend.attachments.resize(attachCount);
-    for (VkPipelineColorBlendAttachmentState& state : m_colorBlend.attachments)
+    if (m_colorBlend.attachments.size() <= attachIndex)
     {
-        state.blendEnable = VK_FALSE;
-        state.colorWriteMask =
-            VK_COLOR_COMPONENT_R_BIT |
-            VK_COLOR_COMPONENT_G_BIT |
-            VK_COLOR_COMPONENT_B_BIT |
-            VK_COLOR_COMPONENT_A_BIT;
+        m_colorBlend.attachments.resize(attachIndex + 1);
     }
+
+    auto& state = m_colorBlend.attachments[attachIndex];
+    state.blendEnable = VK_FALSE;
+    state.colorWriteMask =
+        VK_COLOR_COMPONENT_R_BIT |
+        VK_COLOR_COMPONENT_G_BIT |
+        VK_COLOR_COMPONENT_B_BIT |
+        VK_COLOR_COMPONENT_A_BIT;
 }

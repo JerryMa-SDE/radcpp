@@ -83,6 +83,18 @@ int Window::GetDisplayMode(SDL_DisplayMode* displayMode)
     return SDL_GetWindowDisplayMode(m_handle, displayMode);
 }
 
+float Window::GetDisplayDPI(int displayIndex)
+{
+    float ddpi = 96.0f;
+    float hdpi = 96.0f;
+    float vdpi = 96.0f;
+    if (SDL_GetDisplayDPI(displayIndex, &ddpi, &hdpi, &vdpi) != 0)
+    {
+        LogGlobal(Error, "SDL_GetDisplayDPI: %s", SDL_GetError());
+    }
+    return (hdpi + vdpi) / 2.0f;
+}
+
 float Window::GetDisplayDPI()
 {
     assert(m_handle != nullptr);

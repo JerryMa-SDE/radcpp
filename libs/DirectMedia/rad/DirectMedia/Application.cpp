@@ -53,6 +53,11 @@ bool Application::Init(int argc, char** argv)
     LogGlobal(Info, "BasePath: %s", basePath);
     SDL_free(basePath);
 
+    // From 2.0.18: Enable native IME.
+#ifdef SDL_HINT_IME_SHOW_UI
+    SDL_SetHint(SDL_HINT_IME_SHOW_UI, "1");
+#endif
+
     UpdateDisplayInfos();
 
     return true;

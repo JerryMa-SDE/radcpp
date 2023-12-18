@@ -33,6 +33,7 @@ public:
     // Get the index of the display associated with a window.
     int GetDisplayIndex();
     int GetDisplayMode(SDL_DisplayMode* displayMode);
+    float GetDisplayDPI(int displayIndex);
     float GetDisplayDPI();
     int GetFlags();
     bool IsMinimized();
