@@ -12,6 +12,7 @@
 #include "Core/VulkanFormat.h"
 #include "Core/VulkanFramebuffer.h"
 #include "Core/VulkanImage.h"
+#include "Core/VulkanTexture.h"
 #include "Core/VulkanInstance.h"
 #include "Core/VulkanObject.h"
 #include "Core/VulkanPhysicalDevice.h"

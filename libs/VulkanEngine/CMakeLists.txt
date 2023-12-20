@@ -27,6 +27,8 @@ set(VULKAN_ENGINE_SOURCE_FILES
     rad/VulkanEngine/Core/VulkanFramebuffer.h
     rad/VulkanEngine/Core/VulkanImage.cpp
     rad/VulkanEngine/Core/VulkanImage.h
+    rad/VulkanEngine/Core/VulkanTexture.cpp
+    rad/VulkanEngine/Core/VulkanTexture.h
     rad/VulkanEngine/Core/VulkanInstance.cpp
     rad/VulkanEngine/Core/VulkanInstance.h
     rad/VulkanEngine/Core/VulkanObject.cpp
@@ -69,9 +71,32 @@ target_include_directories(VulkanEngine
     PUBLIC ${RADCPP_SOURCE_DIR}/imported/volk/
     PUBLIC ${RADCPP_SOURCE_DIR}/imported/VulkanMemoryAllocator/include/
     PUBLIC ${RADCPP_SOURCE_DIR}/imported/spvgen/include/
+    PRIVATE ${RADCPP_SOURCE_DIR}/imported/Compressonator/include/
 )
+
+if(WIN32)
 
 target_link_libraries(VulkanEngine
     PUBLIC rad
     PUBLIC DirectMedia
+    PRIVATE ${RADCPP_SOURCE_DIR}/imported/Compressonator/lib/VS2019/x64/CMP_Core_MT_DLL.lib
+    PRIVATE ${RADCPP_SOURCE_DIR}/imported/Compressonator/lib/VS2019/x64/CMP_Framework_MT_DLL.lib
+    PRIVATE ${RADCPP_SOURCE_DIR}/imported/Compressonator/lib/VS2019/x64/Compressonator_MT_DLL.lib
 )
+
+add_custom_command(TARGET VulkanEngine POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy
+        ${RADCPP_SOURCE_DIR}/imported/spvgen/build/Release/spvgen.dll
+        ${CMAKE_CURRENT_BINARY_DIR}
+    COMMAND ${CMAKE_COMMAND} -E copy
+        ${RADCPP_SOURCE_DIR}/imported/Compressonator/lib/VS2019/x64/CMP_Core_MT_DLL.dll
+        ${CMAKE_CURRENT_BINARY_DIR}
+    COMMAND ${CMAKE_COMMAND} -E copy
+        ${RADCPP_SOURCE_DIR}/imported/Compressonator/lib/VS2019/x64/CMP_Framework_MT_DLL.dll
+        ${CMAKE_CURRENT_BINARY_DIR}
+    COMMAND ${CMAKE_COMMAND} -E copy
+        ${RADCPP_SOURCE_DIR}/imported/Compressonator/lib/VS2019/x64/Compressonator_MT_DLL.dll
+        ${CMAKE_CURRENT_BINARY_DIR}
+)
+
+endif()
