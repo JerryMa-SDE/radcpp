@@ -1,6 +1,7 @@
 set(SP1_SOURCE_FILES
     main.cpp
     Test.Core.Integer.cpp
+    Test.Core.Float.cpp
     Test.Core.String.cpp
     Test.Core.Span.cpp
     Test.Core.TypeTraits.cpp

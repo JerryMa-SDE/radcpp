@@ -6,6 +6,8 @@ set(RAD_SOURCE_FILES
     Core/Memory.cpp
     Core/Integer.h
     Core/Integer.cpp
+    Core/Float.h
+    Core/Float.cpp
     Core/String.h
     Core/String.cpp
     Core/Span.h
