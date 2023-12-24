@@ -1,19 +1,28 @@
 #include "gtest/gtest.h"
 #include "rad/Core/Float.h"
+#include "rad/IO/Logging.h"
+
+float g_maxEpsilonU8 = 0.0f;
+float g_maxEpsilonU16 = 0.0f;
+float g_maxEpsilonU32 = 0.0f;
 
 void TestFloatQuantizeUnorm8(float normalized)
 {
     float f32 = normalized;
     uint8_t u8 = rad::QuantizeUnorm8(f32);
     f32 = rad::DequantizeUnorm8(u8);
-    float epsilon = f32 - normalized;
+    float epsilon = std::abs(f32 - normalized);
+    EXPECT_TRUE(epsilon < 0.002f);
     for (size_t i = 0; i < 1000; ++i)
     {
         u8 = rad::QuantizeUnorm8(f32);
         f32 = rad::DequantizeUnorm8(u8);
-        EXPECT_TRUE(epsilon >= f32 - normalized);
+        EXPECT_TRUE(std::abs(f32 - normalized) <= epsilon);
     }
-    EXPECT_TRUE(f32 - normalized < 0.01f);
+    if (g_maxEpsilonU8 < epsilon)
+    {
+        g_maxEpsilonU8 = epsilon;
+    }
 }
 
 void TestFloatQuantizeUnorm16(float normalized)
@@ -21,14 +30,18 @@ void TestFloatQuantizeUnorm16(float normalized)
     float f32 = normalized;
     uint16_t u16 = rad::QuantizeUnorm16(f32);
     f32 = rad::DequantizeUnorm16(u16);
-    float epsilon = f32 - normalized;
+    float epsilon = std::abs(f32 - normalized);
+    EXPECT_TRUE(epsilon < 0.0001f);
     for (size_t i = 0; i < 1000; ++i)
     {
         u16 = rad::QuantizeUnorm16(f32);
         f32 = rad::DequantizeUnorm16(u16);
-        EXPECT_TRUE(epsilon >= f32 - normalized);
+        EXPECT_TRUE(std::abs(f32 - normalized) <= epsilon);
     }
-    EXPECT_TRUE(f32 - normalized < 0.01f);
+    if (g_maxEpsilonU16 < epsilon)
+    {
+        g_maxEpsilonU16 = epsilon;
+    }
 }
 
 void TestFloatQuantizeUnorm32(float normalized)
@@ -36,14 +49,18 @@ void TestFloatQuantizeUnorm32(float normalized)
     float f32 = normalized;
     uint32_t u32 = rad::QuantizeUnorm32(f32);
     f32 = rad::DequantizeUnorm32(u32);
-    float epsilon = f32 - normalized;
+    float epsilon = std::abs(f32 - normalized);
+    EXPECT_TRUE(epsilon < 0.000001f);
     for (size_t i = 0; i < 1000; ++i)
     {
         u32 = rad::QuantizeUnorm32(f32);
         f32 = rad::DequantizeUnorm32(u32);
-        EXPECT_TRUE(epsilon >= f32 - normalized);
+        EXPECT_TRUE(std::abs(f32 - normalized) <= epsilon);
     }
-    EXPECT_TRUE(f32 - normalized < 0.01f);
+    if (g_maxEpsilonU32 < epsilon)
+    {
+        g_maxEpsilonU32 = epsilon;
+    }
 }
 
 void TestFloatQuantize(float normalized)
@@ -85,9 +102,12 @@ TEST(Core, Float)
     EXPECT_EQ(u32, UINT32_MAX);
     EXPECT_EQ(f32, rad::DequantizeUnorm32(u32));
 
-    for (uint32_t i = 0; i < 256; ++i)
+    for (float f = 0.0f; f <= 1.0f; f += 0.0001f)
     {
-        float normalized = rad::DequantizeUnorm8(uint8_t(i));
-        TestFloatQuantize(normalized);
+        TestFloatQuantize(f);
     }
+
+    LogGlobal(Info, "Max Epsilon Quantize/DequantizeUnorm8: %f", g_maxEpsilonU8);
+    LogGlobal(Info, "Max Epsilon Quantize/DequantizeUnorm16: %f", g_maxEpsilonU16);
+    LogGlobal(Info, "Max Epsilon Quantize/DequantizeUnorm32: %f", g_maxEpsilonU32);
 }
