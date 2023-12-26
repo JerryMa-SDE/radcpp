@@ -123,6 +123,86 @@ void VulkanCommandBuffer::NextSubpass(VkSubpassContents contents)
         vkCmdNextSubpass(m_handle, contents);
 }
 
+void VulkanCommandBuffer::BeginRendering(const VkRenderingInfoKHR& renderingInfo)
+{
+    vkCmdBeginRenderingKHR(m_handle, &renderingInfo);
+}
+
+void VulkanCommandBuffer::BeginRendering(rad::Span<VulkanImageView*> colorViews, VulkanImageView* depthStencilView,
+    bool loadClear, const VkClearColorValue& clearColor, const VkClearDepthStencilValue& clearDepthStencil)
+{
+    std::vector<VkRenderingAttachmentInfoKHR> colorInfos = {};
+    colorInfos.reserve(colorViews.size());
+    for (auto colorView : colorViews)
+    {
+        VkRenderingAttachmentInfoKHR colorInfo = {};
+        colorInfo.sType = VK_STRUCTURE_TYPE_RENDERING_ATTACHMENT_INFO_KHR;
+        colorInfo.imageView = colorView->GetHandle();
+        colorInfo.imageLayout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
+        if (loadClear)
+        {
+            colorInfo.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
+        }
+        else
+        {
+            colorInfo.loadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
+        }
+        colorInfo.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
+        colorInfo.clearValue.color = clearColor;
+        colorInfos.push_back(colorInfo);
+    }
+
+    VkRenderingAttachmentInfoKHR depthStencilInfo = {};
+    if (depthStencilView)
+    {
+        depthStencilInfo.sType = VK_STRUCTURE_TYPE_RENDERING_ATTACHMENT_INFO_KHR;
+        depthStencilInfo.imageView = depthStencilView->GetHandle();
+        depthStencilInfo.imageLayout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
+        if (loadClear)
+        {
+            depthStencilInfo.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
+        }
+        else
+        {
+            depthStencilInfo.loadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
+        }
+        depthStencilInfo.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
+        depthStencilInfo.clearValue.depthStencil = clearDepthStencil;
+    }
+
+    uint32_t width = 0;
+    uint32_t height = 0;
+    if (!colorViews.empty())
+    {
+        width = colorViews[0]->GetImage()->GetWidth();
+        height = colorViews[0]->GetImage()->GetHeight();
+    }
+    else if (depthStencilView)
+    {
+        width = depthStencilView->GetImage()->GetWidth();
+        height = depthStencilView->GetImage()->GetHeight();
+    }
+
+    VkRenderingInfoKHR renderingInfo = {};
+    renderingInfo.sType = VK_STRUCTURE_TYPE_RENDERING_INFO_KHR;
+    renderingInfo.renderArea = { 0, 0, width, height };
+    renderingInfo.layerCount = 1;
+    renderingInfo.colorAttachmentCount = 1;
+    renderingInfo.pColorAttachments = colorInfos.data();
+    if (depthStencilView)
+    {
+        renderingInfo.pDepthAttachment = &depthStencilInfo;
+        renderingInfo.pStencilAttachment = &depthStencilInfo;
+    }
+
+    BeginRendering(renderingInfo);
+}
+
+void VulkanCommandBuffer::EndRendering()
+{
+    vkCmdEndRenderingKHR(m_handle);
+}
+
 void VulkanCommandBuffer::BindPipeline(VulkanPipeline* pipeline)
 {
     m_device->GetFunctionTable()->

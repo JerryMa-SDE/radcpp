@@ -208,6 +208,9 @@ struct VulkanGraphicsPipelineCreateInfo : public rad::RefCounted<VulkanGraphicsP
     rad::Ref<VulkanPipeline>        m_basePipeline;
     int32_t                         m_basePipelineIndex = 0;
 
+    VkPipelineRenderingCreateInfoKHR m_renderingInfo = {};
+    void SetRenderingInfo(rad::Span<VkFormat> colorFormats, VkFormat depthStencilFormat);
+
 }; // struct VulkanGraphicsPipelineCreateInfo
 
 struct VulkanComputePipelineCreateInfo : public rad::RefCounted<VulkanComputePipelineCreateInfo>

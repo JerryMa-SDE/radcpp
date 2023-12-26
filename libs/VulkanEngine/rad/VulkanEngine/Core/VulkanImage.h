@@ -91,6 +91,7 @@ public:
     ~VulkanImageView();
 
     VkImageView GetHandle() const { return m_handle; }
+    VulkanImage* GetImage() const { return m_image.get(); }
 
 private:
     rad::Ref<VulkanDevice>      m_device;

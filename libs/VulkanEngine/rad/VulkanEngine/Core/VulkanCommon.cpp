@@ -118,3 +118,12 @@ void VulkanGraphicsPipelineCreateInfo::SetColorBlendDisabled(uint32_t attachInde
         VK_COLOR_COMPONENT_B_BIT |
         VK_COLOR_COMPONENT_A_BIT;
 }
+
+void VulkanGraphicsPipelineCreateInfo::SetRenderingInfo(rad::Span<VkFormat> colorFormats, VkFormat depthStencilFormat)
+{
+    m_renderingInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_RENDERING_CREATE_INFO_KHR;
+    m_renderingInfo.colorAttachmentCount = uint32_t(colorFormats.size());
+    m_renderingInfo.pColorAttachmentFormats = colorFormats.data();
+    m_renderingInfo.depthAttachmentFormat = depthStencilFormat;
+    m_renderingInfo.stencilAttachmentFormat = depthStencilFormat;
+}

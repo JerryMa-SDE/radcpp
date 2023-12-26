@@ -35,6 +35,12 @@ public:
     void EndRenderPass();
     void NextSubpass(VkSubpassContents contents);
 
+    void BeginRendering(const VkRenderingInfoKHR& renderingInfo);
+    void BeginRendering(rad::Span<VulkanImageView*> colorViews, VulkanImageView* depthStencilView,
+        bool loadClear = false, const VkClearColorValue& clearColor = {},
+        const VkClearDepthStencilValue& clearDepthStencil = { 1.0f, 0 });
+    void EndRendering();
+
     void BindPipeline(VulkanPipeline* pipeline);
     void BindDescriptorSets(VulkanPipeline* pipeline, VulkanPipelineLayout* layout,
         uint32_t firstSet, rad::Span<VulkanDescriptorSet*> descSets,
