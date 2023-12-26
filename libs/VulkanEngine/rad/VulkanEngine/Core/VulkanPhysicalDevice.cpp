@@ -71,20 +71,20 @@ void VulkanPhysicalDevice::QueryFeaturesAndProperties2()
     VK_STRUCTURE_CHAIN_ADD(m_features2, m_vulkan11Features);
     VK_STRUCTURE_CHAIN_ADD(m_features2, m_vulkan12Features);
 
-    if (SupportsDeviceExtension("VK_KHR_synchronization2"))
+    if (IsExtensionSupported("VK_KHR_synchronization2"))
     {
         VK_STRUCTURE_CHAIN_ADD(m_features2, m_synchronization2Features);
     }
-    if (SupportsDeviceExtension(VK_KHR_DYNAMIC_RENDERING_EXTENSION_NAME))
+    if (IsExtensionSupported(VK_KHR_DYNAMIC_RENDERING_EXTENSION_NAME))
     {
         VK_STRUCTURE_CHAIN_ADD(m_features2, m_dynamicRenderingFeatures);
     }
-    if (SupportsDeviceExtension("VK_KHR_acceleration_structure"))
+    if (IsExtensionSupported("VK_KHR_acceleration_structure"))
     {
         VK_STRUCTURE_CHAIN_ADD(m_features2, m_accelerationStructureFeatures);
         VK_STRUCTURE_CHAIN_ADD(m_properties2, m_accelerationStructureProperties);
     }
-    if (SupportsDeviceExtension("VK_KHR_ray_tracing_pipeline"))
+    if (IsExtensionSupported("VK_KHR_ray_tracing_pipeline"))
     {
         VK_STRUCTURE_CHAIN_ADD(m_features2, m_rayTracingPipelineFeatures);
         VK_STRUCTURE_CHAIN_ADD(m_properties2, m_rayTracingPipelineProperties);
@@ -96,7 +96,7 @@ void VulkanPhysicalDevice::QueryFeaturesAndProperties2()
     vkGetPhysicalDeviceProperties2(m_handle, &m_properties2);
 }
 
-bool VulkanPhysicalDevice::SupportsDeviceExtension(std::string_view extensionName) const
+bool VulkanPhysicalDevice::IsExtensionSupported(std::string_view extensionName) const
 {
     for (const VkExtensionProperties& extension : m_extensionProperties)
     {
@@ -135,18 +135,10 @@ VkFormat VulkanPhysicalDevice::FindFormat(
     return VK_FORMAT_UNDEFINED;
 }
 
-bool VulkanPhysicalDevice::SupportsSurface(uint32_t queueFamilyIndex, VkSurfaceKHR surface) const
-{
-    VkBool32 supported = false;
-    VK_CHECK(vkGetPhysicalDeviceSurfaceSupportKHR(m_handle, queueFamilyIndex, surface, &supported));
-    return (supported == VK_TRUE);
-}
-
 VkSurfaceCapabilitiesKHR VulkanPhysicalDevice::GetSurfaceCapabilities(VkSurfaceKHR surface)
 {
     VkSurfaceCapabilitiesKHR surfaceCapabilities = {};
-    VK_CHECK(
-        vkGetPhysicalDeviceSurfaceCapabilitiesKHR(m_handle, surface, &surfaceCapabilities));
+    VK_CHECK(vkGetPhysicalDeviceSurfaceCapabilitiesKHR(m_handle, surface, &surfaceCapabilities));
     return surfaceCapabilities;
 }
 
@@ -199,10 +191,10 @@ rad::Ref<VulkanDevice> VulkanPhysicalDevice::CreateDevice()
         }
     }
 
-    if (!m_instance->SupportsExtension("VK_KHR_get_physical_device_properties2") ||
-        !m_instance->SupportsExtension("VK_KHR_surface") ||
-        !m_instance->SupportsExtension("VK_KHR_get_surface_capabilities2") ||
-        !m_instance->SupportsExtension("VK_KHR_swapchain"))
+    if (!m_instance->IsExtensionSupported("VK_KHR_get_physical_device_properties2") ||
+        !m_instance->IsExtensionSupported("VK_KHR_surface") ||
+        !m_instance->IsExtensionSupported("VK_KHR_get_surface_capabilities2") ||
+        !m_instance->IsExtensionSupported("VK_KHR_swapchain"))
     {
         extensionNames.erase("VK_EXT_full_screen_exclusive");
     }

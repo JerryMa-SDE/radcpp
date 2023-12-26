@@ -92,6 +92,15 @@ void vkStructureChainAppend(Head& head, Last& last)
     last.pNext = nullptr; // terminate the chain.
 }
 
+template<typename Head, typename Last>
+void vkStructureChainInsert(Head& head, Last& next)
+{
+    VkBaseOutStructure* pHeadBase = reinterpret_cast<VkBaseOutStructure*>(&head);
+    VkBaseOutStructure* pNextBase = reinterpret_cast<VkBaseOutStructure*>(&next);
+    pNextBase->pNext = pHeadBase->pNext;
+    pHeadBase->pNext = (void*)(&next);
+}
+
 class VulkanObject;
 class VulkanInstance;
 class VulkanPhysicalDevice;

@@ -34,7 +34,7 @@ VulkanDevice::VulkanDevice(
 
     for (size_t i = 0; i < VulkanQueueFamilyCount; ++i)
     {
-        m_queueFamilyIndices[i] = VK_QUEUE_FAMILY_IGNORED;
+        m_queueFamilyIndex[i] = VK_QUEUE_FAMILY_IGNORED;
     }
 
     const std::vector<VkQueueFamilyProperties>& queueFamilyProps =
@@ -48,10 +48,10 @@ VulkanDevice::VulkanDevice(
 
         rad::Flags32<VkQueueFlagBits> queueFlags(queueFamilyProps[i].queueFlags);
 
-        if ((m_queueFamilyIndices[VulkanQueueFamilyUniversal] == VK_QUEUE_FAMILY_IGNORED)
+        if ((m_queueFamilyIndex[VulkanQueueFamilyUniversal] == VK_QUEUE_FAMILY_IGNORED)
             && queueFlags.HasBits(VK_QUEUE_GRAPHICS_BIT))
         {
-            m_queueFamilyIndices[VulkanQueueFamilyUniversal] = i;
+            m_queueFamilyIndex[VulkanQueueFamilyUniversal] = i;
             VkDeviceQueueCreateInfo queueInfo = {};
             queueInfo.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
             queueInfo.pNext;
@@ -61,11 +61,11 @@ VulkanDevice::VulkanDevice(
             queueInfo.pQueuePriorities = queuePriorities;
             queueInfos.push_back(queueInfo);
         }
-        if ((m_queueFamilyIndices[VulkanQueueFamilyCompute] == VK_QUEUE_FAMILY_IGNORED)
+        if ((m_queueFamilyIndex[VulkanQueueFamilyCompute] == VK_QUEUE_FAMILY_IGNORED)
             && queueFlags.HasBits(VK_QUEUE_COMPUTE_BIT)
             && queueFlags.HasNoBits(VK_QUEUE_GRAPHICS_BIT))
         {
-            m_queueFamilyIndices[VulkanQueueFamilyCompute] = i;
+            m_queueFamilyIndex[VulkanQueueFamilyCompute] = i;
             VkDeviceQueueCreateInfo queueInfo = {};
             queueInfo.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
             queueInfo.pNext;
@@ -75,11 +75,11 @@ VulkanDevice::VulkanDevice(
             queueInfo.pQueuePriorities = queuePriorities;
             queueInfos.push_back(queueInfo);
         }
-        if ((m_queueFamilyIndices[VulkanQueueFamilyTransfer] == VK_QUEUE_FAMILY_IGNORED)
+        if ((m_queueFamilyIndex[VulkanQueueFamilyTransfer] == VK_QUEUE_FAMILY_IGNORED)
             && queueFlags.HasBits(VK_QUEUE_TRANSFER_BIT)
             && queueFlags.HasNoBits(VK_QUEUE_GRAPHICS_BIT | VK_QUEUE_COMPUTE_BIT))
         {
-            m_queueFamilyIndices[VulkanQueueFamilyTransfer] = i;
+            m_queueFamilyIndex[VulkanQueueFamilyTransfer] = i;
             VkDeviceQueueCreateInfo queueInfo = {};
             queueInfo.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
             queueInfo.pNext;
@@ -155,7 +155,7 @@ const VkPhysicalDeviceLimits& VulkanDevice::GetLimits() const
     return m_physicalDevice->GetProperties().limits;
 }
 
-bool VulkanDevice::SupportsExtension(std::string_view extension)
+bool VulkanDevice::IsExtensionSupported(std::string_view extension)
 {
     for (const auto& extensionName : m_enabledExtensionNames)
     {
@@ -169,7 +169,7 @@ bool VulkanDevice::SupportsExtension(std::string_view extension)
 
 uint32_t VulkanDevice::GetQueueFamilyIndex(VulkanQueueFamily queueFamily)
 {
-    return m_queueFamilyIndices[queueFamily];
+    return m_queueFamilyIndex[queueFamily];
 }
 
 VulkanQueue* VulkanDevice::GetQueue(VulkanQueueFamily queueFamily)
@@ -177,9 +177,12 @@ VulkanQueue* VulkanDevice::GetQueue(VulkanQueueFamily queueFamily)
     return m_queues[queueFamily].get();
 }
 
-bool VulkanDevice::SupportsSurface(VulkanQueueFamily queueFamily, VkSurfaceKHR surface) const
+bool VulkanDevice::IsSurfaceSupported(VulkanQueueFamily queueFamily, VkSurfaceKHR surface) const
 {
-    return m_physicalDevice->SupportsSurface(m_queueFamilyIndices[queueFamily], surface);
+    VkBool32 supported = false;
+    VK_CHECK(vkGetPhysicalDeviceSurfaceSupportKHR(m_physicalDevice->GetHandle(),
+        m_queueFamilyIndex[queueFamily], surface, &supported));
+    return (supported == VK_TRUE);
 }
 
 rad::Ref<VulkanCommandPool>

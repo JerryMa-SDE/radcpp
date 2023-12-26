@@ -180,7 +180,7 @@ bool VulkanInstance::Init(std::string_view appName, uint32_t appVersion,
     return true;
 }
 
-bool VulkanInstance::SupportsExtension(std::string_view extensionName)
+bool VulkanInstance::IsExtensionSupported(std::string_view extensionName)
 {
     return m_enabledExtensions.contains(extensionName.data());
 }

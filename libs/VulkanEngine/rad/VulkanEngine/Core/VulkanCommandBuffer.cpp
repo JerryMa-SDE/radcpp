@@ -502,7 +502,7 @@ void VulkanCommandBuffer::SetMemoryBarrier(
 
 void VulkanCommandBuffer::SetMemoryBarrier_ComputeToComputeReadAfterWrite()
 {
-    if (m_supportSync2)
+    if (m_bSupportSync2)
     {
         VkMemoryBarrier2KHR memoryBarrier2 = {};
         memoryBarrier2.sType = VK_STRUCTURE_TYPE_MEMORY_BARRIER_2_KHR;
@@ -538,7 +538,7 @@ void VulkanCommandBuffer::SetMemoryBarrier_ComputeToComputeReadAfterWrite()
 
 void VulkanCommandBuffer::SetMemoryBarrier_ComputeToComputeExecutionBarrier()
 {
-    if (m_supportSync2)
+    if (m_bSupportSync2)
     {
         VkMemoryBarrier2KHR memoryBarrier2 = {};
         memoryBarrier2.sType = VK_STRUCTURE_TYPE_MEMORY_BARRIER_2_KHR;
@@ -569,7 +569,7 @@ void VulkanCommandBuffer::SetMemoryBarrier_ComputeToComputeExecutionBarrier()
 
 void VulkanCommandBuffer::SetMemoryBarrier_ComputeToIndexInput()
 {
-    if (m_supportSync2)
+    if (m_bSupportSync2)
     {
         VkMemoryBarrier2KHR memoryBarrier2 = {};
         memoryBarrier2.sType = VK_STRUCTURE_TYPE_MEMORY_BARRIER_2_KHR;

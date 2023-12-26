@@ -37,14 +37,12 @@ public:
     {
         return m_extensionProperties;
     }
-    bool SupportsDeviceExtension(std::string_view extensionName) const;
-
+    bool IsExtensionSupported(std::string_view extensionName) const;
     bool IsDynamicRenderingSupported() const { return m_dynamicRenderingFeatures.dynamicRendering; }
 
     VkFormatProperties GetFormatProperties(VkFormat format) const;
     VkFormat FindFormat(rad::Span<VkFormat> candidates, VkImageTiling tiling, VkFormatFeatureFlags features);
 
-    bool SupportsSurface(uint32_t queueFamilyIndex, VkSurfaceKHR surface) const;
     VkSurfaceCapabilitiesKHR GetSurfaceCapabilities(VkSurfaceKHR surface);
     std::vector<VkPresentModeKHR> GetSurfacePresentModes(VkSurfaceKHR surface);
     std::vector<VkSurfaceFormatKHR> GetSurfaceFormats(VkSurfaceKHR surface);

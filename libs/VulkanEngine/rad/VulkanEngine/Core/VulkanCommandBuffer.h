@@ -176,7 +176,7 @@ private:
     rad::Ref<VulkanCommandPool> m_commandPool;
     VkCommandBuffer             m_handle = VK_NULL_HANDLE;
     VkCommandBufferLevel        m_level;
-    bool                        m_supportSync2 = false;
+    bool                        m_bSupportSync2 = false;
 
 }; // class VulkanCommandBuffer
 

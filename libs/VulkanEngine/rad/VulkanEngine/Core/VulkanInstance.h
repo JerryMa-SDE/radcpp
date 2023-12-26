@@ -17,7 +17,7 @@ public:
     VkInstance GetHandle() const { return m_handle; }
     uint32_t GetApiVersion() const { return m_apiVersion; }
 
-    bool SupportsExtension(std::string_view extensionName);
+    bool IsExtensionSupported(std::string_view extensionName);
 
     std::vector<rad::Ref<VulkanPhysicalDevice>> EnumeratePhysicalDevices();
 

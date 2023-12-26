@@ -20,11 +20,11 @@ public:
     VulkanPhysicalDevice* GetPhysicalDevice() const { return m_physicalDevice.get(); }
     const VkPhysicalDeviceLimits& GetLimits() const;
 
-    bool SupportsExtension(std::string_view extension);
+    bool IsExtensionSupported(std::string_view extension);
 
     uint32_t GetQueueFamilyIndex(VulkanQueueFamily queueFamily);
     VulkanQueue* GetQueue(VulkanQueueFamily queueFamily = VulkanQueueFamilyUniversal);
-    bool SupportsSurface(VulkanQueueFamily queueFamily, VkSurfaceKHR surface) const;
+    bool IsSurfaceSupported(VulkanQueueFamily queueFamily, VkSurfaceKHR surface) const;
 
     rad::Ref<VulkanCommandPool> CreateCommandPool(
         VulkanQueueFamily queueFamily = VulkanQueueFamilyUniversal,
@@ -106,7 +106,8 @@ private:
     // manage device memory allocations
     VmaAllocator m_allocator = nullptr;
 
-    uint32_t m_queueFamilyIndices[VulkanQueueFamilyCount];
+    // map VulkanQueueFamily to its real underlying index.
+    uint32_t m_queueFamilyIndex[VulkanQueueFamilyCount];
     rad::Ref<VulkanQueue> m_queues[VulkanQueueFamilyCount];
     rad::Ref<VulkanCommandPool> m_commandPoolsTransientAlloc[VulkanQueueFamilyCount];
 
