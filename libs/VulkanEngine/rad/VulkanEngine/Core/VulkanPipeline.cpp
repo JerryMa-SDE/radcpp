@@ -1,4 +1,5 @@
 #include "VulkanPipeline.h"
+#include "VulkanPhysicalDevice.h"
 #include "VulkanDevice.h"
 #include "VulkanShader.h"
 #include "VulkanRenderPass.h"
@@ -67,6 +68,8 @@ VulkanGraphicsPipeline::VulkanGraphicsPipeline(rad::Ref<VulkanDevice> device,
     VulkanPipeline(std::move(device), VK_PIPELINE_BIND_POINT_GRAPHICS),
     m_createInfo(createInfo)
 {
+    VulkanPhysicalDevice* physicalDevice = m_device->GetPhysicalDevice();
+
     std::vector<rad::Ref<VulkanShaderModule>> shaderModules;
 
     std::vector<VkDynamicState> dynamicStates =
@@ -88,6 +91,7 @@ VulkanGraphicsPipeline::VulkanGraphicsPipeline(rad::Ref<VulkanDevice> device,
     VkPipelineDynamicStateCreateInfo dynamicState = {};
 
     VkGraphicsPipelineCreateInfo createInfoNative = {};
+    VK_STRUCTURE_CHAIN_BEGIN(createInfoNative);
     createInfoNative.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
     createInfoNative.pNext = nullptr;
     createInfoNative.flags = 0;
@@ -221,12 +225,24 @@ VulkanGraphicsPipeline::VulkanGraphicsPipeline(rad::Ref<VulkanDevice> device,
     createInfoNative.pDynamicState = &dynamicState;
 
     createInfoNative.layout = createInfo->m_layout ? createInfo->m_layout->GetHandle() : VK_NULL_HANDLE;
-    createInfoNative.renderPass = createInfo->m_renderPass->GetHandle();
+    if (createInfo->m_renderPass)
+    {
+        createInfoNative.renderPass = createInfo->m_renderPass->GetHandle();
+    }
+    else if (physicalDevice->IsDynamicRenderingSupported())
+    {
+        VkPipelineRenderingCreateInfoKHR& renderingInfo = createInfo->m_renderingInfo;
+        if (renderingInfo.sType == VK_STRUCTURE_TYPE_PIPELINE_RENDERING_CREATE_INFO_KHR)
+        {
+            VK_STRUCTURE_CHAIN_ADD(createInfoNative, renderingInfo);
+        }
+    }
     createInfoNative.subpass = createInfo->m_subpass;
     createInfoNative.basePipelineHandle = createInfo->m_basePipeline ?
         createInfo->m_basePipeline->GetHandle() : VK_NULL_HANDLE;
     createInfoNative.basePipelineIndex = createInfo->m_basePipelineIndex;
 
+    VK_STRUCTURE_CHAIN_END(createInfoNative);
     VK_CHECK(m_device->GetFunctionTable()->
         vkCreateGraphicsPipelines(m_device->GetHandle(), VK_NULL_HANDLE, 1, &createInfoNative, nullptr, &m_handle));
 }

@@ -31,9 +31,10 @@ private:
 }; // class VulkanError
 
 // Check Vulkan return code and throw VulkanError if result < 0
-void VulkanErrorHandler(VkResult result, const char* function, const char* file, uint32_t line);
+void vkCheckResult(VkResult result, const char* function, const char* file, uint32_t line);
+
 #define VK_CHECK(VulkanCall) \
-{ const VkResult r = VulkanCall; if (r < 0) { VulkanErrorHandler(r, #VulkanCall, __FILE__, __LINE__); } }
+do { const VkResult r = VulkanCall; vkCheckResult(r, #VulkanCall, __FILE__, __LINE__); } while(0)
 
 enum VulkanQueueFamily : uint32_t
 {
@@ -61,25 +62,24 @@ private:
     uint32_t m_version = 0;
 }; // class VulkanVersion
 
-// Construct structure chain: Head->S1->S2->S3
+// Construct structure chain (preserve order): Head->S1->S2->S3
 // VK_STRUCTURE_CHAIN_BEGIN(Head); // will create a temporary var Head##ppNext
 // Append structures dynamically:
-// VK_STRUCTURE_CHAIN_ADD(Head, S1);
+// VK_STRUCTURE_CHAIN_ADD(Head, S1); // push back
 // VK_STRUCTURE_CHAIN_ADD(Head, S2);
 // VK_STRUCTURE_CHAIN_ADD(Head, S3);
 // Set the last pNext to nullptr, terminate the chain:
 // VK_STRUCTURE_CHAIN_END(Head);
 #define VK_STRUCTURE_CHAIN_BEGIN(Head) \
-void** Head##ppNext = (void**)(&Head.pNext);
+void** Head##Chain##_ppNext = (void**)(&Head.pNext);
 #define VK_STRUCTURE_CHAIN_ADD(Head, Next) \
-*Head##ppNext = (void*)(&Next); \
-Head##ppNext = (void**)(&Next.pNext);
+do { *Head##Chain##_ppNext = (void*)(&Next); Head##Chain##_ppNext = (void**)(&Next.pNext); } while (0)
 #define VK_STRUCTURE_CHAIN_END(Head) \
-*Head##ppNext = nullptr;
+*Head##Chain##_ppNext = nullptr;
 
 // Search from head, find the tail, append the new structure dynamically.
 template<typename Head, typename Last>
-void VkStructureChainAppend(Head& head, Last& last)
+void vkStructureChainAppend(Head& head, Last& last)
 {
     VkBaseOutStructure* iter = reinterpret_cast<VkBaseOutStructure*>(&head);
     // Search the end:
@@ -87,7 +87,7 @@ void VkStructureChainAppend(Head& head, Last& last)
     {
         iter = reinterpret_cast<VkBaseOutStructure*>(iter->pNext);
     }
-    // Append new structure:
+    // Append the new structure:
     iter->pNext = reinterpret_cast<VkBaseOutStructure*>(&last);
     last.pNext = nullptr; // terminate the chain.
 }
@@ -209,7 +209,7 @@ struct VulkanGraphicsPipelineCreateInfo : public rad::RefCounted<VulkanGraphicsP
     int32_t                         m_basePipelineIndex = 0;
 
     VkPipelineRenderingCreateInfoKHR m_renderingInfo = {};
-    void SetRenderingInfo(rad::Span<VkFormat> colorFormats, VkFormat depthStencilFormat);
+    void SetRenderingInfo(rad::Span<VkFormat> colorFormats, VkFormat depthStencilFormat = VK_FORMAT_UNDEFINED);
 
 }; // struct VulkanGraphicsPipelineCreateInfo
 

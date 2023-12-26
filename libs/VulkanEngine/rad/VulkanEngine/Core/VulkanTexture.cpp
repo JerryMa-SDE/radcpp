@@ -3,10 +3,11 @@
 #include "VulkanQueue.h"
 #include "VulkanBuffer.h"
 #include "VulkanImage.h"
+#include "VulkanMath.h"
 #include "stb_image.h"
 #include "compressonator.h"
 
-namespace Vulkan {
+namespace VulkanTexture {
 
 rad::Ref<VulkanImage> CreateImage2DFromFile(VulkanDevice* device, std::string_view filePath)
 {
@@ -185,4 +186,4 @@ VkFormat ToVulkanFormat(CMP_FORMAT format)
 }
 
 
-} // namespace Vulkan
+} // namespace VulkanTexture

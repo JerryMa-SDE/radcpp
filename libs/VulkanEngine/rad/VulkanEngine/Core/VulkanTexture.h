@@ -2,8 +2,8 @@
 
 #include "VulkanObject.h"
 
-namespace Vulkan {
+namespace VulkanTexture {
 
 rad::Ref<VulkanImage> CreateImage2DFromFile(VulkanDevice* device, std::string_view filePath, bool genMipmaps);
 
-} // namespace Vulkan
+} // namespace VulkanTexture

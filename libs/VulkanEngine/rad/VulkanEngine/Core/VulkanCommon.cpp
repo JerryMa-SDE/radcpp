@@ -9,11 +9,14 @@
 
 rad::LogCategory g_logVulkan("Vulkan", rad::LogLevel::Info);
 
-void VulkanErrorHandler(VkResult result, const char* function, const char* file, uint32_t line)
+void vkCheckResult(VkResult result, const char* function, const char* file, uint32_t line)
 {
-    LogVulkan(Error, "%s failed with VkResult=%s(%d).",
-        function, string_VkResult(result), result, file, line);
-    throw VulkanError(result);
+    if (result < 0)
+    {
+        LogVulkan(Error, "%s failed with VkResult=%s(%d).",
+            function, string_VkResult(result), result, file, line);
+        throw VulkanError(result);
+    }
 }
 
 VulkanVersion::VulkanVersion(uint32_t version) :

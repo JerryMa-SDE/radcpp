@@ -39,6 +39,8 @@ public:
     }
     bool SupportsDeviceExtension(std::string_view extensionName) const;
 
+    bool IsDynamicRenderingSupported() const { return m_dynamicRenderingFeatures.dynamicRendering; }
+
     VkFormatProperties GetFormatProperties(VkFormat format) const;
     VkFormat FindFormat(rad::Span<VkFormat> candidates, VkImageTiling tiling, VkFormatFeatureFlags features);
 
@@ -67,6 +69,7 @@ private:
     VkPhysicalDeviceVulkan11Features m_vulkan11Features;
     VkPhysicalDeviceVulkan12Features m_vulkan12Features;
     VkPhysicalDeviceSynchronization2FeaturesKHR m_synchronization2Features;
+    VkPhysicalDeviceDynamicRenderingFeaturesKHR m_dynamicRenderingFeatures;
     VkPhysicalDeviceAccelerationStructureFeaturesKHR m_accelerationStructureFeatures;
     VkPhysicalDeviceAccelerationStructurePropertiesKHR m_accelerationStructureProperties;
     VkPhysicalDeviceRayTracingPipelineFeaturesKHR m_rayTracingPipelineFeatures;

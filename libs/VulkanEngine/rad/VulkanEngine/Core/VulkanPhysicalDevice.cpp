@@ -60,6 +60,7 @@ void VulkanPhysicalDevice::QueryFeaturesAndProperties2()
     m_vulkan11Features = { VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_1_FEATURES };
     m_vulkan12Features = { VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_2_FEATURES };
     m_synchronization2Features = { VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SYNCHRONIZATION_2_FEATURES_KHR };
+    m_dynamicRenderingFeatures = { VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DYNAMIC_RENDERING_FEATURES_KHR };
     m_accelerationStructureFeatures = { VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ACCELERATION_STRUCTURE_FEATURES_KHR };
     m_accelerationStructureProperties = { VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ACCELERATION_STRUCTURE_PROPERTIES_KHR };
     m_rayTracingPipelineFeatures = { VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_RAY_TRACING_PIPELINE_FEATURES_KHR };
@@ -73,6 +74,10 @@ void VulkanPhysicalDevice::QueryFeaturesAndProperties2()
     if (SupportsDeviceExtension("VK_KHR_synchronization2"))
     {
         VK_STRUCTURE_CHAIN_ADD(m_features2, m_synchronization2Features);
+    }
+    if (SupportsDeviceExtension(VK_KHR_DYNAMIC_RENDERING_EXTENSION_NAME))
+    {
+        VK_STRUCTURE_CHAIN_ADD(m_features2, m_dynamicRenderingFeatures);
     }
     if (SupportsDeviceExtension("VK_KHR_acceleration_structure"))
     {
