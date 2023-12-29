@@ -82,6 +82,7 @@ installVcpkgPackages "imath","glm","opencl" -triplet $vcpkgTriplet
 installVcpkgPackages "gtest" -triplet $vcpkgTriplet
 installVcpkgPackages "cpu-features" -triplet $vcpkgTriplet
 installVcpkgPackages "sdl2[vulkan]" -triplet $vcpkgTriplet
+installVcpkgPackages "ffmpeg" -triplet $vcpkgTriplet
 
 Write-Host "radcpp: update imported repos:"
 $importedDir = Join-Path -Path $PSScriptRoot -ChildPath "imported/"

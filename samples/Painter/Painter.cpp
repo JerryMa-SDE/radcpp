@@ -1,5 +1,6 @@
 #include "Painter.h"
 #include "rad/IO/Logging.h"
+#include "rad/DirectMedia/Media/Codec.h"
 
 Painter::Painter()
 {
@@ -33,6 +34,12 @@ bool Painter::Init()
     fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\consola.ttf", fontSize);
     fonts->Build();
 #endif
+
+    auto codecs = DirectMedia::Codec::EnumerateCodecs();
+    for (const auto& codec : codecs)
+    {
+        LogGlobal(Info, "Found Codec: %s", codec->long_name);
+    }
 
     return true;
 }

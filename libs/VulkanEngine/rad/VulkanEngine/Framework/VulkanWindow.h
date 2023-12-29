@@ -1,8 +1,8 @@
 #ifndef VULKAN_WINDOW_H
 #define VULKAN_WINDOW_H
 
-#include "rad/DirectMedia/Application.h"
-#include "rad/DirectMedia/Window.h"
+#include "rad/DirectMedia/Core/Application.h"
+#include "rad/DirectMedia/Core/Window.h"
 #include "VulkanFrame.h"
 #include "VulkanGuiContext.h"
 

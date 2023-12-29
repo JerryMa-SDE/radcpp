@@ -1,8 +1,8 @@
 #pragma once
 
-#include "rad/Core/Global.h"
-#include "Window.h"
-#include "Renderer.h"
+#include "rad/Core/RefCounted.h"
+#include "rad/DirectMedia/Core/Window.h"
+#include "rad/DirectMedia/Core/Renderer.h"
 
 #include "imgui/imgui.h"
 #include "imgui/backends/imgui_impl_sdl2.h"

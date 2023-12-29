@@ -1,9 +1,7 @@
 #pragma once
 
-#include "rad/DirectMedia/Application.h"
-#include "rad/DirectMedia/Window.h"
-#include "rad/DirectMedia/Renderer.h"
-#include "rad/DirectMedia/GuiContext.h"
+#include "rad/DirectMedia/Core.h"
+#include "rad/DirectMedia/Gui/GuiContext.h"
 
 class Painter : public DirectMedia::Window
 {
