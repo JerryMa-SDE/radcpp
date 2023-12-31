@@ -67,6 +67,8 @@ public:
     rapidjson::StringBuffer Stringify();
     rapidjson::StringBuffer StringifyPretty();
 
+    bool SaveToFile(const FilePath& path, bool pretty = true);
+
 private:
     rapidjson::Document m_doc;
 

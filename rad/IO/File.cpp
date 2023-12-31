@@ -76,7 +76,7 @@ bool Exists(const FilePath& p)
     return std::filesystem::exists(p);
 }
 
-bool IsPathEquivalent(const FilePath& p1, const FilePath& p2)
+bool IsEquivalent(const FilePath& p1, const FilePath& p2)
 {
     return std::filesystem::equivalent(p1, p2);
 }

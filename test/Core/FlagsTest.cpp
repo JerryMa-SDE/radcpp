@@ -24,7 +24,7 @@ TEST(Core, Flags)
     flags |= FlagBits::Bit5;
     flags |= FlagBits::Bit6;
     flags |= FlagBits::Bit7;
-    EXPECT_EQ(flags.m_mask, 0b11111111);
+    EXPECT_EQ(flags.GetMask(), 0b11111111);
     flags ^= FlagBits::Bit0;
     flags ^= FlagBits::Bit2;
     flags ^= FlagBits::Bit4;

@@ -5,7 +5,7 @@ int main(int argc, char** argv)
 {
     try
     {
-        TCLAP::CmdLine cmdLine("Test Suite Priority 1");
+        TCLAP::CmdLine cmdLine("radcpp test suite");
         cmdLine.parse(argc, argv);
     }
     catch (TCLAP::ArgException& e)

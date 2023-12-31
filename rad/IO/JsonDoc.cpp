@@ -86,4 +86,27 @@ rapidjson::StringBuffer JsonDoc::StringifyPretty()
     return buffer;
 }
 
+bool JsonDoc::SaveToFile(const FilePath& path, bool pretty)
+{
+    File file;
+    if (file.Open(path, FileAccessWrite))
+    {
+        if (pretty)
+        {
+            auto buffer = StringifyPretty();
+            file.Write(buffer.GetString(), buffer.GetLength());
+            file.Close();
+            return true;
+        }
+        else
+        {
+            auto buffer = Stringify();
+            file.Write(buffer.GetString(), buffer.GetLength());
+            file.Close();
+            return true;
+        }
+    }
+    return false;
+}
+
 } // namespace rad

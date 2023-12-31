@@ -36,9 +36,8 @@ template <typename T>
 T Pow2AlignUp(T value, uint64_t alignment)
 {
     assert(IsPow2(alignment));
-    T res = ((value + static_cast<T>(alignment) - 1) & ~(static_cast<T>(alignment) - 1));
-    assert(res >= value); // overflow
-    return res;
+    assert(value + static_cast<T>(alignment) > value);
+    return ((value + static_cast<T>(alignment) - 1) & ~(static_cast<T>(alignment) - 1));
 }
 
 template <typename T>
@@ -57,9 +56,15 @@ uint64_t RoundUpToPow2(uint64_t x);
 template<typename T>
 constexpr T RoundUpToMultiple(T value, T alignment)
 {
-    T res = (((value + (alignment - 1)) / alignment) * alignment);
-    assert(res >= value); // overflow
-    return res;
+    if (value != 0)
+    {
+        assert((value + (alignment - 1)) > value);
+        return (((value + (alignment - 1)) / alignment) * alignment);
+    }
+    else
+    {
+        return alignment;
+    }
 }
 
 template <typename T>

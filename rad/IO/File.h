@@ -36,7 +36,7 @@ FilePath MakeCanonical(const FilePath& p);
 FilePath MakeWeaklyCanonical(const FilePath& p);
 
 bool Exists(const FilePath& p);
-bool IsPathEquivalent(const FilePath& p1, const FilePath& p2);
+bool IsEquivalent(const FilePath& p1, const FilePath& p2);
 
 std::uintmax_t GetFileSize(const FilePath& p);
 FileStatus GetFileStatus(const FilePath& p);

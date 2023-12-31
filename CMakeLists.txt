@@ -27,11 +27,18 @@ add_subdirectory(imported/imgui)
 set_target_properties(imgui PROPERTIES FOLDER "imported")
 
 add_subdirectory(rad)
-add_subdirectory(sp1)
+
+option(BUILD_TESTS "Build tests if enabled." ON)
+if (BUILD_TESTS)
+    add_subdirectory(test)
+endif()
 
 add_subdirectory(libs/DirectMedia)
 set_target_properties(DirectMedia PROPERTIES FOLDER "libs")
 add_subdirectory(libs/VulkanEngine)
 set_target_properties(VulkanEngine PROPERTIES FOLDER "libs")
 
-add_subdirectory(samples/Painter)
+option(BUILD_SAMPLES "Build samples if enabled." ON)
+if (BUILD_SAMPLES)
+    add_subdirectory(samples/Painter)
+endif()
