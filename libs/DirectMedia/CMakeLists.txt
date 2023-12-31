@@ -18,6 +18,8 @@ set(DirectMedia_SOURCE_FILES
     rad/DirectMedia/Core.h
     rad/DirectMedia/Gui/GuiContext.cpp
     rad/DirectMedia/Gui/GuiContext.h
+    rad/DirectMedia/Gui/NativeFileDialog.cpp
+    rad/DirectMedia/Gui/NativeFileDialog.h
     rad/DirectMedia/Media/Codec.h
     rad/DirectMedia/Media/Codec.cpp
 )
@@ -48,3 +50,5 @@ target_link_libraries(DirectMedia
     $<TARGET_NAME_IF_EXISTS:SDL2::SDL2main>
     $<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2::SDL2-static>
 )
+
+target_link_libraries(DirectMedia PUBLIC nfd)

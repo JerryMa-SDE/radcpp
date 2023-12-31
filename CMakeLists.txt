@@ -25,6 +25,8 @@ add_subdirectory(imported/sqlite)
 set_target_properties(sqlite PROPERTIES FOLDER "imported")
 add_subdirectory(imported/imgui)
 set_target_properties(imgui PROPERTIES FOLDER "imported")
+add_subdirectory(imported/nativefiledialog-extended)
+set_target_properties(nfd PROPERTIES FOLDER "imported")
 
 add_subdirectory(rad)
 

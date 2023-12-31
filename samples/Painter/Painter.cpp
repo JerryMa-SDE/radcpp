@@ -1,6 +1,7 @@
 #include "Painter.h"
 #include "rad/IO/Logging.h"
 #include "rad/DirectMedia/Media/Codec.h"
+#include "rad/DirectMedia/Gui/NativeFileDialog.h"
 
 Painter::Painter()
 {
@@ -106,6 +107,19 @@ void Painter::OnLeave()
 void Painter::OnKeyDown(const SDL_KeyboardEvent& keyDown)
 {
     LogGlobal(Info, "OnKeyDown: %s", SDL_GetKeyName(keyDown.keysym.sym));
+    if (keyDown.keysym.mod & KMOD_CTRL)
+    {
+        if (keyDown.keysym.sym == SDLK_o)
+        {
+            LogGlobal(Info, "OnKeyDown: Ctrl+O");
+            DirectMedia::NativeFileDialog fileDialog;
+            rad::FilePath path = fileDialog.OpenDialog({});
+            if (rad::Exists(path))
+            {
+                LogGlobal(Info, "Path selected: %s", (const char*)path.u8string().c_str());
+            }
+        }
+    }
 }
 
 void Painter::OnKeyUp(const SDL_KeyboardEvent& keyUp)

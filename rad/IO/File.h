@@ -80,6 +80,18 @@ void ResizeFile(const FilePath& p, std::uintmax_t newSize);
 // Return the space info, the same as POSIX statvfs.
 FileSpaceInfo GetSpaceInfo(const FilePath& p);
 
+// File types
+bool IsBlockFile(const FilePath& p);
+bool IsCharacterFile(const FilePath& p);
+bool IsDirectory(const FilePath& p);
+bool IsEmpty(const FilePath& p);
+bool IsFIFO(const FilePath& p);
+bool IsOther(const FilePath& p);
+bool IsRegularFile(const FilePath& p);
+bool IsSocket(const FilePath& p);
+bool IsSymlink(const FilePath& p);
+bool IsStatusKnown(const FileStatus& s);
+
 std::vector<FilePath> GetRootDirectories();
 FilePath GetCurrentProcessPath();
 

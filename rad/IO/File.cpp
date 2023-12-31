@@ -203,6 +203,56 @@ FileSpaceInfo GetSpaceInfo(const FilePath& p)
     return std::filesystem::space(p);
 }
 
+bool IsBlockFile(const FilePath& p)
+{
+    return std::filesystem::is_block_file(p);
+}
+
+bool IsCharacterFile(const FilePath& p)
+{
+    return std::filesystem::is_character_file(p);
+}
+
+bool IsDirectory(const FilePath& p)
+{
+    return std::filesystem::is_directory(p);
+}
+
+bool IsEmpty(const FilePath& p)
+{
+    return std::filesystem::is_empty(p);
+}
+
+bool IsFIFO(const FilePath& p)
+{
+    return std::filesystem::is_fifo(p);
+}
+
+bool IsOther(const FilePath& p)
+{
+    return std::filesystem::is_other(p);
+}
+
+bool IsRegularFile(const FilePath& p)
+{
+    return std::filesystem::is_regular_file(p);
+}
+
+bool IsSocket(const FilePath& p)
+{
+    return std::filesystem::is_socket(p);
+}
+
+bool IsSymlink(const FilePath& p)
+{
+    return std::filesystem::is_symlink(p);
+}
+
+bool IsStatusKnown(const FileStatus& s)
+{
+    return std::filesystem::status_known(s);
+}
+
 std::vector<FilePath> GetRootDirectories()
 {
     std::vector<FilePath> rootDirectories;
