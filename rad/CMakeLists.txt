@@ -18,6 +18,8 @@ set(RAD_SOURCE_FILES
     Core/Math.cpp
     Core/Numeric.h
     Core/Float16Compressor.h
+    Core/Time.h
+    Core/Time.cpp
     IO/File.h
     IO/File.cpp
     IO/Logging.h
