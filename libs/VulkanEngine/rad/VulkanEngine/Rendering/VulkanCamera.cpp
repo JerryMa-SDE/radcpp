@@ -1,6 +1,7 @@
 #include "VulkanCamera.h"
 
-VulkanCamera::VulkanCamera()
+VulkanCamera::VulkanCamera(VulkanSceneNode* node) :
+    m_node(node)
 {
 }
 
@@ -44,4 +45,34 @@ glm::mat4 VulkanCamera::GetProjectionMatrix()
 glm::mat4 VulkanCamera::GetViewProjectionMatrix()
 {
     return GetProjectionMatrix() * GetViewMatrix();
+}
+
+float VulkanCamera::ConvertHorizontalFovToVertical(float xfov, float aspectRatio)
+{
+    return 2.0f * std::atan(std::tan(xfov / 2.0f) / aspectRatio);
+}
+
+float VulkanCamera::ConvertVerticalFovToHorizontal(float yfov, float aspectRatio)
+{
+    return 2.0f * std::atan(std::tan(yfov / 2.0f) * aspectRatio);
+}
+
+float VulkanCamera::GetHorizontalFov()
+{
+    return ConvertVerticalFovToHorizontal(m_yfov, m_aspectRatio);
+}
+
+float VulkanCamera::GetVerticalFov()
+{
+    return m_yfov;
+}
+
+void VulkanCamera::SetHorizontalFov(float xfov)
+{
+    m_yfov = ConvertHorizontalFovToVertical(xfov, m_aspectRatio);
+}
+
+void VulkanCamera::SetVerticalFov(float yfov)
+{
+    m_yfov = yfov;
 }

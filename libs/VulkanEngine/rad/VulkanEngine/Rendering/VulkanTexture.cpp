@@ -1,15 +1,13 @@
 #include "VulkanTexture.h"
-#include "VulkanDevice.h"
-#include "VulkanQueue.h"
-#include "VulkanBuffer.h"
-#include "VulkanImage.h"
-#include "VulkanMath.h"
+#include "rad/VulkanEngine/Core/VulkanDevice.h"
+#include "rad/VulkanEngine/Core/VulkanQueue.h"
+#include "rad/VulkanEngine/Core/VulkanBuffer.h"
+#include "rad/VulkanEngine/Core/VulkanImage.h"
+#include "rad/VulkanEngine/Core/VulkanMath.h"
 #include "stb_image.h"
 #include "compressonator.h"
 
-namespace VulkanTexture {
-
-rad::Ref<VulkanImage> CreateImage2DFromFile(VulkanDevice* device, std::string_view filePath)
+rad::Ref<VulkanImage> CreateVulkanImage2DFromFile(VulkanDevice* device, std::string_view filePath)
 {
     rad::Ref<VulkanImage> image;
     int width = 0;
@@ -32,20 +30,20 @@ rad::Ref<VulkanImage> CreateImage2DFromFile(VulkanDevice* device, std::string_vi
 
 VkFormat ToVulkanFormat(CMP_FORMAT format);
 
-rad::Ref<VulkanImage> CreateImage2DFromFile(VulkanDevice* device, std::string_view filePath, bool genMipmaps)
+rad::Ref<VulkanImage> CreateVulkanImage2DFromFile(VulkanDevice* device, std::string_view filePath, bool genMipmaps)
 {
     rad::Ref<VulkanImage> image;
     VkFormat format = VK_FORMAT_UNDEFINED;
     CMP_MipSet mipSet = {};
     if (CMP_LoadTexture(filePath.data(), &mipSet) != CMP_OK)
     {
-        LogVulkan(Error, "Failed to load texture from file: %s", filePath.data());
+        LogVulkan(Error, "Failed to load image from file: %s", filePath.data());
         return nullptr;
     }
     // For GPU, the texture must have width and height as a multiple of 4.
     if ((mipSet.m_nWidth % 4) > 0 || (mipSet.m_nHeight % 4) > 0)
     {
-        LogVulkan(Error, "Failed to load texture from file: %s: width=%d; height=%d; (not multiple of 4)",
+        LogVulkan(Error, "Failed to load image from file: %s: width=%d; height=%d; (not multiple of 4)",
             filePath.data(), mipSet.m_nWidth, mipSet.m_nHeight);
         CMP_FreeMipSet(&mipSet);
         return nullptr;
@@ -184,6 +182,3 @@ VkFormat ToVulkanFormat(CMP_FORMAT format)
 
     return VK_FORMAT_UNDEFINED;
 }
-
-
-} // namespace VulkanTexture

@@ -12,7 +12,7 @@ uint32_t vkGetMaxMipLevel(uint32_t width, uint32_t height, uint32_t depth)
     return (uint32_t)std::log2f(float(maxExtent)) + 1;
 }
 
-glm::vec3 vkTransformClipToNormalizedCoord(const glm::vec4& p, float rotation)
+glm::vec3 vkTransformClipToNDC(const glm::vec4& p, float rotation)
 {
     float xc = p.x;
     float yc = p.y;
@@ -24,7 +24,7 @@ glm::vec3 vkTransformClipToNormalizedCoord(const glm::vec4& p, float rotation)
     return glm::vec3(xc / p.w, yc / p.w, p.z / p.w);
 }
 
-glm::vec3 vkTransformNormalizedToFragCoord(const glm::vec3& ndc, const VkViewport& viewport,
+glm::vec3 vkTransformNDCToFragCoord(const glm::vec3& ndc, const VkViewport& viewport,
     bool depthClipNegativeOneToOne)
 {
     glm::vec3 fragCoord = {};

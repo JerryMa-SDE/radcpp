@@ -27,8 +27,6 @@ set(VULKAN_ENGINE_SOURCE_FILES
     rad/VulkanEngine/Core/VulkanFramebuffer.h
     rad/VulkanEngine/Core/VulkanImage.cpp
     rad/VulkanEngine/Core/VulkanImage.h
-    rad/VulkanEngine/Core/VulkanTexture.cpp
-    rad/VulkanEngine/Core/VulkanTexture.h
     rad/VulkanEngine/Core/VulkanInstance.cpp
     rad/VulkanEngine/Core/VulkanInstance.h
     rad/VulkanEngine/Core/VulkanObject.cpp
@@ -57,8 +55,20 @@ set(VULKAN_ENGINE_SOURCE_FILES
     rad/VulkanEngine/Framework/VulkanFrame.cpp
     rad/VulkanEngine/Framework/VulkanGuiContext.h
     rad/VulkanEngine/Framework/VulkanGuiContext.cpp
+    rad/VulkanEngine/Rendering/VulkanTexture.cpp
+    rad/VulkanEngine/Rendering/VulkanTexture.h
     rad/VulkanEngine/Rendering/VulkanCamera.h
     rad/VulkanEngine/Rendering/VulkanCamera.cpp
+    rad/VulkanEngine/Rendering/VulkanLight.h
+    rad/VulkanEngine/Rendering/VulkanLight.cpp
+    rad/VulkanEngine/Rendering/VulkanMesh.h
+    rad/VulkanEngine/Rendering/VulkanMesh.cpp
+    rad/VulkanEngine/Rendering/VulkanMaterial.h
+    rad/VulkanEngine/Rendering/VulkanMaterial.cpp
+    rad/VulkanEngine/Rendering/VulkanScene.h
+    rad/VulkanEngine/Rendering/VulkanScene.cpp
+    rad/VulkanEngine/Rendering/VulkanSceneNode.h
+    rad/VulkanEngine/Rendering/VulkanSceneNode.cpp
 )
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR}/rad/VulkanEngine/ FILES ${VULKAN_ENGINE_SOURCE_FILES})
