@@ -86,16 +86,19 @@ target_include_directories(VulkanEngine
     PRIVATE ${RADCPP_SOURCE_DIR}/imported/Compressonator/include/
 )
 
-if(WIN32)
-
+find_package(assimp CONFIG REQUIRED)
 target_link_libraries(VulkanEngine
     PUBLIC rad
     PUBLIC DirectMedia
+    PUBLIC assimp::assimp
+)
+
+if(WIN32)
+target_link_libraries(VulkanEngine
     PRIVATE ${RADCPP_SOURCE_DIR}/imported/Compressonator/lib/VS2019/x64/CMP_Core_MT_DLL.lib
     PRIVATE ${RADCPP_SOURCE_DIR}/imported/Compressonator/lib/VS2019/x64/CMP_Framework_MT_DLL.lib
     PRIVATE ${RADCPP_SOURCE_DIR}/imported/Compressonator/lib/VS2019/x64/Compressonator_MT_DLL.lib
 )
-
 add_custom_command(TARGET VulkanEngine POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy
         ${RADCPP_SOURCE_DIR}/imported/spvgen/build/Release/spvgen.dll
@@ -110,5 +113,4 @@ add_custom_command(TARGET VulkanEngine POST_BUILD
         ${RADCPP_SOURCE_DIR}/imported/Compressonator/lib/VS2019/x64/Compressonator_MT_DLL.dll
         ${CMAKE_CURRENT_BINARY_DIR}
 )
-
 endif()

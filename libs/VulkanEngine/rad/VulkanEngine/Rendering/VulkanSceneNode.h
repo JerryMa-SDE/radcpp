@@ -18,6 +18,8 @@ public:
     VulkanDevice* GetDevice();
     VulkanSceneNode* AddChild(std::string_view name = "");
 
+    bool ImportFromFile(const rad::FilePath& filePath);
+
     VulkanScene* m_scene = nullptr;
     VulkanSceneNode* m_parent = nullptr;
     std::vector<rad::Ref<VulkanSceneNode>> m_children;

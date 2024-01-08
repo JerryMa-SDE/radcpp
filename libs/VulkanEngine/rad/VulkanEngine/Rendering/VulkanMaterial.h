@@ -27,7 +27,9 @@ public:
         uint32_t uvIndex;
         VulkanTextureBlendOp blendOp;
         float blend;
-        VkSamplerAddressMode addressMode[3]; // uvw
+        VkSamplerAddressMode addressModeU;
+        VkSamplerAddressMode addressModeV;
+        VkSamplerAddressMode addressModeW;
     };
 
     float m_normalScale = 1.0f;

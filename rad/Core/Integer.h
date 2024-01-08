@@ -58,7 +58,7 @@ constexpr T RoundUpToMultiple(T value, T alignment)
 {
     if (value != 0)
     {
-        assert((value + (alignment - 1)) > value);
+        assert((value + (alignment - 1)) >= value);
         return (((value + (alignment - 1)) / alignment) * alignment);
     }
     else
