@@ -16,6 +16,8 @@ set(RAD_SOURCE_FILES
     Core/Flags.h
     Core/Math.h
     Core/Math.cpp
+    Core/3DMath.h
+    Core/3DMath.cpp
     Core/Numeric.h
     Core/Float16Compressor.h
     Core/Time.h

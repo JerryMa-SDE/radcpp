@@ -27,6 +27,7 @@ public:
     std::vector<std::vector<glm::vec4>> m_colorChannels;
     std::vector<std::vector<glm::vec2>> m_uvChannels;
     std::vector<std::string> m_uvNames;
+    VulkanBoundingBox m_boundingBox;
 
     struct Polygon
     {

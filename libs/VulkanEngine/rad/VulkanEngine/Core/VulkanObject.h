@@ -6,8 +6,8 @@
 class VulkanObject : public rad::RefCounted<VulkanObject>
 {
 public:
-    VulkanObject() {}
-    virtual ~VulkanObject() {}
+    VulkanObject();
+    virtual ~VulkanObject();
 
 protected:
     // Disable copy and move.
