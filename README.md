@@ -8,6 +8,8 @@ Prerequisites:
 
 Setup [Vcpkg](https://learn.microsoft.com/en-us/vcpkg/get_started/overview), set env VCPKG_ROOT to its path and install the following packages:
 - boost
+- gtest
+- spdlog
 
 Call CMake to generate project files:
 - Windows cmd:

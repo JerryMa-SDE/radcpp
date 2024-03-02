@@ -7,6 +7,8 @@ set(RAD_SOURCES
     Core/Float.cpp
     Core/String.h
     Core/String.cpp
+    Core/Logging.h
+    Core/Logging.cpp
 )
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${RAD_SOURCES})
@@ -14,6 +16,7 @@ source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${RAD_SOURCES})
 add_library(rad ${RAD_SOURCES})
 
 find_package(Boost)
+find_package(spdlog CONFIG REQUIRED)
 
 target_include_directories(rad
     PUBLIC ${Boost_INCLUDE_DIRS}
@@ -21,6 +24,7 @@ target_include_directories(rad
 
 target_link_libraries(rad
     PUBLIC ${Boost_LIBRARIES}
+    PUBLIC spdlog::spdlog
 )
 
 if (WIN32)
