@@ -1,6 +1,7 @@
 add_executable(HelloWorld
     HelloWorld.cpp
     TestInteger.cpp
+    TestFloat.cpp
 )
 
 set_target_properties(HelloWorld PROPERTIES FOLDER "tests")
