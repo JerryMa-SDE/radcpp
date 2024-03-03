@@ -15,6 +15,8 @@ include_directories(
 
 add_subdirectory(imported/stb)
 set_target_properties(stb PROPERTIES FOLDER "imported")
+add_subdirectory(imported/sqlite)
+set_target_properties(sqlite PROPERTIES FOLDER "imported")
 
 add_subdirectory(rad)
 add_subdirectory(tests/HelloWorld)
