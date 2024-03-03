@@ -23,4 +23,27 @@ namespace rad
 // Finds solutions of the quadratic equation at^2 + bt + c = 0; return true if solutions were found.
 bool SolveQuadraticEquation(float a, float b, float c, float& t0, float& t1);
 
+// The Right Way to Calculate Stuff: https://www.plunk.org/~hatch/rightway.html
+// 1-cos(x) = 2*sin(x/2)^2 // oneMinusCosx
+// acos(1-x) = 2*asin(sqrt(x/2))
+// e^x-1 = expm1(x)
+// ln(1+x) = log1p(x)
+// tanh(x) = expm1(2*x) / (expm1(2*x) + 2) // overflows prematurely
+// atanh(x) = log1p(2*x/(1-x)) / 2
+// sinh(x) = expm1(x) * (expm1(x)+2) / (expm1(x)+1) / 2
+// asinh(x) = log1p(x * (1 + x/(sqrt(x2+1)+1)))
+// cosh(x)-1
+// acos(1+x)
+// sqrt(1+x)-1 = x / (sqrt(1+x)+1)
+// 1-sqrt(1-x) = x / (sqrt(1-x)+1)
+// (1+x)^2-1 = x * (2 + x)
+// 1-(1-x)^2 = x * (2 - x)
+// sin(x)/x // sinx_div_x
+// (1-cos(x))/x // oneMinusCosx_div_x
+
+double oneMinusCosx(double x);
+// if x != 0; 1 if x = 0.
+double sinx_div_x(double x);
+double oneMinusCosx_div_x(double x);
+
 } // namespace rad
