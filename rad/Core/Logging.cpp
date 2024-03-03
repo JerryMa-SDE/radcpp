@@ -1,5 +1,6 @@
 #include "Logging.h"
 #include "OS.h"
+#include "TypeTraits.h"
 #include <cstdarg>
 #include <chrono>
 #include <fstream>
@@ -8,7 +9,7 @@
 namespace rad
 {
 
-static const char* g_logLevelStrings[int(LogLevel::Count)] =
+static const char* g_logLevelStrings[UnderlyingCast(LogLevel::Count)] =
 {
     "Debug",
     "Info",

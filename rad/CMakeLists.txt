@@ -20,6 +20,7 @@ set(RAD_SOURCES
     Core/Memory.cpp
     Core/Math.h
     Core/Math.cpp
+    Core/TypeTraits.h
 )
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${RAD_SOURCES})
