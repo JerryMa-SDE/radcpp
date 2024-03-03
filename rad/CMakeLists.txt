@@ -9,6 +9,8 @@ set(RAD_SOURCES
     Core/String.cpp
     Core/Logging.h
     Core/Logging.cpp
+    Core/OS.h
+    Core/OS.cpp
 )
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${RAD_SOURCES})

@@ -1,13 +1,9 @@
 #include "Logging.h"
+#include "OS.h"
 #include <cstdarg>
 #include <chrono>
-#include <filesystem>
 #include <fstream>
 #include <mutex>
-
-#ifdef _WIN32
-#include <Windows.h>
-#endif
 
 namespace rad
 {
@@ -28,43 +24,6 @@ const char* GetLogLevelString(LogLevel level)
 
 std::ofstream g_logFile;
 std::mutex g_logMutex;
-
-std::filesystem::path GetCurrentProcessPath()
-{
-#ifdef _WIN32
-    std::wstring buffer;
-    buffer.resize(256);
-    do
-    {
-        unsigned int len = GetModuleFileNameW(NULL, &buffer[0], static_cast<DWORD>(buffer.size()));
-        if (len < buffer.size())
-        {
-            buffer.resize(len);
-            break;
-        }
-
-        buffer.resize(buffer.size() * 2);
-    } while (buffer.size() < 65536);
-
-    return std::filesystem::path(buffer);
-
-#else
-    std::error_code ec;
-    if (std::filesystem::exists("/proc/self/exe", ec))
-    {
-        return std::filesystem::read_symlink("/proc/self/exe", ec);
-    }
-    if (std::filesystem::exists("/proc/curproc/file", ec))
-    {
-        return std::filesystem::read_symlink("/proc/curproc/file", ec);
-    }
-    if (std::filesystem::exists("/proc/curproc/exe", ec))
-    {
-        return std::filesystem::read_symlink("/proc/curproc/exe", ec);
-    }
-    return std::to_string(getpid());
-#endif
-}
 
 void LogPrint(std::string_view category, LogLevel level, const char* format, ...)
 {
@@ -97,7 +56,7 @@ void LogPrint(std::string_view category, LogLevel level, const char* format, ...
 
         if (!g_logFile.is_open())
         {
-            std::string processName = (const char*)GetCurrentProcessPath().filename().u8string().c_str();
+            std::string processName = os::GetCurrentProcessName();
             g_logFile.open(processName + ".log");
         }
 
