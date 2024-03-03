@@ -4,7 +4,7 @@
 namespace rad
 {
 
-float rad::AngleBetween(glm::vec3 v1, glm::vec3 v2)
+float AngleBetween(glm::vec3 v1, glm::vec3 v2)
 {
     // http://www.plunk.org/~hatch/rightway.html
     if (glm::dot(v1, v2) < 0)

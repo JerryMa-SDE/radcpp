@@ -5,6 +5,8 @@
 #include <cerrno>
 #include <cstdarg>
 #include <ctime>
+#include <sys/types.h>
+#include <sys/stat.h>
 
 namespace rad
 {

@@ -15,7 +15,7 @@ class Flags
 public:
     constexpr Flags() noexcept : m_mask(0) {}
 
-    template <typename T = std::enable_if_t<!std::is_same_v<T, Bit>, Mask>>
+    template <typename T = std::enable_if_t<!std::is_same_v<Mask, Bit>, Mask>>
     constexpr explicit Flags(T mask) noexcept : m_mask(mask) {}
     constexpr Flags(Bit bit) noexcept : m_mask(static_cast<Mask>(bit)) {}
     constexpr Flags(Flags<Mask, Bit> const& rhs) noexcept = default;
@@ -51,7 +51,7 @@ public:
 
     int Popcount()
     {
-        std::popcount(m_mask);
+        return std::popcount(m_mask);
     }
 
     // relational operators
