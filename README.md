@@ -10,6 +10,9 @@ Setup [Vcpkg](https://learn.microsoft.com/en-us/vcpkg/get_started/overview), set
 - boost
 - gtest
 - spdlog
+- imath
+- glm
+- opencl
 
 Call CMake to generate project files:
 - Windows cmd:
