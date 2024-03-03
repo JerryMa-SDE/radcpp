@@ -6,9 +6,11 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
+set(RADCPP_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+
 include_directories(
-    ${CMAKE_SOURCE_DIR}
-    ${CMAKE_SOURCE_DIR}/imported
+    ${RADCPP_SOURCE_DIR}
+    ${RADCPP_SOURCE_DIR}/imported
 )
 
 add_subdirectory(imported/stb)

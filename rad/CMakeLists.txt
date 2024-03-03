@@ -36,6 +36,7 @@ find_package(CpuFeatures CONFIG REQUIRED)
 
 target_include_directories(rad
     PUBLIC ${Boost_INCLUDE_DIRS}
+    PUBLIC ${RADCPP_SOURCE_DIR}/imported/ms-gsl/include
 )
 
 target_link_libraries(rad
