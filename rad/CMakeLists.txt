@@ -5,6 +5,7 @@ set(RAD_SOURCES
     Core/Integer.cpp
     Core/Float.h
     Core/Float.cpp
+    Core/Float16Compressor.h
     Core/String.h
     Core/String.cpp
     Core/Logging.h
