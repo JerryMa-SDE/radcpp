@@ -32,6 +32,7 @@ add_library(rad ${RAD_SOURCES})
 
 find_package(Boost)
 find_package(spdlog CONFIG REQUIRED)
+find_package(CpuFeatures CONFIG REQUIRED)
 
 target_include_directories(rad
     PUBLIC ${Boost_INCLUDE_DIRS}
@@ -41,6 +42,7 @@ target_link_libraries(rad
     PUBLIC ${Boost_LIBRARIES}
     PUBLIC stb
     PUBLIC spdlog::spdlog
+    PUBLIC CpuFeatures::cpu_features
 )
 
 if (WIN32)

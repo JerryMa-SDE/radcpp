@@ -13,6 +13,7 @@ Setup [Vcpkg](https://learn.microsoft.com/en-us/vcpkg/get_started/overview), set
 - imath
 - glm
 - opencl
+- cpu-features
 
 Call CMake to generate project files:
 - Windows cmd:
