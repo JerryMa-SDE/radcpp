@@ -20,6 +20,8 @@ set(RAD_SOURCES
     Core/Memory.cpp
     Core/Math.h
     Core/Math.cpp
+    Core/3D.h
+    Core/3D.cpp
     Core/TypeTraits.h
 )
 
