@@ -15,6 +15,7 @@ set(RAD_SOURCES
     Core/File.cpp
     Core/Flags.h
     Core/Span.h
+    Core/RefCounted.h
 )
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${RAD_SOURCES})
