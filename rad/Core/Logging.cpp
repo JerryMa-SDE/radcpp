@@ -1,8 +1,6 @@
 #include "Logging.h"
-#include "OS.h"
 #include "TypeTraits.h"
 #include <cstdarg>
-#include <chrono>
 #include <fstream>
 #include <mutex>
 
@@ -20,59 +18,69 @@ static const char* g_logLevelStrings[UnderlyingCast(LogLevel::Count)] =
 
 const char* GetLogLevelString(LogLevel level)
 {
-    return g_logLevelStrings[std::underlying_type_t<LogLevel>(level)];
+    return g_logLevelStrings[UnderlyingCast(level)];
 }
 
-std::ofstream g_logFile;
-std::mutex g_logMutex;
+static std::mutex g_logMutex;
+static std::ofstream g_logFile;
 
-void LogPrint(std::string_view category, LogLevel level, const char* format, ...)
+Logger::Logger(std::string_view name)
 {
-    std::chrono::system_clock::time_point timestamp = std::chrono::system_clock::now();
+    m_name = name;
+}
 
-    thread_local std::string message;
-    va_list args;
-    va_start(args, format);
-    StrPrintInPlaceArgList(message, format, args);
-    va_end(args);
+Logger::~Logger()
+{
+}
 
-    long long milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(
-        timestamp.time_since_epoch()).count() % 1000;
-    std::time_t timepoint = std::chrono::system_clock::to_time_t(timestamp);
-    std::tm datetime = {};
-#if defined(_WIN32) || defined(_WIN64)
-    localtime_s(&datetime, &timepoint);
-#else
-    localtime_r(&timepoint, &datetime);
-#endif
-
-    thread_local std::string buffer;
-    int charsPrinted = StrPrintInPlace(buffer, "[%02d:%02d:%02d.%03lld] %s: %s: %s\n",
-        datetime.tm_hour, datetime.tm_min, datetime.tm_sec, milliseconds,
-        category.data(), g_logLevelStrings[int(level)], message.data());
-
-    if (charsPrinted > 0)
+bool Logger::SetOutputFile(std::string_view fileName, bool overwrite)
+{
+#ifndef RAD_NO_LOGGING
+    std::lock_guard lockGuard(g_logMutex);
+    if (g_logFile.is_open())
     {
-        std::lock_guard lockGuard(g_logMutex);
+        g_logFile.close();
+    }
+    std::ios_base::openmode mode = std::ios_base::app;
+    if (overwrite)
+    {
+        mode = std::ios_base::out;
+    }
+    g_logFile.open(fileName.data(), mode);
+    return g_logFile.is_open();
+#endif // RAD_NO_LOGGING
+}
 
-        if (!g_logFile.is_open())
+void Logger::Output(LogLevel level, std::string_view buffer)
+{
+#ifndef RAD_NO_LOGGING
+    std::lock_guard lockGuard(g_logMutex);
+
+    if (m_enableOutputToConsole)
+    {
+        if (level <= LogLevel::Info)
         {
-            std::string processName = os::GetCurrentProcessName();
-            g_logFile.open(processName + ".log");
+            fwrite(buffer.data(), buffer.size(), 1, stdout);
         }
-
-        if (g_logFile.is_open())
+        else
         {
-            g_logFile.write(buffer.data(), charsPrinted);
+            fwrite(buffer.data(), buffer.size(), 1, stderr);
         }
-
-        fprintf(stderr, "%s", buffer.data());
     }
 
-    if (level >= LogLevel::Warn)
+    if (m_enableOutputToFile && g_logFile.is_open())
     {
+        g_logFile.write(buffer.data(), buffer.size());
+    }
+
+    if (level >= m_flushLevel)
+    {
+        fflush(stdout);
         g_logFile.flush();
     }
+#endif // RAD_NO_LOGGING
 }
+
+Logger g_logger = Logger("Global");
 
 } // namespace rad

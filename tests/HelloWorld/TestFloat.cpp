@@ -60,7 +60,7 @@ void TestQuantization()
     EXPECT_LE(e16, 0.000008f);
     EXPECT_LE(e32, 0.0000000002f);
 
-    LogGlobal(Info, "QuantizeUnorm8 max epsilon: %e", e8);
-    LogGlobal(Info, "QuantizeUnorm16 max epsilon: %e", e16);
-    LogGlobal(Info, "QuantizeUnorm32 max epsilon: %e", e32);
+    LogGlobal(Info, "QuantizeUnorm8 max epsilon: {}", e8);
+    LogGlobal(Info, "QuantizeUnorm16 max epsilon: {}", e16);
+    LogGlobal(Info, "QuantizeUnorm32 max epsilon: {}", e32);
 }
