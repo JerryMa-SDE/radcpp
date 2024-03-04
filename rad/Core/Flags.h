@@ -2,6 +2,7 @@
 
 #include "Global.h"
 #include "Integer.h"
+#include "TypeTraits.h"
 #include <compare>
 
 namespace rad
@@ -9,7 +10,7 @@ namespace rad
 
 // Inspired by vk::Flags: https://github.com/KhronosGroup/Vulkan-Hpp
 // Specify Mask type explicitly.
-template <typename Mask, typename Bit>
+template <std::integral Mask, Enumeration Bit>
 class Flags
 {
 public:

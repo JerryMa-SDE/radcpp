@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Global.h"
+#include <concepts>
 
 namespace rad
 {
@@ -26,5 +27,8 @@ struct MaxSizeof<T, Rest...>
     static constexpr uint32_t value = sizeof(T) > MaxSizeof<Rest...>::value ?
         sizeof(T) : MaxSizeof<Rest...>::value;
 };
+
+template <class T>
+concept Enumeration = std::is_enum_v<T>;
 
 } // namespace rad
