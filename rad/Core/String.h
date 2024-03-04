@@ -6,6 +6,7 @@
 #include <string>
 #include <string_view>
 #include <vector>
+#include <format>
 
 #if defined(_MSC_BUILD) || defined(_MSC_VER)
 #define strcasecmp _stricmp
@@ -24,6 +25,12 @@ std::vector<std::string> StrSplit(std::string_view str, std::string_view delimit
 std::string StrPrint(const char* format, ...);
 int StrPrintInPlace(std::string& buffer, const char* format, ...);
 int StrPrintInPlaceArgList(std::string& buffer, const char* format, va_list args);
+
+template<typename... Args>
+std::string StrFormat(std::string_view format, Args&&... args)
+{
+    return std::vformat(format, std::make_format_args(args...));
+}
 
 bool StrEqual(std::string_view str1, std::string_view str2);
 bool StrCaseEqual(std::string_view str1, std::string_view str2);
