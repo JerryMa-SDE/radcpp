@@ -15,7 +15,6 @@ set(RAD_SOURCES
     Core/File.h
     Core/File.cpp
     Core/Flags.h
-    Core/Span.h
     Core/RefCounted.h
     Core/Memory.h
     Core/Memory.cpp
@@ -24,6 +23,7 @@ set(RAD_SOURCES
     Core/3D.h
     Core/3D.cpp
     Core/TypeTraits.h
+    Container/Span.h
 )
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${RAD_SOURCES})
