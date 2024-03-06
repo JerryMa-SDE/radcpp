@@ -8,29 +8,29 @@ set(RAD_SOURCES
     Core/Float16Compressor.h
     Core/String.h
     Core/String.cpp
-    Core/Logging.h
-    Core/Logging.cpp
-    Core/OS.h
-    Core/OS.cpp
-    Core/File.h
-    Core/File.cpp
     Core/Flags.h
     Core/RefCounted.h
     Core/Memory.h
     Core/Memory.cpp
     Core/Math.h
     Core/Math.cpp
-    Core/3D.h
-    Core/3D.cpp
     Core/TypeTraits.h
     Container/Span.h
+    IO/File.h
+    IO/File.cpp
+    IO/Logging.h
+    IO/Logging.cpp
+    System/OS.h
+    System/OS.cpp
+    Math/3DLinearAlgebra.h
+    Math/3DLinearAlgebra.cpp
 )
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${RAD_SOURCES})
 
 add_library(rad ${RAD_SOURCES})
 
-find_package(Boost)
+find_package(Boost REQUIRED json)
 find_package(spdlog CONFIG REQUIRED)
 find_package(CpuFeatures CONFIG REQUIRED)
 

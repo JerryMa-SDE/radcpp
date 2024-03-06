@@ -24,7 +24,7 @@ namespace rad
 bool SolveQuadraticEquation(float a, float b, float c, float& t0, float& t1);
 
 // The Right Way to Calculate Stuff: https://www.plunk.org/~hatch/rightway.html
-// 1-cos(x) = 2*sin(x/2)^2 // oneMinusCosx
+// 1-cos(x) = 2*sin(x/2)^2 // OneMinusCosx
 // acos(1-x) = 2*asin(sqrt(x/2))
 // e^x-1 = expm1(x)
 // ln(1+x) = log1p(x)
@@ -38,12 +38,14 @@ bool SolveQuadraticEquation(float a, float b, float c, float& t0, float& t1);
 // 1-sqrt(1-x) = x / (sqrt(1-x)+1)
 // (1+x)^2-1 = x * (2 + x)
 // 1-(1-x)^2 = x * (2 - x)
-// sin(x)/x // sinx_div_x
-// (1-cos(x))/x // oneMinusCosx_div_x
+// sin(x)/x // Sinx_Div_x
+// (1-cos(x))/x // OneMinusCosx_Div_x
 
-double oneMinusCosx(double x);
-// if x != 0; 1 if x = 0.
-double sinx_div_x(double x);
-double oneMinusCosx_div_x(double x);
+// 1-cos(x) = 2*sin(x/2)^2
+double OneMinusCosx(double x);
+// sin(x)/x, if x != 0; 1 if x = 0.
+double Sinx_Div_x(double x);
+// (1-cos(x))/x
+double OneMinusCosx_Div_x(double x);
 
 } // namespace rad

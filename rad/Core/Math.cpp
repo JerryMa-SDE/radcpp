@@ -31,12 +31,14 @@ bool SolveQuadraticEquation(float a, float b, float c, float& t0, float& t1)
     return true;
 }
 
-double oneMinusCosx(double x)
+// https://www.plunk.org/~hatch/rightway.html
+double OneMinusCosx(double x)
 {
-    return 2 * pow(sin(x / 2), 2);
+    return 2.0 * pow(sin(x / 2.0), 2);
 }
 
-double sinx_div_x(double x)
+// https://www.plunk.org/~hatch/rightway.html
+double Sinx_Div_x(double x)
 {
     if (1.0 + x * x == 1.0)
     {
@@ -48,20 +50,23 @@ double sinx_div_x(double x)
     }
 }
 
-double oneMinusCosx_div_x(double x)
+// https://www.plunk.org/~hatch/rightway.html
+double OneMinusCosx_Div_x(double x)
 {
-    if (1. + x * x == 1.)
+    if (1.0 + x * x == 1.0)
     {
-        return .5 * x;
+        return 0.5 * x;
     }
     else
     {
-        return oneMinusCosx(x) / x;
+        return OneMinusCosx(x) / x;
     }
 }
 
 namespace internal
-{ // https://www.plunk.org/~hatch/rightway.html
+{
+
+// https://www.plunk.org/~hatch/rightway.html
 double expm1(double x)
 {
     double u = exp(x);
@@ -76,6 +81,7 @@ double expm1(double x)
     return (u - 1.0) * x / log(u);  // where log is natural logarithm
 }
 
+// https://www.plunk.org/~hatch/rightway.html
 double log1p(double x)
 {
     double u = 1.0 + x;
@@ -89,11 +95,13 @@ double log1p(double x)
     }
 }
 
+// https://www.plunk.org/~hatch/rightway.html
 double sinh(double x)
 {
     double u = std::expm1(x);
     return 0.5 * u / (u + 1.0) * (u + 2.0);
 }
+
 } // namespace internal
 
 } // namespace rad

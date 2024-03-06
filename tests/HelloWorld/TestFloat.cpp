@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 #include "rad/Core/Float.h"
-#include "rad/Core/Logging.h"
+#include "rad/IO/Logging.h"
 
 void TestQuantization();
 

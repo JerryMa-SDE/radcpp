@@ -1,7 +1,6 @@
 #pragma once
 
-#include "Global.h"
-#include "File.h"
+#include "rad/Core/Global.h"
 #include <cstdlib>
 #include <filesystem>
 #include <boost/process/env.hpp>

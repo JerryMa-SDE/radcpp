@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "rad/Core/Logging.h"
+#include "rad/IO/Logging.h"
 
 int main(int argc, char* argv[])
 {
