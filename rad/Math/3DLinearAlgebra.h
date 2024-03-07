@@ -1,7 +1,7 @@
 #pragma once
 
 #include "rad/Core/Global.h"
-#include "rad/Core/Math.h"
+#include "Math.h"
 #include "glm/glm.hpp"
 #include "glm/ext.hpp"
 

@@ -12,8 +12,6 @@ set(RAD_SOURCES
     Core/RefCounted.h
     Core/Memory.h
     Core/Memory.cpp
-    Core/Math.h
-    Core/Math.cpp
     Core/TypeTraits.h
     Container/Span.h
     IO/File.h
@@ -24,6 +22,8 @@ set(RAD_SOURCES
     IO/Json.cpp
     System/OS.h
     System/OS.cpp
+    Math/Math.h
+    Math/Math.cpp
     Math/3DLinearAlgebra.h
     Math/3DLinearAlgebra.cpp
 )
