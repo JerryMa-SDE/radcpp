@@ -3,6 +3,7 @@ add_executable(HelloWorld
     TestInteger.cpp
     TestFloat.cpp
     TestFlags.cpp
+    TestJson.cpp
 )
 
 set_target_properties(HelloWorld PROPERTIES FOLDER "tests")

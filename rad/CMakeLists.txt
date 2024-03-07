@@ -20,6 +20,8 @@ set(RAD_SOURCES
     IO/File.cpp
     IO/Logging.h
     IO/Logging.cpp
+    IO/Json.h
+    IO/Json.cpp
     System/OS.h
     System/OS.cpp
     Math/3DLinearAlgebra.h
