@@ -1,6 +1,18 @@
 #include <gtest/gtest.h>
-#include <boost/version.hpp>
+#include "rad/Core/String.h"
 #include "rad/IO/Json.h"
+#include "rad/IO/Logging.h"
+
+void TestParsing()
+{
+    using namespace boost::json;
+    value jRoot = rad::ParseJsonFromFile("prize.json");
+    EXPECT_TRUE(jRoot.is_object());
+    if (jRoot.is_object())
+    {
+        EXPECT_TRUE(jRoot.as_object()["prizes"].is_array());
+    }
+}
 
 void TestValueConversion()
 {
@@ -16,5 +28,6 @@ void TestValueConversion()
 
 TEST(Core, Json)
 {
+    TestParsing();
     TestValueConversion();
 }
