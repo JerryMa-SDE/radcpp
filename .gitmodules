@@ -1,9 +1,12 @@
 [submodule "imported/Vulkan-Headers"]
 	path = imported/Vulkan-Headers
 	url = https://github.com/KhronosGroup/Vulkan-Headers.git
+	shallow = true
 [submodule "imported/volk"]
 	path = imported/volk
 	url = https://github.com/zeux/volk.git
+	shallow = true
 [submodule "imported/VulkanMemoryAllocator"]
 	path = imported/VulkanMemoryAllocator
 	url = https://github.com/GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator.git
+	shallow = true
