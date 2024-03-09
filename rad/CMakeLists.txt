@@ -50,6 +50,7 @@ target_link_libraries(rad
 
 if (WIN32)
 target_compile_definitions(rad
-    PUBLIC WIN32_LEAN_AND_MEAN
+    PRIVATE WIN32_LEAN_AND_MEAN=1
+    PRIVATE NOMINMAX=1
 )
 endif()
