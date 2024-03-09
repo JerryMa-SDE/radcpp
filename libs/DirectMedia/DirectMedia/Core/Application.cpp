@@ -111,7 +111,7 @@ std::string Application::GetClipboardText()
     }
     else
     {
-        LogGlobal(Warn, "GetClipboardText() failed: {}", SDL_GetError());
+        LogGlobal(Error, "SDL_GetClipboardText failed: {}", SDL_GetError());
     }
     return text;
 }
@@ -124,7 +124,8 @@ bool Application::SetClipboardText(std::string_view text)
     }
     else
     {
-        LogGlobal(Warn, "SDL_SetClipboardText() failed: {}: {}", SDL_GetError());
+        LogGlobal(Error, "SDL_SetClipboardText(text=\n{}\n) failed: {}",
+            text, SDL_GetError());
         return false;
     }
 }
@@ -138,7 +139,7 @@ bool Application::LoadVulkanLibrary(const char* path)
     }
     else
     {
-        LogGlobal(Error, "SDL_Vulkan_LoadLibrary(path={}): {}",
+        LogGlobal(Error, "SDL_Vulkan_LoadLibrary(path=\"{}\") failed: {}",
             path ? path : "nullptr", SDL_GetError());
         return false;
     }
@@ -281,7 +282,8 @@ float Application::GetDisplayDPI(int displayIndex)
     float vdpi = 96.0f;
     if (SDL_GetDisplayDPI(displayIndex, &ddpi, &hdpi, &vdpi) != 0)
     {
-        LogGlobal(Error, "SDL_GetDisplayDPI: {}", SDL_GetError());
+        LogGlobal(Error, "SDL_GetDisplayDPI(index={}) failed: {}",
+            displayIndex, SDL_GetError());
     }
     return std::min(hdpi, vdpi);
 }

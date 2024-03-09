@@ -5,6 +5,8 @@ set(DirectMedia_SOURCE_FILES
     DirectMedia/Core/EventHandler.cpp
     DirectMedia/Core/Window.cpp
     DirectMedia/Core/Window.h
+    DirectMedia/Core/Surface.cpp
+    DirectMedia/Core/Surface.h
 )
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR}/DirectMedia FILES ${DirectMedia_SOURCE_FILES})

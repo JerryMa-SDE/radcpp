@@ -28,7 +28,8 @@ bool Window::Create(const char* title, int x, int y, int width, int height, Uint
     }
     else
     {
-        LogGlobal(Error, "SDL_CreateWindow: {}", SDL_GetError());
+        LogGlobal(Error, "SDL_CreateWindow(title={}, x={}, y={}, width={}, height={}, flags={}) failed: {}",
+            title, x, y, width, height, flags, SDL_GetError());
         return false;
     }
 }
