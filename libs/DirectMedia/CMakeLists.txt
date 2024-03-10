@@ -11,6 +11,8 @@ set(DirectMedia_SOURCE_FILES
     DirectMedia/Core/Renderer.h
     DirectMedia/Core/Texture.cpp
     DirectMedia/Core/Texture.h
+    DirectMedia/Core/Timer.cpp
+    DirectMedia/Core/Timer.h
 )
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR}/DirectMedia FILES ${DirectMedia_SOURCE_FILES})

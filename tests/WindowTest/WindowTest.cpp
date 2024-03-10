@@ -11,6 +11,14 @@ WindowTest::~WindowTest()
     LogGlobal(Info, "WindowTest::~WindowTest()");
 }
 
+Uint32 CallbackPerSecond(Uint32 interval, void* param)
+{
+    WindowTest* window = reinterpret_cast<WindowTest*>(param);
+    LogGlobal(Info, "{} CallbackPerSecond: interval={}",
+        window->GetTitle(), interval);
+    return interval;
+}
+
 bool WindowTest::Init()
 {
     float windowScale = sdl::GetApp()->GetDisplayDPI(0) / 96.0f;
@@ -27,6 +35,9 @@ bool WindowTest::Init()
         LogGlobal(Error, "WindowTest::Init: failed to create renderer!");
         return false;
     }
+
+    m_timerPerSecond = new sdl::Timer();
+    m_timerPerSecond->Start(1000, CallbackPerSecond, this);
     return true;
 }
 
@@ -117,6 +128,15 @@ void WindowTest::OnMouseWheel(const SDL_MouseWheelEvent& mouseWheel)
 
 void WindowTest::OnRender()
 {
+    m_renderer->SetDrawColor(Uint8(255), Uint8(255), Uint8(255), Uint8(255));
+    m_renderer->Clear();
+    m_renderer->Present();
+}
+
+void WindowTest::OnClose()
+{
+    m_timerPerSecond.reset();
+    sdl::Window::OnClose();
 }
 
 const char* WindowTest::GetMouseButtonName(Uint8 button)

@@ -3,6 +3,7 @@
 #include "DirectMedia/Core/Application.h"
 #include "DirectMedia/Core/Window.h"
 #include "DirectMedia/Core/Renderer.h"
+#include "DirectMedia/Core/Timer.h"
 
 class WindowTest : public sdl::Window
 {
@@ -34,8 +35,11 @@ protected:
 
     virtual void OnRender() override;
 
+    virtual void OnClose();
+
 private:
     const char* GetMouseButtonName(Uint8 button);
     rad::Ref<sdl::Renderer> m_renderer;
+    rad::Ref<sdl::Timer> m_timerPerSecond;
 
 }; // class WindowTest
