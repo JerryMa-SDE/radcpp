@@ -12,6 +12,7 @@ public:
     ~WindowTest();
 
     bool Init();
+    const char* GetStatusText() const { return m_statusText.c_str(); }
 
 protected:
     virtual bool OnEvent(const SDL_Event& event);
@@ -41,5 +42,6 @@ private:
     const char* GetMouseButtonName(Uint8 button);
     rad::Ref<sdl::Renderer> m_renderer;
     rad::Ref<sdl::Timer> m_timerPerSecond;
+    std::string m_statusText;
 
 }; // class WindowTest

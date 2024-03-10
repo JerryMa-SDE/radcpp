@@ -1,8 +1,10 @@
 #include "WindowTest.h"
 #include "rad/IO/Logging.h"
+#include "DirectMedia/Gui/NativeFileDialog.h"
 
 WindowTest::WindowTest()
 {
+    m_statusText = "Created";
     LogGlobal(Info, "WindowTest::WindowTest()");
 }
 
@@ -14,8 +16,8 @@ WindowTest::~WindowTest()
 Uint32 CallbackPerSecond(Uint32 interval, void* param)
 {
     WindowTest* window = reinterpret_cast<WindowTest*>(param);
-    LogGlobal(Info, "{} CallbackPerSecond: interval={}",
-        window->GetTitle(), interval);
+    LogGlobal(Info, "WindowTest CallbackPerSecond ({}): {}",
+        interval, window->GetStatusText());
     return interval;
 }
 
@@ -38,6 +40,7 @@ bool WindowTest::Init()
 
     m_timerPerSecond = new sdl::Timer();
     m_timerPerSecond->Start(1000, CallbackPerSecond, this);
+    m_statusText = "Initialized";
     return true;
 }
 
@@ -99,6 +102,20 @@ void WindowTest::OnLeave()
 void WindowTest::OnKeyDown(const SDL_KeyboardEvent& keyDown)
 {
     LogGlobal(Info, "OnKeyDown: {}", SDL_GetKeyName(keyDown.keysym.sym));
+    if (keyDown.keysym.mod & KMOD_CTRL)
+    {
+        if (keyDown.keysym.sym == SDLK_o)
+        {
+            LogGlobal(Info, "Ctrl+O pressed: open file dialog ...");
+            sdl::NativeFileDialog fileDialog;
+            nfdfilteritem_t filters[2] = {
+                { "C/C++ Source", "h,hpp,c,cpp,cc" },
+                { "Python Script", "py" },
+            };
+            std::string path = fileDialog.OpenDialog(filters);
+            m_statusText = std::format("Path selected: {}", path);
+        }
+    }
 }
 
 void WindowTest::OnKeyUp(const SDL_KeyboardEvent& keyUp)

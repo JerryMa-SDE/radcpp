@@ -17,6 +17,8 @@ add_subdirectory(imported/stb)
 set_target_properties(stb PROPERTIES FOLDER "imported")
 add_subdirectory(imported/sqlite)
 set_target_properties(sqlite PROPERTIES FOLDER "imported")
+add_subdirectory(imported/nativefiledialog-extended)
+set_target_properties(nfd PROPERTIES FOLDER "imported")
 
 add_subdirectory(libs/DirectMedia)
 set_target_properties(DirectMedia PROPERTIES FOLDER "libs")

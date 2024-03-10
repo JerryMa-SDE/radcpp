@@ -1,8 +1,8 @@
 set(DirectMedia_SOURCE_FILES
     DirectMedia/Core/Application.cpp
     DirectMedia/Core/Application.h
-    DirectMedia/Core/EventHandler.h
     DirectMedia/Core/EventHandler.cpp
+    DirectMedia/Core/EventHandler.h
     DirectMedia/Core/Window.cpp
     DirectMedia/Core/Window.h
     DirectMedia/Core/Surface.cpp
@@ -15,6 +15,8 @@ set(DirectMedia_SOURCE_FILES
     DirectMedia/Core/Timer.h
     DirectMedia/Core/PerfCounter.cpp
     DirectMedia/Core/PerfCounter.h
+    DirectMedia/Gui/NativeFileDialog.cpp
+    DirectMedia/Gui/NativeFileDialog.h
 )
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR}/DirectMedia FILES ${DirectMedia_SOURCE_FILES})
@@ -25,10 +27,12 @@ add_library(DirectMedia
 
 target_include_directories(DirectMedia
     PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
+    PUBLIC ${RADCPP_SOURCE_DIR}/imported/nativefiledialog-extended/src/include
 )
 
 target_link_libraries(DirectMedia
     PUBLIC rad
+    PUBLIC nfd
 )
 
 if (WIN32)
