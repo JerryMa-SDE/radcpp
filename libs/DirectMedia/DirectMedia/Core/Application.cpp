@@ -18,6 +18,16 @@ Application* GetApp()
     return g_app;
 }
 
+const char* GetError()
+{
+    return SDL_GetError();
+}
+
+void ClearError()
+{
+    SDL_ClearError();
+}
+
 Application::Application()
 {
     assert(g_app == nullptr);

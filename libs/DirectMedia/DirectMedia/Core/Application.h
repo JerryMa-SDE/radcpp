@@ -74,4 +74,14 @@ protected:
 
 Application* GetApp();
 
+template<typename... Args>
+void SetError(std::string_view format, Args&&... args)
+{
+    std::string error = std::vformat(format, std::make_format_args(args...));
+    SDL_SetError("%s", error.c_str());
+}
+
+const char* GetError();
+void ClearError();
+
 } // namespace sdl

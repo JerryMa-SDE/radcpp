@@ -20,8 +20,6 @@ public:
     int GetWidth() const { return m_handle->w; }
     int GetHeight() const { return m_handle->h; }
 
-    const char* GetError() const { return SDL_GetError(); }
-
     // Allocate a new RGBA with a specified pixel format.
     // @param depth: the depth of the surface in bits.
     static rad::Ref<Surface> Create(int width, int height, int depth, Uint32 format);

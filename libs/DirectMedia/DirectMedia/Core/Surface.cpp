@@ -186,7 +186,7 @@ rad::Ref<Surface> Surface::Covert(const SDL_PixelFormat* format)
     }
     else
     {
-        LogGlobal(Error, "SDL_ConvertSurface failed: %s", SDL_GetError());
+        LogGlobal(Error, "SDL_ConvertSurface failed: {}", SDL_GetError());
         return nullptr;
     }
 }
@@ -202,7 +202,7 @@ rad::Ref<Surface> Surface::Covert(Uint32 format)
     }
     else
     {
-        LogGlobal(Error, "SDL_ConvertSurfaceFormat failed: %s", SDL_GetError());
+        LogGlobal(Error, "SDL_ConvertSurfaceFormat failed: {}", SDL_GetError());
         return nullptr;
     }
 }

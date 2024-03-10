@@ -20,6 +20,13 @@ bool WindowTest::Init()
         SDL_WINDOWPOS_CENTERED_DISPLAY(0), SDL_WINDOWPOS_CENTERED_DISPLAY(0),
         int(800 * windowScale), int(600 * windowScale),
         windowFlags);
+
+    m_renderer = new sdl::Renderer(this);
+    if (!m_renderer->Init())
+    {
+        LogGlobal(Error, "WindowTest::Init: failed to create renderer!");
+        return false;
+    }
     return true;
 }
 

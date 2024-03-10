@@ -2,6 +2,7 @@
 
 #include "DirectMedia/Core/Application.h"
 #include "DirectMedia/Core/Window.h"
+#include "DirectMedia/Core/Renderer.h"
 
 class WindowTest : public sdl::Window
 {
@@ -35,5 +36,6 @@ protected:
 
 private:
     const char* GetMouseButtonName(Uint8 button);
+    rad::Ref<sdl::Renderer> m_renderer;
 
 }; // class WindowTest
