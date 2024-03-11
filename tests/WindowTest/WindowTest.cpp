@@ -16,7 +16,7 @@ WindowTest::~WindowTest()
 Uint32 CallbackPerSecond(Uint32 interval, void* param)
 {
     WindowTest* window = reinterpret_cast<WindowTest*>(param);
-    LogGlobal(Info, "WindowTest CallbackPerSecond ({}): {}",
+    LogGlobal(Info, "CallbackPerSecond ({}): {}",
         interval, window->GetStatusText());
     return interval;
 }
@@ -113,7 +113,7 @@ void WindowTest::OnKeyDown(const SDL_KeyboardEvent& keyDown)
                 { "Python Script", "py" },
             };
             std::string path = fileDialog.OpenDialog(filters);
-            m_statusText = std::format("Path selected: {}", path);
+            m_statusText = std::format("Processing \"{}\"", path);
         }
     }
 }

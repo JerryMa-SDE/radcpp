@@ -3,8 +3,7 @@
 
 int main(int argc, char* argv[])
 {
-    rad::Logger::SetOutputFile("HelloWorld.log", true);
-    rad::g_logger.EnableOutputToFile();
+    rad::SetLogFile("HelloWorld.log", true);
 
     LogGlobal(Info, "Hello, World!");
     testing::InitGoogleTest(&argc, argv);

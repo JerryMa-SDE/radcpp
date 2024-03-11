@@ -1,38 +1,43 @@
-set(RAD_SOURCES
+set(rad_HEADERS
     Core/Global.h
-    Core/Global.cpp
     Core/Integer.h
-    Core/Integer.cpp
     Core/Float.h
-    Core/Float.cpp
     Core/Float16Compressor.h
     Core/String.h
-    Core/String.cpp
     Core/Flags.h
     Core/RefCounted.h
     Core/Memory.h
-    Core/Memory.cpp
+    Core/Time.h
     Core/TypeTraits.h
     Container/Span.h
     IO/File.h
-    IO/File.cpp
     IO/Logging.h
-    IO/Logging.cpp
     IO/Json.h
-    IO/Json.cpp
     System/FileSystem.h
-    System/FileSystem.cpp
     System/OS.h
-    System/OS.cpp
     Math/Math.h
-    Math/Math.cpp
     Math/3DLinearAlgebra.h
+)
+
+set(rad_SOURCES ${rad_HEADERS}
+    Core/Global.cpp
+    Core/Integer.cpp
+    Core/Float.cpp
+    Core/String.cpp
+    Core/Memory.cpp
+    Core/Time.cpp
+    IO/File.cpp
+    IO/Logging.cpp
+    IO/Json.cpp
+    System/FileSystem.cpp
+    System/OS.cpp
+    Math/Math.cpp
     Math/3DLinearAlgebra.cpp
 )
 
-source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${RAD_SOURCES})
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${rad_SOURCES})
 
-add_library(rad ${RAD_SOURCES})
+add_library(rad STATIC ${rad_SOURCES})
 
 find_package(Boost REQUIRED json)
 find_package(spdlog CONFIG REQUIRED)

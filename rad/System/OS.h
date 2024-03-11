@@ -24,5 +24,7 @@ std::string GetCurrentProcessName();
 
 std::vector<FilePath> listdrives();
 
+bool SetConsoleOutputEncodingUTF8();
+
 } // namespace os
 } // namespace rad

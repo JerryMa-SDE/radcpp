@@ -24,16 +24,7 @@ const char* GetLogLevelString(LogLevel level)
 static std::mutex g_logMutex;
 static std::ofstream g_logFile;
 
-Logger::Logger(std::string_view name)
-{
-    m_name = name;
-}
-
-Logger::~Logger()
-{
-}
-
-bool Logger::SetOutputFile(std::string_view fileName, bool overwrite)
+bool SetLogFile(std::string_view fileName, bool overwrite)
 {
 #ifndef RAD_NO_LOGGING
     std::lock_guard lockGuard(g_logMutex);
@@ -49,6 +40,15 @@ bool Logger::SetOutputFile(std::string_view fileName, bool overwrite)
     g_logFile.open(fileName.data(), mode);
     return g_logFile.is_open();
 #endif // RAD_NO_LOGGING
+}
+
+Logger::Logger(std::string_view name)
+{
+    m_name = name;
+}
+
+Logger::~Logger()
+{
 }
 
 void Logger::Output(LogLevel level, std::string_view buffer)
@@ -75,12 +75,17 @@ void Logger::Output(LogLevel level, std::string_view buffer)
 
     if (level >= m_flushLevel)
     {
-        fflush(stdout);
-        g_logFile.flush();
+        Flush();
     }
 #endif // RAD_NO_LOGGING
 }
 
-Logger g_logger = Logger("Global");
+void Logger::Flush()
+{
+    fflush(stdout);
+    g_logFile.flush();
+}
+
+Logger g_logGlobal = Logger("Global");
 
 } // namespace rad

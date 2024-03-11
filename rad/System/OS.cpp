@@ -137,5 +137,14 @@ std::vector<FilePath> listdrives()
     return drives;
 }
 
+bool SetConsoleOutputEncodingUTF8()
+{
+#ifdef _WIN32
+    return ::SetConsoleOutputCP(65001);
+#else
+    return true;
+#endif
+}
+
 } // namespace os
 } // namespace rad

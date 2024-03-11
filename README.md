@@ -2,35 +2,45 @@
 Great C++ Collections
 
 ## How to Build
-Prerequisites:
-- C++ compiler: [Compiler support for C++20](https://en.cppreference.com/w/cpp/compiler_support/20)
+
+### Prerequisites
+
+- C++ compiler with C++20 support: [Compiler support for C++20](https://en.cppreference.com/w/cpp/compiler_support/20)
     - For Windows, recommend [Visual Studio 2022](https://visualstudio.microsoft.com/downloads/).
     - For Linux, recommend `g++-13`.
 - [CMake](https://cmake.org/)
+- [vcpkg](https://vcpkg.io/)
 - [Python3](https://www.python.org/)
 
-Setup [vcpkg](https://learn.microsoft.com/en-us/vcpkg/get_started/overview), and install the following packages:
+Install the following vcpkg packages, with proper triplet (recommend "x64-windows" for Windows):
 
-- boost
+- boost (1.80.0 and above)
 - gtest
 - spdlog
 - imath
 - glm
 - opencl
 - cpu-features
+- sdl2[vulkan] (for libs/DirectMedia)
 
-Set environment variable `VCPKG_ROOT` to the root of vcpkg repo, for convenience. 
+Remember to set environment variable `VCPKG_ROOT` to the root of vcpkg repo for convenience. 
 
-Call CMake to generate project files:
-- Windows Command Prompt (cmd):
+### Generate Project Files with CMake
+
+Windows Command Prompt (cmd):
+
 ```bash
 cmake -S . -B build-win -DCMAKE_TOOLCHAIN_FILE="%VCPKG_ROOT%/scripts/buildsystems/vcpkg.cmake"
 ```
-- Windows PowerShell
+
+Windows PowerShell:
+
 ```bash
 cmake -S . -B build-win -DCMAKE_TOOLCHAIN_FILE="$env:VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake"
 ```
-- Linux (Ubuntu):
+
+Linux (Ubuntu):
+
 ```bash
 # install gcc-13 and g++-13 if your compiler doesn't suppor C++20 features
 sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
