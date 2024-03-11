@@ -20,6 +20,8 @@ set(RAD_SOURCES
     IO/Logging.cpp
     IO/Json.h
     IO/Json.cpp
+    System/FileSystem.h
+    System/FileSystem.cpp
     System/OS.h
     System/OS.cpp
     Math/Math.h
@@ -52,5 +54,8 @@ if (WIN32)
 target_compile_definitions(rad
     PRIVATE WIN32_LEAN_AND_MEAN=1
     PRIVATE NOMINMAX=1
+)
+target_compile_options(rad
+    PRIVATE "$<$<CXX_COMPILER_ID:MSVC>:/utf-8>"
 )
 endif()
