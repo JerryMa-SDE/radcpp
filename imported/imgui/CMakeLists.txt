@@ -16,6 +16,11 @@ set(imgui_SOURCES
     backends/imgui_impl_sdlrenderer2.h
     backends/imgui_impl_vulkan.cpp
     backends/imgui_impl_vulkan.h
+    implot/implot.cpp
+    implot/implot.h
+    implot/implot_demo.cpp
+    implot/implot_internal.h
+    implot/implot_items.cpp
 )
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${imgui_SOURCES})
