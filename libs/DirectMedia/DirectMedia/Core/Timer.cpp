@@ -4,6 +4,16 @@
 namespace sdl
 {
 
+Uint64 GetTicks64()
+{
+    return SDL_GetTicks64();
+}
+
+void Delay(Uint32 ms)
+{
+    SDL_Delay(ms);
+}
+
 Timer::Timer()
 {
 }

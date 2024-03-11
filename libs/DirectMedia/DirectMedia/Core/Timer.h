@@ -1,10 +1,14 @@
 #pragma once
 
 #include "rad/Core/RefCounted.h"
-#include "SDL2/SDL.h"
+#include "SDL2/SDL_timer.h"
 
 namespace sdl
 {
+
+Uint64 GetTicks64();
+// Wait a specified number of milliseconds before returning.
+void Delay(Uint32 ms);
 
 class Timer : public rad::RefCounted<Timer>
 {
