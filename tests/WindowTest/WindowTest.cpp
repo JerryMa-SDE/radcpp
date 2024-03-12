@@ -41,11 +41,19 @@ bool WindowTest::Init()
     m_timerPerSecond = new sdl::Timer();
     m_timerPerSecond->Start(1000, CallbackPerSecond, this);
     m_statusText = "Initialized";
+
+    m_gui = new sdl::GuiContext(this, m_renderer.get());
+    m_gui->Init();
+
     return true;
 }
 
 bool WindowTest::OnEvent(const SDL_Event& event)
 {
+    if (m_gui)
+    {
+        m_gui->ProcessEvent(event);
+    }
     return Window::OnEvent(event);
 }
 
@@ -102,6 +110,11 @@ void WindowTest::OnLeave()
 void WindowTest::OnKeyDown(const SDL_KeyboardEvent& keyDown)
 {
     LogGlobal(Info, "OnKeyDown: {}", SDL_GetKeyName(keyDown.keysym.sym));
+    if (keyDown.keysym.sym == SDLK_F1)
+    {
+        m_showDemoWindow = !m_showDemoWindow;
+    }
+
     if (keyDown.keysym.mod & KMOD_CTRL)
     {
         if (keyDown.keysym.sym == SDLK_o)
@@ -145,9 +158,12 @@ void WindowTest::OnMouseWheel(const SDL_MouseWheelEvent& mouseWheel)
 
 void WindowTest::OnRender()
 {
-    m_renderer->SetDrawColor(Uint8(255), Uint8(255), Uint8(255), Uint8(255));
-    m_renderer->Clear();
-    m_renderer->Present();
+    m_gui->NewFrame();
+    if (m_showDemoWindow)
+    {
+        ImGui::ShowDemoWindow(&m_showDemoWindow);
+    }
+    m_gui->Render();
 }
 
 void WindowTest::OnClose()

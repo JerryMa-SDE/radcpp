@@ -4,6 +4,7 @@
 #include "DirectMedia/Core/Window.h"
 #include "DirectMedia/Core/Renderer.h"
 #include "DirectMedia/Core/Timer.h"
+#include "DirectMedia/Gui/GuiContext.h"
 
 class WindowTest : public sdl::Window
 {
@@ -43,5 +44,8 @@ private:
     rad::Ref<sdl::Renderer> m_renderer;
     rad::Ref<sdl::Timer> m_timerPerSecond;
     std::string m_statusText;
+
+    rad::Ref<sdl::GuiContext> m_gui;
+    bool m_showDemoWindow = true;
 
 }; // class WindowTest

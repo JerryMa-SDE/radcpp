@@ -7,6 +7,7 @@ set(DirectMedia_HEADERS
     DirectMedia/Core/Texture.h
     DirectMedia/Core/Timer.h
     DirectMedia/Core/PerfCounter.h
+    DirectMedia/Gui/GuiContext.h
     DirectMedia/Gui/NativeFileDialog.h
 )
 
@@ -19,6 +20,7 @@ set(DirectMedia_SOURCES ${DirectMedia_HEADERS}
     DirectMedia/Core/Texture.cpp
     DirectMedia/Core/Timer.cpp
     DirectMedia/Core/PerfCounter.cpp
+    DirectMedia/Gui/GuiContext.cpp
     DirectMedia/Gui/NativeFileDialog.cpp
 )
 
@@ -34,6 +36,7 @@ target_include_directories(DirectMedia
 target_link_libraries(DirectMedia
     PUBLIC rad
     PUBLIC nfd
+    PUBLIC imgui
 )
 
 if (WIN32)
