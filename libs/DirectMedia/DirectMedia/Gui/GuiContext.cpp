@@ -19,6 +19,7 @@ bool GuiContext::Init()
 {
     IMGUI_CHECKVERSION();
     m_context = ImGui::CreateContext();
+    m_plotContext = ImPlot::CreateContext();
 
     ImGuiIO& io = ImGui::GetIO();
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;   // Enable Keyboard Controls
@@ -39,6 +40,8 @@ void GuiContext::Destroy()
 {
     if (m_context)
     {
+        ImPlot::DestroyContext(m_plotContext);
+
         ImGui_ImplSDLRenderer2_Shutdown();
         ImGui_ImplSDL2_Shutdown();
         ImGui::DestroyContext();

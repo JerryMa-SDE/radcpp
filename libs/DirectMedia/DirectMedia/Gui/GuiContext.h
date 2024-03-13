@@ -8,6 +8,8 @@
 #include "backends/imgui_impl_sdl2.h"
 #include "backends/imgui_impl_sdlrenderer2.h"
 
+#include "implot/implot.h"
+
 namespace sdl
 {
 
@@ -36,6 +38,7 @@ protected:
     Window* m_window;
     Renderer* m_renderer;
     ImGuiContext* m_context = nullptr;
+    ImPlotContext* m_plotContext = nullptr;
 
 }; // class GuiContext
 

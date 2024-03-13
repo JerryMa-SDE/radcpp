@@ -47,5 +47,6 @@ private:
 
     rad::Ref<sdl::GuiContext> m_gui;
     bool m_showDemoWindow = true;
+    bool m_showDemoPlots = false;
 
 }; // class WindowTest

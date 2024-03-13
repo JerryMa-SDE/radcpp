@@ -115,6 +115,11 @@ void WindowTest::OnKeyDown(const SDL_KeyboardEvent& keyDown)
         m_showDemoWindow = !m_showDemoWindow;
     }
 
+    if (keyDown.keysym.sym == SDLK_F2)
+    {
+        m_showDemoPlots = !m_showDemoPlots;
+    }
+
     if (keyDown.keysym.mod & KMOD_CTRL)
     {
         if (keyDown.keysym.sym == SDLK_o)
@@ -162,6 +167,10 @@ void WindowTest::OnRender()
     if (m_showDemoWindow)
     {
         ImGui::ShowDemoWindow(&m_showDemoWindow);
+    }
+    if (m_showDemoPlots)
+    {
+        ImPlot::ShowDemoWindow(&m_showDemoPlots);
     }
     m_gui->Render();
 }
