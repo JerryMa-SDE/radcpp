@@ -30,13 +30,13 @@ Remember to set environment variable `VCPKG_ROOT` to the root of vcpkg repo for 
 Windows Command Prompt (cmd):
 
 ```bash
-cmake -S . -B build-win -DCMAKE_TOOLCHAIN_FILE="%VCPKG_ROOT%/scripts/buildsystems/vcpkg.cmake"
+cmake -S . -B build -DCMAKE_TOOLCHAIN_FILE="%VCPKG_ROOT%/scripts/buildsystems/vcpkg.cmake"
 ```
 
 Windows PowerShell:
 
 ```bash
-cmake -S . -B build-win -DCMAKE_TOOLCHAIN_FILE="$env:VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake"
+cmake -S . -B build -DCMAKE_TOOLCHAIN_FILE="$env:VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake"
 ```
 
 Linux (Ubuntu):
@@ -46,24 +46,24 @@ Linux (Ubuntu):
 sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
 sudo apt install -y g++-13
 # generate project files
-cmake -S . -B build-lnx -DCMAKE_TOOLCHAIN_FILE="$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" -DCMAKE_C_COMPILER=/usr/bin/gcc-13 -DCMAKE_CXX_COMPILER=/usr/bin/g++-13
+cmake -S . -B build -DCMAKE_TOOLCHAIN_FILE="$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" -DCMAKE_C_COMPILER=/usr/bin/gcc-13 -DCMAKE_CXX_COMPILER=/usr/bin/g++-13
 # build
-cd build-lnx
+cd build
 make
 ```
 
 ## Useful Resources
 
-### Language
+### C++ Specification and Guidelines
 
-[Standard C++ (isocpp.org)](https://isocpp.org/)
+- [Standard C++ (isocpp.org)](https://isocpp.org/)
+- [Draft C++ Standard: Contents (eel.is)](https://eel.is/c++draft/)
+- [C++ Core Guidelines (isocpp.github.io)](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#main)
 
-[C++ Core Guidelines (isocpp.github.io)](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#main)
+### Blogs
 
-[Draft C++ Standard: Contents (eel.is)](https://eel.is/c++draft/)
-
-[Sutter’s Mill – Herb Sutter on software development](https://herbsutter.com/)
+- [Sutter’s Mill – Herb Sutter on software development](https://herbsutter.com/)
 
 ### Libraries
 
-[fffaraz/awesome-cpp: A curated list of awesome C++ (or C) frameworks, libraries, resources](https://github.com/fffaraz/awesome-cpp)
+- [fffaraz/awesome-cpp: A curated list of awesome C++ (or C) frameworks, libraries, resources](https://github.com/fffaraz/awesome-cpp)
