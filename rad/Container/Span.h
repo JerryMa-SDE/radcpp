@@ -134,6 +134,7 @@ public:
 
     /// size - Get the array size.
     size_t size() const { return m_count; }
+    size_t size32() const { return static_cast<uint32_t>(m_count); }
 
     /// front - Get the first element.
     const T& front() const {

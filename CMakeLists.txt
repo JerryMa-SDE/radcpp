@@ -91,6 +91,24 @@ set_target_properties(nfd PROPERTIES FOLDER "imported")
 add_subdirectory(libs/DirectMedia)
 set_target_properties(DirectMedia PROPERTIES FOLDER "libs")
 
+add_subdirectory(imported/volk)
+set_target_properties(volk PROPERTIES FOLDER "imported")
+# Set suitable platform defines
+if(CMAKE_SYSTEM_NAME STREQUAL Windows)
+  target_compile_definitions(volk PUBLIC VK_USE_PLATFORM_WIN32_KHR)
+elseif(CMAKE_SYSTEM_NAME STREQUAL Linux)
+  target_compile_definitions(volk PUBLIC VK_USE_PLATFORM_XLIB_KHR)
+elseif(CMAKE_SYSTEM_NAME STREQUAL Darwin)
+  target_compile_definitions(volk PUBLIC VK_USE_PLATFORM_MACOS_MVK)
+endif()
+# Link requires libraries
+if(NOT WIN32)
+  target_link_libraries(volk PUBLIC dl)
+endif()
+
+add_subdirectory(libs/VulkanEngine)
+set_target_properties(VulkanEngine PROPERTIES FOLDER "libs")
+
 add_subdirectory(rad)
 add_subdirectory(tests/HelloWorld)
 add_subdirectory(tests/WindowTest)

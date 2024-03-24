@@ -41,7 +41,6 @@ public:
     template<typename... Args>
     void Log(LogLevel level, std::string_view format, Args&&... args)
     {
-#ifndef RAD_NO_LOGGING
         std::chrono::system_clock::time_point tp = std::chrono::system_clock::now();
         long long milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(
             tp.time_since_epoch()).count() % 1000;
@@ -54,7 +53,6 @@ public:
                 m_name, GetLogLevelString(level), args...)
         );
         Output(level, message);
-#endif // RAD_NO_LOGGING
     }
 
     void Output(LogLevel level, std::string_view buffer);

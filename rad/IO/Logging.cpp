@@ -7,7 +7,7 @@
 namespace rad
 {
 
-static const char* g_logLevelStrings[UnderlyingCast(LogLevel::Count)] =
+static const char* g_logLevelStrings[ToUnderlying(LogLevel::Count)] =
 {
     "Debug",
     "Info",
@@ -18,7 +18,7 @@ static const char* g_logLevelStrings[UnderlyingCast(LogLevel::Count)] =
 
 const char* GetLogLevelString(LogLevel level)
 {
-    return g_logLevelStrings[UnderlyingCast(level)];
+    return g_logLevelStrings[ToUnderlying(level)];
 }
 
 static std::mutex g_logMutex;
@@ -26,7 +26,6 @@ static std::ofstream g_logFile;
 
 bool SetLogFile(std::string_view fileName, bool overwrite)
 {
-#ifndef RAD_NO_LOGGING
     std::lock_guard lockGuard(g_logMutex);
     if (g_logFile.is_open())
     {
@@ -39,7 +38,6 @@ bool SetLogFile(std::string_view fileName, bool overwrite)
     }
     g_logFile.open(fileName.data(), mode);
     return g_logFile.is_open();
-#endif // RAD_NO_LOGGING
 }
 
 Logger::Logger(std::string_view name)
@@ -53,7 +51,6 @@ Logger::~Logger()
 
 void Logger::Output(LogLevel level, std::string_view buffer)
 {
-#ifndef RAD_NO_LOGGING
     std::lock_guard lockGuard(g_logMutex);
 
     if (m_enableOutputToConsole)
@@ -77,7 +74,6 @@ void Logger::Output(LogLevel level, std::string_view buffer)
     {
         Flush();
     }
-#endif // RAD_NO_LOGGING
 }
 
 void Logger::Flush()

@@ -16,7 +16,4 @@ inline float LengthSquared(glm::vec3 v)
 // but more numerically stable.
 float AngleBetween(glm::vec3 v1, glm::vec3 v2);
 
-uint32_t GetMaxMipLevel(uint32_t width, uint32_t height);
-uint32_t GetMaxMipLevel(uint32_t width, uint32_t height, uint32_t depth);
-
 } // namespace rad

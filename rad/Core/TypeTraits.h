@@ -7,7 +7,7 @@ namespace rad
 {
 
 template<class T>
-constexpr auto UnderlyingCast(T t) noexcept
+constexpr auto ToUnderlying(T t) noexcept
 {
     return static_cast<std::underlying_type_t<T>>(t);
 }

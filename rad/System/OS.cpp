@@ -32,7 +32,11 @@ std::string getenv(std::string_view name)
         }
     }
 #else
-    value = std::getenv(name.data());
+    const char* pBuffer = std::getenv(name.data());
+    if (pBuffer)
+    {
+        value = pBuffer;
+    }
 #endif
     return value;
 }

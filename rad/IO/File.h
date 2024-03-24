@@ -26,7 +26,7 @@ public:
 
     // Read = "r"/"rb"
     // Write = "w"/"wb"
-    // Append = "a"
+    // Append = "a"/"ab"
     // ReadWrite = "w+"/"wb+R"
     // ReadWriteExist = "r+"/"rb+R"
     // ReadAppend (no overwrite to existing data) = "a+"/"ab+R"
