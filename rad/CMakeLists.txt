@@ -3,6 +3,7 @@ set(rad_HEADERS
     Core/Integer.h
     Core/Float.h
     Core/Float16Compressor.h
+    Core/BFloat16.h
     Core/String.h
     Core/Flags.h
     Core/RefCounted.h
@@ -23,6 +24,7 @@ set(rad_SOURCES ${rad_HEADERS}
     Core/Global.cpp
     Core/Integer.cpp
     Core/Float.cpp
+    Core/BFloat16.cpp
     Core/String.cpp
     Core/Memory.cpp
     Core/Time.cpp
