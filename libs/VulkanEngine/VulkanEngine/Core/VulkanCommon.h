@@ -68,6 +68,88 @@ private:
     uint32_t m_version = 0;
 }; // class VulkanVersion
 
+class VulkanFormat
+{
+    VkFormat m_format;
+public:
+    VulkanFormat(VkFormat format) : m_format(format) {}
+    ~VulkanFormat() {}
+
+    operator VkFormat() const { return m_format; }
+
+    // Numeric type checks.
+    // Formats with more then one numeric type (VK_FORMAT_D16_UNORM_S8_UINT) will return false.
+    bool IsUNORM() const;
+    bool IsSNORM() const;
+    bool IsUSCALED() const;
+    bool IsSSCALED() const;
+    bool IsUINT() const;
+    bool IsSINT() const;
+    bool IsSRGB() const;
+    bool IsSFLOAT() const;
+    bool IsUFLOAT() const;
+
+    // Types from "Interpretation of Numeric Format" table (OpTypeFloat vs OpTypeInt).
+    bool IsSampledInt() const;
+    bool IsSampledFloat() const;
+
+    // Compressed
+    bool IsCompressed_ASTC_HDR() const;
+    bool IsCompressed_ASTC_LDR() const;
+    bool IsCompressed_BC() const;
+    bool IsCompressed_EAC() const;
+    bool IsCompressed_ETC2() const;
+    bool IsCompressed_PVRTC() const;
+    bool IsCompressed() const;
+
+    // Depth/Stencil
+    VkImageAspectFlags GetAspectFlags() const;
+    bool IsDepthAndStencil() const;
+    bool IsDepthOnly() const;
+    bool IsStencilOnly() const;
+    bool HasDepth() const;
+    bool HasStencil() const;
+    uint32_t GetDepthSizeInBits() const;
+    uint32_t GetStencilSizeInBits() const;
+
+    // Packed
+    bool IsPacked() const;
+
+    // YCbCr
+    bool RequiresYcbcrConversion() const;
+    bool IsXChromaSubsampled() const;
+    bool IsYChromaSubsampled() const;
+
+    // Multiplane
+    bool IsSinglePlane_422() const;
+    uint32_t GetPlaneCount() const;
+    bool IsMultiplane() const;
+    VkFormat GetMultiplaneCompatibleFormat(VkImageAspectFlagBits planeAspect) const;
+    VkExtent2D GetMultiplaneExtentDivisors(VkImageAspectFlagBits planeAspect) const;
+
+    // Size
+    uint32_t GetComponentCount() const;
+    VkExtent3D GetTexelBlockExtent() const;
+    // Return true if format is 'normal', with one texel per format element.
+    bool ElementIsTexel() const;
+    uint32_t GetElementSize() const;
+    double GetTexelSize() const;
+
+    // Components
+    bool HasComponentSize(uint32_t size) const;
+    bool HasRed() const;
+    bool HasGreen() const;
+    bool HasBlue() const;
+    bool HasAlpha() const;
+
+    // Utils/misc
+    bool IsUndefined() const;
+    bool IsBlockedImage() const;
+
+    bool IsColor() const;
+
+}; // class VulkanFormat
+
 // A simple helper to make structure chain.
 // Only the head is managed, the other nodes must keep alive when head is passed to any function.
 template<typename Head>
@@ -119,7 +201,7 @@ enum VulkanQueueFamily : uint32_t
 };
 
 bool HasExtension(rad::Span<VkExtensionProperties> extensions, std::string_view extensionName);
-VkImageAspectFlags vkuGetImageAspect(VkFormat format);
+VkImageAspectFlags vkuFormatGetAspectFlags(VkFormat format);
 uint32_t vkuGetMaxMipLevel(uint32_t width, uint32_t height);
 uint32_t vkuGetMaxMipLevel(uint32_t width, uint32_t height, uint32_t depth);
 

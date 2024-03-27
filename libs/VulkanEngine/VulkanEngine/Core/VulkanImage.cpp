@@ -102,7 +102,7 @@ rad::Ref<VulkanImageView> VulkanImage::CreateImageView2D(
     uint32_t baseMipLevel, uint32_t levelCount, uint32_t baseArrayLayer)
 {
     VkImageSubresourceRange range = {};
-    range.aspectMask = vkuGetImageAspect(m_format);
+    range.aspectMask = vkuFormatGetAspectFlags(m_format);
     range.baseMipLevel = baseMipLevel;
     range.levelCount = levelCount;
     range.baseArrayLayer = baseArrayLayer;
@@ -147,7 +147,7 @@ rad::Ref<VulkanImageView> VulkanImage::CreateDefaultView()
     }
 
     VkImageSubresourceRange wholeRange = {};
-    wholeRange.aspectMask = vkuGetImageAspect(m_format);
+    wholeRange.aspectMask = vkuFormatGetAspectFlags(m_format);
     wholeRange.baseMipLevel = 0;
     wholeRange.levelCount = m_mipLevels;
     wholeRange.baseArrayLayer = 0;

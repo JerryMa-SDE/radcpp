@@ -593,7 +593,7 @@ void VulkanCommandBuffer::TransitLayout(VulkanImage* image,
     else
     {
         imageBarrier.subresourceRange.aspectMask =
-            vkuGetImageAspect(image->GetFormat());
+            vkuFormatGetAspectFlags(image->GetFormat());
         imageBarrier.subresourceRange.baseMipLevel = 0;
         imageBarrier.subresourceRange.levelCount =
             image->GetMipLevels();

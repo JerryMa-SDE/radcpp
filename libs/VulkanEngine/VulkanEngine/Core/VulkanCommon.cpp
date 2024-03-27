@@ -23,6 +23,247 @@ std::string VulkanVersion::GetString() const
     );
 }
 
+
+bool VulkanFormat::IsUNORM() const
+{
+    return vkuFormatIsUNORM(m_format);
+}
+
+bool VulkanFormat::IsSNORM() const
+{
+    return vkuFormatIsSNORM(m_format);
+}
+
+bool VulkanFormat::IsUSCALED() const
+{
+    return vkuFormatIsUSCALED(m_format);
+}
+
+bool VulkanFormat::IsSSCALED() const
+{
+    return vkuFormatIsSSCALED(m_format);
+}
+
+bool VulkanFormat::IsUINT() const
+{
+    return vkuFormatIsUINT(m_format);
+}
+
+bool VulkanFormat::IsSINT() const
+{
+    return vkuFormatIsSINT(m_format);
+}
+
+bool VulkanFormat::IsSRGB() const
+{
+    return vkuFormatIsSRGB(m_format);
+}
+
+bool VulkanFormat::IsSFLOAT() const
+{
+    return vkuFormatIsSFLOAT(m_format);
+}
+
+bool VulkanFormat::IsUFLOAT() const
+{
+    return vkuFormatIsUFLOAT(m_format);
+}
+
+bool VulkanFormat::IsSampledInt() const
+{
+    return vkuFormatIsSampledInt(m_format);
+}
+
+bool VulkanFormat::IsSampledFloat() const
+{
+    return vkuFormatIsSampledFloat(m_format);
+}
+
+bool VulkanFormat::IsCompressed_ASTC_HDR() const
+{
+    return vkuFormatIsCompressed_ASTC_HDR(m_format);
+}
+
+bool VulkanFormat::IsCompressed_ASTC_LDR() const
+{
+    return vkuFormatIsCompressed_ASTC_LDR(m_format);
+}
+
+bool VulkanFormat::IsCompressed_BC() const
+{
+    return vkuFormatIsCompressed_BC(m_format);
+}
+
+bool VulkanFormat::IsCompressed_EAC() const
+{
+    return vkuFormatIsCompressed_EAC(m_format);
+}
+
+bool VulkanFormat::IsCompressed_ETC2() const
+{
+    return vkuFormatIsCompressed_ETC2(m_format);
+}
+
+bool VulkanFormat::IsCompressed_PVRTC() const
+{
+    return vkuFormatIsCompressed_PVRTC(m_format);
+}
+
+bool VulkanFormat::IsCompressed() const
+{
+    return vkuFormatIsCompressed(m_format);
+}
+
+VkImageAspectFlags VulkanFormat::GetAspectFlags() const
+{
+    return vkuFormatGetAspectFlags(m_format);
+}
+
+bool VulkanFormat::IsDepthAndStencil() const
+{
+    return vkuFormatIsDepthAndStencil(m_format);
+}
+
+bool VulkanFormat::IsDepthOnly() const
+{
+    return vkuFormatIsDepthOnly(m_format);
+}
+
+bool VulkanFormat::IsStencilOnly() const
+{
+    return vkuFormatIsStencilOnly(m_format);
+}
+
+bool VulkanFormat::HasDepth() const
+{
+    return vkuFormatHasDepth(m_format);
+}
+
+bool VulkanFormat::HasStencil() const
+{
+    return vkuFormatHasStencil(m_format);
+}
+
+uint32_t VulkanFormat::GetDepthSizeInBits() const
+{
+    return vkuFormatDepthSize(m_format);
+}
+
+uint32_t VulkanFormat::GetStencilSizeInBits() const
+{
+    return vkuFormatStencilSize(m_format);
+}
+
+bool VulkanFormat::IsPacked() const
+{
+    return vkuFormatIsPacked(m_format);
+}
+
+bool VulkanFormat::RequiresYcbcrConversion() const
+{
+    return vkuFormatRequiresYcbcrConversion(m_format);
+}
+
+bool VulkanFormat::IsXChromaSubsampled() const
+{
+    return vkuFormatIsXChromaSubsampled(m_format);
+}
+
+bool VulkanFormat::IsYChromaSubsampled() const
+{
+    return vkuFormatIsYChromaSubsampled(m_format);
+}
+
+bool VulkanFormat::IsSinglePlane_422() const
+{
+    return vkuFormatIsSinglePlane_422(m_format);
+}
+
+uint32_t VulkanFormat::GetPlaneCount() const
+{
+    return vkuFormatPlaneCount(m_format);
+}
+
+bool VulkanFormat::IsMultiplane() const
+{
+    return vkuFormatIsMultiplane(m_format);
+}
+
+VkFormat VulkanFormat::GetMultiplaneCompatibleFormat(VkImageAspectFlagBits planeAspect) const
+{
+    return vkuFindMultiplaneCompatibleFormat(m_format, planeAspect);
+}
+
+VkExtent2D VulkanFormat::GetMultiplaneExtentDivisors(VkImageAspectFlagBits planeAspect) const
+{
+    return vkuFindMultiplaneExtentDivisors(m_format, planeAspect);
+}
+
+uint32_t VulkanFormat::GetComponentCount() const
+{
+    return vkuFormatComponentCount(m_format);
+}
+
+VkExtent3D VulkanFormat::GetTexelBlockExtent() const
+{
+    return vkuFormatTexelBlockExtent(m_format);
+}
+
+bool VulkanFormat::ElementIsTexel() const
+{
+    return vkuFormatElementIsTexel(m_format);
+}
+
+uint32_t VulkanFormat::GetElementSize() const
+{
+    return vkuFormatElementSize(m_format);
+}
+
+double VulkanFormat::GetTexelSize() const
+{
+    return vkuFormatTexelSize(m_format);
+}
+
+bool VulkanFormat::HasComponentSize(uint32_t size) const
+{
+    return vkuFormatHasComponentSize(m_format, size);
+}
+
+bool VulkanFormat::HasRed() const
+{
+    return vkuFormatHasRed(m_format);
+}
+
+bool VulkanFormat::HasGreen() const
+{
+    return vkuFormatHasGreen(m_format);
+}
+
+bool VulkanFormat::HasBlue() const
+{
+    return vkuFormatHasBlue(m_format);
+}
+
+bool VulkanFormat::HasAlpha() const
+{
+    return vkuFormatHasAlpha(m_format);
+}
+
+bool VulkanFormat::IsUndefined() const
+{
+    return vkuFormatIsUndefined(m_format);
+}
+
+bool VulkanFormat::IsBlockedImage() const
+{
+    return vkuFormatIsBlockedImage(m_format);
+}
+
+bool VulkanFormat::IsColor() const
+{
+    return vkuFormatIsColor(m_format);
+}
+
 bool HasExtension(rad::Span<VkExtensionProperties> extensions, std::string_view extensionName)
 {
     for (const VkExtensionProperties& extension : extensions)
@@ -35,7 +276,7 @@ bool HasExtension(rad::Span<VkExtensionProperties> extensions, std::string_view 
     return false;
 }
 
-VkImageAspectFlags vkuGetImageAspect(VkFormat format)
+VkImageAspectFlags vkuFormatGetAspectFlags(VkFormat format)
 {
     switch (format)
     {
