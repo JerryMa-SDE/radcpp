@@ -2,15 +2,6 @@
 
 #include "VulkanObject.h"
 
-// Predefined queue family types.
-enum VulkanQueueFamily : uint32_t
-{
-    VulkanQueueFamilyUniversal = 0, // Universal Engine supports all features.
-    VulkanQueueFamilyCompute,       // Async Compute Engine (ACE)
-    VulkanQueueFamilyTransfer,      // DMA
-    VulkanQueueFamilyCount
-};
-
 struct VulkanWaitInfo
 {
     VulkanSemaphore* semaphore;

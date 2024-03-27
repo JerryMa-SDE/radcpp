@@ -1,6 +1,7 @@
 #include "VulkanDevice.h"
 #include "VulkanInstance.h"
 #include "VulkanPhysicalDevice.h"
+#include "VulkanQueue.h"
 #include "VulkanCommandPool.h"
 #include "VulkanCommandBuffer.h"
 #include "VulkanFence.h"

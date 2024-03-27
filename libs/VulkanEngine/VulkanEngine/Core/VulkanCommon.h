@@ -109,6 +109,15 @@ struct VulkanStructureChain
     VkBaseOutStructure* m_curr = nullptr;
 }; // struct VulkanStructureChain
 
+// Predefined queue family types.
+enum VulkanQueueFamily : uint32_t
+{
+    VulkanQueueFamilyUniversal = 0, // Universal Engine supports all features.
+    VulkanQueueFamilyCompute,       // Async Compute Engine (ACE)
+    VulkanQueueFamilyTransfer,      // DMA
+    VulkanQueueFamilyCount
+};
+
 bool HasExtension(rad::Span<VkExtensionProperties> extensions, std::string_view extensionName);
 VkImageAspectFlags vkuGetImageAspect(VkFormat format);
 uint32_t vkuGetMaxMipLevel(uint32_t width, uint32_t height);

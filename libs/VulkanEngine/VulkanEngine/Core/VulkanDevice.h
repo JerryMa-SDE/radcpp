@@ -1,7 +1,6 @@
 #pragma once
 
 #include "VulkanObject.h"
-#include "VulkanQueue.h"
 #include <set>
 
 class VulkanDevice : public VulkanObject

@@ -20,6 +20,7 @@ set(VulkanEngine_HEADERS
     VulkanEngine/Core/VulkanSampler.h
     VulkanEngine/Core/VulkanDescriptor.h
     VulkanEngine/Core/VulkanSwapchain.h
+    VulkanEngine/Core/VulkanContext.h
 )
 
 set(VulkanEngine_SOURCES ${VulkanEngine_HEADERS}
@@ -44,6 +45,7 @@ set(VulkanEngine_SOURCES ${VulkanEngine_HEADERS}
     VulkanEngine/Core/VulkanSampler.cpp
     VulkanEngine/Core/VulkanDescriptor.cpp
     VulkanEngine/Core/VulkanSwapchain.cpp
+    VulkanEngine/Core/VulkanContext.cpp
 )
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR}/VulkanEngine/ FILES ${VulkanEngine_SOURCES})

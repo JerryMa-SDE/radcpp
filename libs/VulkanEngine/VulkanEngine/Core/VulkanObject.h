@@ -48,3 +48,5 @@ class VulkanDescriptorPool;
 class VulkanDescriptorSetLayout;
 class VulkanDescriptorSet;
 class VulkanSwapchain;
+
+class VulkanContext;
