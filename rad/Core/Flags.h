@@ -35,22 +35,22 @@ public:
         m_mask = mask;
     }
 
-    constexpr bool HasBits(Mask bits) noexcept
+    constexpr bool HasBits(Mask bits) const noexcept
     {
         return ((m_mask & bits) == bits);
     }
 
-    constexpr bool HasNoBits(Mask bits) noexcept
+    constexpr bool HasNoBits(Mask bits) const noexcept
     {
         return ((m_mask & bits) == 0);
     }
 
-    constexpr bool HasAnyBits(Mask bits) noexcept
+    constexpr bool HasAnyBits(Mask bits) const noexcept
     {
         return ((m_mask & bits) != 0);
     }
 
-    int Popcount()
+    int Popcount() const
     {
         return std::popcount(m_mask);
     }

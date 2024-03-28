@@ -15,12 +15,26 @@ public:
 
     VkDeviceSize GetSize() const { return m_size; }
     VkBufferUsageFlags GetUsage() const { return m_usage; }
-    VkMemoryPropertyFlags GetMemoryFlags() const { return m_memoryFlags.GetMask(); }
+    rad::Flags32<VkMemoryPropertyFlagBits> GetMemoryFlags() const { return m_memoryFlags; }
+    bool IsHostVisible() const;
+    bool IsHostCoherent() const;
+    VmaAllocation GetAllocation() { return m_allocation; }
+    const VmaAllocationInfo& GetAllocationInfo() const { return m_allocationInfo; }
     VkDeviceAddress GetDeviceAddress() const;
 
     void* GetMappedAddr();
     void* MapMemory(VkDeviceSize offset, VkDeviceSize size);
     void UnmapMemory();
+    void FlushAllocation(VkDeviceSize offset, VkDeviceSize size);
+    void FlushAllocation();
+    void InvalidateAllocation(VkDeviceSize offset, VkDeviceSize size);
+    void InvalidateAllocation();
+
+    // Only available for host visible memory.
+    void Read(void* dest, VkDeviceSize offset, VkDeviceSize size);
+    void Read(void* dest);
+    void Write(const void* data, VkDeviceSize offset, VkDeviceSize size);
+    void Write(const void* data);
 
     rad::Ref<VulkanBufferView> CreateBufferView(VkFormat format,
         VkDeviceSize offset = 0, VkDeviceSize range = VK_WHOLE_SIZE);

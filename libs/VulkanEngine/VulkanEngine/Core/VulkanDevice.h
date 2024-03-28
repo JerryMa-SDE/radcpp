@@ -27,6 +27,8 @@ public:
         VulkanQueueFamily queueFamily = VulkanQueueFamilyUniversal,
         VkCommandPoolCreateFlags flags = 0);
 
+    rad::Ref<VulkanContext> CreateContext(VulkanQueueFamily queueFamily = VulkanQueueFamilyUniversal);
+
     // Synchronization and Cache Control
     rad::Ref<VulkanFence> CreateFence(VkFenceCreateFlags flags = 0);
     rad::Ref<VulkanSemaphore> CreateSemaphore(VkSemaphoreCreateFlags flags = 0);

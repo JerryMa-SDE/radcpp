@@ -16,6 +16,7 @@
 #include "VulkanSampler.h"
 #include "VulkanDescriptor.h"
 #include "VulkanSwapchain.h"
+#include "VulkanContext.h"
 
 VulkanDevice::VulkanDevice(rad::Ref<VulkanInstance> instance,
     rad::Ref<VulkanPhysicalDevice> physicalDevice,
@@ -180,6 +181,11 @@ VulkanDevice::CreateCommandPool(VulkanQueueFamily queueFamily, VkCommandPoolCrea
     createInfo.flags = flags;
     createInfo.queueFamilyIndex = GetQueueFamilyIndex(queueFamily);
     return new VulkanCommandPool(this, createInfo);
+}
+
+rad::Ref<VulkanContext> VulkanDevice::CreateContext(VulkanQueueFamily queueFamily)
+{
+    return new VulkanContext(this, queueFamily);
 }
 
 rad::Ref<VulkanFence> VulkanDevice::CreateFence(VkFenceCreateFlags flags)

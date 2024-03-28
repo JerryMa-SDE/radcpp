@@ -26,6 +26,16 @@ VulkanBuffer::~VulkanBuffer()
     vmaDestroyBuffer(m_device->GetAllocator(), m_handle, m_allocation);
 }
 
+bool VulkanBuffer::IsHostVisible() const
+{
+    return m_memoryFlags.HasBits(VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT);
+}
+
+bool VulkanBuffer::IsHostCoherent() const
+{
+    return m_memoryFlags.HasBits(VK_MEMORY_PROPERTY_HOST_COHERENT_BIT);
+}
+
 VkDeviceAddress VulkanBuffer::GetDeviceAddress() const
 {
     VkBufferDeviceAddressInfo deviceAddressInfo = {};
@@ -42,14 +52,10 @@ void* VulkanBuffer::GetMappedAddr()
 
 void* VulkanBuffer::MapMemory(VkDeviceSize offset, VkDeviceSize size)
 {
-    if (m_memoryFlags.HasBits(VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT))
+    if (IsHostVisible())
     {
         void* pMappedAddr = nullptr;
         VK_CHECK(vmaMapMemory(m_device->GetAllocator(), m_allocation, &pMappedAddr));
-        if (m_memoryFlags.HasNoBits(VK_MEMORY_PROPERTY_HOST_COHERENT_BIT))
-        {
-            vmaInvalidateAllocation(m_device->GetAllocator(), m_allocation, offset, size);
-        }
         return pMappedAddr;
     }
     else
@@ -61,6 +67,64 @@ void* VulkanBuffer::MapMemory(VkDeviceSize offset, VkDeviceSize size)
 void VulkanBuffer::UnmapMemory()
 {
     vmaUnmapMemory(m_device->GetAllocator(), m_allocation);
+}
+
+void VulkanBuffer::FlushAllocation(VkDeviceSize offset, VkDeviceSize size)
+{
+    VK_CHECK(vmaFlushAllocation(m_device->GetAllocator(), m_allocation, offset, size));
+}
+
+void VulkanBuffer::FlushAllocation()
+{
+    VK_CHECK(vmaFlushAllocation(m_device->GetAllocator(), m_allocation, 0, m_size));
+}
+
+void VulkanBuffer::InvalidateAllocation(VkDeviceSize offset, VkDeviceSize size)
+{
+    VK_CHECK(vmaInvalidateAllocation(m_device->GetAllocator(), m_allocation, offset, size));
+}
+
+void VulkanBuffer::InvalidateAllocation()
+{
+    VK_CHECK(vmaInvalidateAllocation(m_device->GetAllocator(), m_allocation, 0, m_size));
+}
+
+void VulkanBuffer::Read(void* dest, VkDeviceSize offset, VkDeviceSize size)
+{
+    void* pMappedAddr = MapMemory(offset, size);
+    if (pMappedAddr)
+    {
+        if (!IsHostCoherent())
+        {
+            InvalidateAllocation(offset, size);
+        }
+        memcpy(dest, pMappedAddr, size);
+        UnmapMemory();
+    }
+}
+
+void VulkanBuffer::Read(void* dest)
+{
+    Read(dest, 0, m_size);
+}
+
+void VulkanBuffer::Write(const void* data, VkDeviceSize offset, VkDeviceSize size)
+{
+    void* pMappedAddr = MapMemory(offset, size);
+    if (pMappedAddr)
+    {
+        memcpy(pMappedAddr, data, size);
+        if (!IsHostCoherent())
+        {
+            FlushAllocation(offset, size);
+        }
+        UnmapMemory();
+    }
+}
+
+void VulkanBuffer::Write(const void* data)
+{
+    Write(data, 0, m_size);
 }
 
 rad::Ref<VulkanBufferView> VulkanBuffer::CreateBufferView(VkFormat format, VkDeviceSize offset, VkDeviceSize range)
