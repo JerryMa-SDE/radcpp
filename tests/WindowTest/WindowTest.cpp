@@ -16,8 +16,8 @@ WindowTest::~WindowTest()
 Uint32 CallbackPerSecond(Uint32 interval, void* param)
 {
     WindowTest* window = reinterpret_cast<WindowTest*>(param);
-    LogGlobal(Info, "CallbackPerSecond ({}): {}",
-        interval, window->GetStatusText());
+    LogGlobal(Info, "CallbackPerSecond: {} (interval={}ms)",
+        window->GetStatusText(), interval);
     return interval;
 }
 
@@ -26,10 +26,18 @@ bool WindowTest::Init()
     float windowScale = sdl::GetApp()->GetDisplayDPI(0) / 96.0f;
     SDL_WindowFlags windowFlags = (SDL_WindowFlags)
         (SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI);
-    Create("WindowTest",
+    bool res = Create("WindowTest",
         SDL_WINDOWPOS_CENTERED_DISPLAY(0), SDL_WINDOWPOS_CENTERED_DISPLAY(0),
         int(800 * windowScale), int(600 * windowScale),
         windowFlags);
+
+    if (!res)
+    {
+        LogGlobal(Error, "WindowTest: failed to create the window!");
+        return false;
+    }
+
+    m_statusText = "Hello Simple DirectMedia Layer!";
 
     m_renderer = new sdl::Renderer(this);
     if (!m_renderer->Init())
@@ -40,7 +48,6 @@ bool WindowTest::Init()
 
     m_timerPerSecond = new sdl::Timer();
     m_timerPerSecond->Start(1000, CallbackPerSecond, this);
-    m_statusText = "Initialized";
 
     m_gui = new sdl::GuiContext(this, m_renderer.get());
     m_gui->Init();
@@ -124,14 +131,13 @@ void WindowTest::OnKeyDown(const SDL_KeyboardEvent& keyDown)
     {
         if (keyDown.keysym.sym == SDLK_o)
         {
-            LogGlobal(Info, "Ctrl+O pressed: open file dialog ...");
+            LogGlobal(Info, "OnKeyDown: Ctrl+O");
             sdl::NativeFileDialog fileDialog;
-            nfdfilteritem_t filters[2] = {
-                { "C/C++ Source", "h,hpp,c,cpp,cc" },
-                { "Python Script", "py" },
-            };
-            std::string path = fileDialog.OpenDialog(filters);
-            m_statusText = std::format("Processing \"{}\"", path);
+            std::string path = fileDialog.OpenDialog({});
+            if (!path.empty())
+            {
+                SetTitle(std::format("WindowTest: {}", path));
+            }
         }
     }
 }
